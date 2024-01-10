@@ -101,61 +101,61 @@ export default function Register() {
   const data = useActionData();
   const error = data?.error || null;
   return (
-    <div className="login">
-      <h1>Register.</h1>
-      <Form method="POST">
-        <fieldset>
-          <label htmlFor="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="Email address"
-            aria-label="Email address"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            aria-label="Password"
-            minLength={8}
-            required
-          />
-          <label htmlFor="passwordConfirm">Re-enter password</label>
-          <input
-            id="passwordConfirm"
-            name="passwordConfirm"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Re-enter password"
-            aria-label="Re-enter password"
-            minLength={8}
-            required
-          />
-        </fieldset>
-        {error ? (
-          <p>
-            <mark>
-              <small>{error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        <button type="submit">Register</button>
-      </Form>
-      <br />
-      <p>
-        <Link to="/account/login">Login →</Link>
-      </p>
-    </div>
+    <section>
+      <div className="container">
+        <div className="spacer">
+          <div className="section_title">
+            <h2>Sign Up & Get 10% off</h2>
+          </div>
+          <div className="register_frm">
+            <div className="right_contact_form">
+              <form action="">
+                <div className="contact_name flex">
+                  <div className="first_name">
+                    <label for="">First Name</label>
+                    <br />
+                    <input type="text" />
+                  </div>
+                  <div className="last_name">
+                    <label for="">Last Name</label>
+                    <br />
+                    <input type="text" />
+                  </div>
+                </div>
+                <div className="contact_email">
+                  <label for="">E-mail Address </label>
+                  <br />
+                  <input type="email" />
+                </div>
+                <div className="contact_email">
+                  <label for="">Mobile Number </label>
+                  <br />
+                  <input type="tel" />
+                </div>
+                <div className="contact_email">
+                  <label for="">Password </label>
+                  <br />
+                  <input type="password" />
+                </div>
+                <div className="contact_email">
+                  <label for="">Re-enter Password</label>
+                  <br />
+                  <input type="password" />
+                </div>
+                <div className="register_btn">
+                  <a href="" className="btn">
+                    Sign Up
+                  </a>
+                </div>
+                <span>
+                  Already registered? <Link to="/account/login"> Login </Link> here
+                </span>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

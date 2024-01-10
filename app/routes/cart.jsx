@@ -1,20 +1,11 @@
-import {Await} from '@remix-run/react';
-import {Suspense} from 'react';
-import {CartForm} from '@shopify/hydrogen';
+import {Await, useMatches} from '@remix-run/react';
+import invariant from 'tiny-invariant';
 import {json} from '@shopify/remix-oxygen';
-import {CartMain} from '~/components/Cart';
-import {useRootLoaderData} from '~/root';
+import {CartForm} from '@shopify/hydrogen';
 
-/**
- * @type {MetaFunction}
- */
-export const meta = () => {
-  return [{title: `Hydrogen | Cart`}];
-};
+import {isLocalPath} from '~/lib/utils';
+import {Cart} from '~/components';
 
-/**
- * @param {ActionFunctionArgs}
- */
 export async function action({request, context}) {
   const {session, cart} = context;
 
@@ -24,10 +15,7 @@ export async function action({request, context}) {
   ]);
 
   const {action, inputs} = CartForm.getFormInput(formData);
-
-  if (!action) {
-    throw new Error('No action provided');
-  }
+  invariant(action, 'No cartAction defined');
 
   let status = 200;
   let result;
@@ -38,11 +26,13 @@ export async function action({request, context}) {
       break;
     case CartForm.ACTIONS.LinesUpdate:
       result = await cart.updateLines(inputs.lines);
+      'result', result;
       break;
     case CartForm.ACTIONS.LinesRemove:
       result = await cart.removeLines(inputs.lineIds);
       break;
-    case CartForm.ACTIONS.DiscountCodesUpdate: {
+
+    case CartForm.ACTIONS.DiscountCodesUpdate:
       const formDiscountCode = inputs.discountCode;
 
       // User inputted discount code
@@ -53,28 +43,30 @@ export async function action({request, context}) {
 
       result = await cart.updateDiscountCodes(discountCodes);
       break;
-    }
-    case CartForm.ACTIONS.BuyerIdentityUpdate: {
+    case CartForm.ACTIONS.BuyerIdentityUpdate:
       result = await cart.updateBuyerIdentity({
         ...inputs.buyerIdentity,
-        customerAccessToken: customerAccessToken?.accessToken,
+        customerAccessToken,
       });
       break;
-    }
     default:
-      throw new Error(`${action} cart action is not defined`);
+      invariant(false, `${action} cart action is not defined`);
   }
 
-  const cartId = result.cart.id;
-  const headers = cart.setCartId(result.cart.id);
-  const {cart: cartResult, errors} = result;
+  /**
+   * The Cart ID may change after each mutation. We need to update it each time in the session.
+   */
+  const cartId = result?.cart?.id;
+
+  const headers = cart.setCartId(result?.cart?.id);
 
   const redirectTo = formData.get('redirectTo') ?? null;
-  if (typeof redirectTo === 'string') {
+  if (typeof redirectTo === 'string' && isLocalPath(redirectTo)) {
     status = 303;
     headers.set('Location', redirectTo);
   }
 
+  const {cart: cartResult, errors} = result;
   return json(
     {
       cart: cartResult,
@@ -87,28 +79,20 @@ export async function action({request, context}) {
   );
 }
 
-export default function Cart() {
-  const rootData = useRootLoaderData();
-  const cartPromise = rootData.cart;
+export async function loader({context}) {
+  const {cart} = context;
+  return json(await cart.get());
+}
+
+export default function CartRoute() {
+  const [root] = useMatches();
+  // @todo: finish on a separate PR
 
   return (
-    <div className="cart">
-      <h1>Cart</h1>
-      <Suspense fallback={<p>Loading cart ...</p>}>
-        <Await
-          resolve={cartPromise}
-          errorElement={<div>An error occurred</div>}
-        >
-          {(cart) => {
-            return <CartMain layout="page" cart={cart} />;
-          }}
-        </Await>
-      </Suspense>
+    <div className="grid w-full gap-8 p-6 py-8 md:p-8 lg:p-12 justify-items-start">
+      <Await resolve={root.data?.cart}>
+        {(cart) => <Cart layout="page" cart={cart} />}
+      </Await>
     </div>
   );
 }
-
-/** @template T @typedef {import('@remix-run/react').MetaFunction<T>} MetaFunction */
-/** @typedef {import('@shopify/hydrogen').CartQueryData} CartQueryData */
-/** @typedef {import('@shopify/remix-oxygen').ActionFunctionArgs} ActionFunctionArgs */
-/** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof action>} ActionReturnData */

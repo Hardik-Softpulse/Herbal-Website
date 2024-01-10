@@ -1,44 +1,37 @@
-import {useNonce} from '@shopify/hydrogen';
 import {defer} from '@shopify/remix-oxygen';
 import {
+  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
-  LiveReload,
+  ScrollRestoration,
+  useLoaderData,
   useMatches,
   useRouteError,
-  useLoaderData,
-  ScrollRestoration,
-  isRouteErrorResponse,
 } from '@remix-run/react';
-import favicon from '../public/favicon.svg';
-import resetStyles from './styles/reset.css';
-import appStyles from './styles/app.css';
-import {Layout} from '~/components/Layout';
+import {ShopifySalesChannel, Seo} from '@shopify/hydrogen';
+import invariant from 'tiny-invariant';
 
-/**
- * This is important to avoid re-fetching root queries on sub-navigations
- * @type {ShouldRevalidateFunction}
- */
-export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
-  // revalidate when a mutation is performed e.g add to cart, login...
-  if (formMethod && formMethod !== 'GET') {
-    return true;
-  }
+import {Layout} from '~/components';
+import {seoPayload} from '~/lib/seo.server';
+import favicon from './image/favicon.png';
+import {GenericError} from './components/GenericError';
+import {NotFound} from './components/NotFound';
+import styles from './styles/app.css';
+import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
+import {useAnalytics} from './hooks/useAnalytics';
+import {useState} from 'react';
+import swipercss from 'swiper/css';
+import swipernavigation from 'swiper/css/navigation';
+import swiperPagination from 'swiper/css/pagination';
 
-  // revalidate when manually revalidating via useRevalidator
-  if (currentUrl.toString() === nextUrl.toString()) {
-    return true;
-  }
-
-  return false;
-};
-
-export function links() {
+export const links = () => {
   return [
-    {rel: 'stylesheet', href: resetStyles},
-    {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: swipercss},
+    {rel: 'stylesheet', href: swipernavigation},
+    {rel: 'stylesheet', href: swiperPagination},
+    {rel: 'stylesheet', href: styles},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -49,164 +42,143 @@ export function links() {
     },
     {rel: 'icon', type: 'image/svg+xml', href: favicon},
   ];
-}
-
-/**
- * @return {LoaderReturnData}
- */
-export const useRootLoaderData = () => {
-  const [root] = useMatches();
-  return root?.data;
 };
 
-/**
- * @param {LoaderFunctionArgs}
- */
-export async function loader({context}) {
-  const {storefront, session, cart} = context;
-  const customerAccessToken = await session.get('customerAccessToken');
-  const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
+export async function loader({request, context}) {
+  const {session, storefront, cart} = context;
+  const [customerAccessToken, layout] = await Promise.all([
+    session.get('customerAccessToken'),
+    getLayoutData(context),
+  ]);
 
-  // validate the customer access token is valid
-  const {isLoggedIn, headers} = await validateCustomerAccessToken(
-    session,
-    customerAccessToken,
-  );
+  const seo = seoPayload.root({shop: layout.shop, url: request.url});
 
-  // defer the cart query by not awaiting it
-  const cartPromise = cart.get();
-
-  // defer the footer query (below the fold)
-  const footerPromise = storefront.query(FOOTER_QUERY, {
-    cache: storefront.CacheLong(),
-    variables: {
-      footerMenuHandle: 'footer', // Adjust to your footer menu handle
+  return defer({
+    isLoggedIn: Boolean(customerAccessToken),
+    layout,
+    selectedLocale: storefront.i18n,
+    cart: cart.get(),
+    analytics: {
+      shopifySalesChannel: ShopifySalesChannel.hydrogen,
+      shopId: layout.shop.id,
     },
+    seo,
   });
-
-  // await the header query (above the fold)
-  const headerPromise = storefront.query(HEADER_QUERY, {
-    cache: storefront.CacheLong(),
-    variables: {
-      headerMenuHandle: 'main-menu', // Adjust to your header menu handle
-    },
-  });
-
-  return defer(
-    {
-      cart: cartPromise,
-      footer: footerPromise,
-      header: await headerPromise,
-      isLoggedIn,
-      publicStoreDomain,
-    },
-    {headers},
-  );
 }
 
 export default function App() {
-  const nonce = useNonce();
-  /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  const locale = data.selectedLocale ?? DEFAULT_LOCALE;
+  const hasUserConsent = true;
+  const [menu, setMenu] = useState(false);
+
+  useAnalytics(hasUserConsent, locale);
 
   return (
-    <html lang="en">
+    <html lang={locale.language}>
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <Seo />
         <Meta />
         <Links />
       </head>
-      <body>
-        <Layout {...data}>
+      <body className={menu ? 'active' : ''}>
+        <Layout
+          key={`${locale.language}-${locale.country}`}
+          layout={data.layout}
+          menu={menu}
+          setMenu={setMenu}
+        >
           <Outlet />
         </Layout>
-        <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
-        <LiveReload nonce={nonce} />
+        <ScrollRestoration />
+        <Scripts />
       </body>
     </html>
   );
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
-  const rootData = useRootLoaderData();
-  const nonce = useNonce();
-  let errorMessage = 'Unknown error';
-  let errorStatus = 500;
+export function ErrorBoundary({error}) {
+  const [root] = useMatches();
+  const locale = root?.data?.selectedLocale ?? DEFAULT_LOCALE;
+  const routeError = useRouteError();
+  const isRouteError = isRouteErrorResponse(routeError);
 
-  if (isRouteErrorResponse(error)) {
-    errorMessage = error?.data?.message ?? error.data;
-    errorStatus = error.status;
-  } else if (error instanceof Error) {
-    errorMessage = error.message;
+  let title = 'Error';
+  let pageType = 'page';
+
+  if (isRouteError) {
+    title = 'Not found';
+    if (routeError.status === 404) pageType = routeError.data || pageType;
   }
 
   return (
-    <html lang="en">
+    <html lang={locale.language}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>{title}</title>
         <Meta />
         <Links />
       </head>
       <body>
-        <Layout {...rootData}>
-          <div className="route-error">
-            <h1>Oops</h1>
-            <h2>{errorStatus}</h2>
-            {errorMessage && (
-              <fieldset>
-                <pre>{errorMessage}</pre>
-              </fieldset>
-            )}
-          </div>
+        <Layout
+          layout={root?.data?.layout}
+          key={`${locale.language}-${locale.country}`}
+        >
+          {isRouteError ? (
+            <>
+              {routeError.status === 404 ? (
+                <NotFound type={pageType} />
+              ) : (
+                <GenericError
+                  error={{message: `${routeError.status} ${routeError.data}`}}
+                />
+              )}
+            </>
+          ) : (
+            <GenericError error={error instanceof Error ? error : undefined} />
+          )}
         </Layout>
-        <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
-        <LiveReload nonce={nonce} />
+        <Scripts />
       </body>
     </html>
   );
 }
 
-/**
- * Validates the customer access token and returns a boolean and headers
- * @see https://shopify.dev/docs/api/storefront/latest/objects/CustomerAccessToken
- *
- * @example
- * ```js
- * const {isLoggedIn, headers} = await validateCustomerAccessToken(
- *  customerAccessToken,
- *  session,
- * );
- * ```
- * @param {LoaderFunctionArgs['context']['session']} session
- * @param {CustomerAccessToken} [customerAccessToken]
- */
-async function validateCustomerAccessToken(session, customerAccessToken) {
-  let isLoggedIn = false;
-  const headers = new Headers();
-  if (!customerAccessToken?.accessToken || !customerAccessToken?.expiresAt) {
-    return {isLoggedIn, headers};
+const LAYOUT_QUERY = `#graphql
+  query layout(
+    $language: LanguageCode
+    $headerMenuHandle: String!
+    $footerMenuHandle: String!
+  ) @inContext(language: $language) {
+    shop {
+      ...Shop
+    }
+    headerMenu: menu(handle: $headerMenuHandle) {
+      ...Menu
+    }
+    footerMenu: menu(handle: $footerMenuHandle) {
+      ...Menu
+    }
   }
-
-  const expiresAt = new Date(customerAccessToken.expiresAt).getTime();
-  const dateNow = Date.now();
-  const customerAccessTokenExpired = expiresAt < dateNow;
-
-  if (customerAccessTokenExpired) {
-    session.unset('customerAccessToken');
-    headers.append('Set-Cookie', await session.commit());
-  } else {
-    isLoggedIn = true;
+  fragment Shop on Shop {
+    id
+    name
+    description
+    primaryDomain {
+      url
+    }
+    brand {
+      logo {
+        image {
+          url
+        }
+      }
+    }
   }
-
-  return {isLoggedIn, headers};
-}
-
-const MENU_FRAGMENT = `#graphql
   fragment MenuItem on MenuItem {
     id
     resourceId
@@ -232,51 +204,44 @@ const MENU_FRAGMENT = `#graphql
   }
 `;
 
-const HEADER_QUERY = `#graphql
-  fragment Shop on Shop {
-    id
-    name
-    description
-    primaryDomain {
-      url
-    }
-    brand {
-      logo {
-        image {
-          url
-        }
-      }
-    }
-  }
-  query Header(
-    $country: CountryCode
-    $headerMenuHandle: String!
-    $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
-    shop {
-      ...Shop
-    }
-    menu(handle: $headerMenuHandle) {
-      ...Menu
-    }
-  }
-  ${MENU_FRAGMENT}
-`;
+async function getLayoutData({storefront, env}) {
+  const data = await storefront.query(LAYOUT_QUERY, {
+    variables: {
+      headerMenuHandle: 'main-menu',
+      footerMenuHandle: 'footer',
+      language: storefront.i18n.language,
+    },
+  });
 
-const FOOTER_QUERY = `#graphql
-  query Footer(
-    $country: CountryCode
-    $footerMenuHandle: String!
-    $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
-    menu(handle: $footerMenuHandle) {
-      ...Menu
-    }
-  }
-  ${MENU_FRAGMENT}
-`;
+  invariant(data, 'No data returned from Shopify API');
 
-/** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
-/** @typedef {import('@remix-run/react').ShouldRevalidateFunction} ShouldRevalidateFunction */
-/** @typedef {import('@shopify/hydrogen/storefront-api-types').CustomerAccessToken} CustomerAccessToken */
-/** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
+  /*
+        Modify specific links/routes (optional)
+        @see: https://shopify.dev/api/storefront/unstable/enums/MenuItemType
+        e.g here we map:
+          - /blogs/news -> /news
+          - /blog/news/blog-post -> /news/blog-post
+          - /collections/all -> /products
+      */
+  const customPrefixes = {BLOG: '', CATALOG: 'products'};
+
+  const headerMenu = data?.headerMenu
+    ? parseMenu(
+        data.headerMenu,
+        data.shop.primaryDomain.url,
+        env,
+        customPrefixes,
+      )
+    : undefined;
+
+  const footerMenu = data?.footerMenu
+    ? parseMenu(
+        data.footerMenu,
+        data.shop.primaryDomain.url,
+        env,
+        customPrefixes,
+      )
+    : undefined;
+
+  return {shop: data.shop, headerMenu, footerMenu};
+}
