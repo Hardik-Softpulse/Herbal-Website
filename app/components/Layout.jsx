@@ -372,7 +372,7 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
   );
 }
 
-function Footer({menu}) {
+function Footer() {
   return (
     <footer>
       <div className="container">

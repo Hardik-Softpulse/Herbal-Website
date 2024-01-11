@@ -16,6 +16,7 @@ import favicon from '../public/favicon.svg';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import swiperBundle from 'swiper/css/bundle';
+import { useState } from 'react';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -108,6 +109,8 @@ export default function App() {
   const nonce = useNonce();
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  const [menu , setMenu] = useState(false)
+  const [miniCart , setMiniCart]= useState(false)
 
   return (
     <html lang="en">
@@ -123,7 +126,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Layout {...data}>
+        <Layout {...data} menu={menu} setMenu={setMenu} miniCart={miniCart} setMiniCart={setMiniCart}>
           <Outlet />
         </Layout>
         <ScrollRestoration nonce={nonce} />
