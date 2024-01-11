@@ -249,7 +249,7 @@ header {
 }
 .main_banner .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal {
-  bottom: var(--swiper-pagination-bottom, -5px);
+  bottom: var(--swiper-pagination-bottom, -3px);
 }
 /* end banner */
 
@@ -2919,13 +2919,6 @@ textarea {
   padding-top: 10px;
 }
 
-.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
-  content: ">" !important;
-}
-
-.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after{
-  content: "<" !important;
-}
 
 
 

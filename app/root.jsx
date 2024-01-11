@@ -112,18 +112,6 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
 
-  const handleCheckout = () => {
-
-    setMiniCart(false);
-
-    
-    navigate('/checkout');
-  };
-
-  useEffect(() => {
-    
-  }, []);
-
   return (
     <html lang="en">
       <head>
@@ -133,7 +121,6 @@ export default function App() {
           httpEquiv="Content-Security-Policy"
           content="style-src 'self' 'unsafe-inline' https://cdn.shopify.com https://fonts.googleapis.com localhost:*;"
         />
-
         <Meta />
         <Links />
       </head>
