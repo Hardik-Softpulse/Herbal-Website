@@ -16,7 +16,7 @@ export function OurCollection() {
           <div className="section_title">
             <h2>Shop By Interest</h2>
           </div>
-          <div className="swiper" id="interest">
+          <div id="interest">
             <Swiper
               loop={true}
               spaceBetween={20}
@@ -58,116 +58,96 @@ export function OurCollection() {
                 },
               }}
             >
-              <div className="swiper-wrapper">
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support1} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support1} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support7} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support7} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support6} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support6} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support5} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support5} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support4} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support4} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support3} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support3} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support2} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support2} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support1} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support1} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="interest_content">
-                      <div className="interest_img">
-                        <a href="">
-                          <img src={Support5} alt="" />
-                        </a>
-                      </div>
-                      <a href="">Immune Support</a>
-                    </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="interest_content">
+                  <div className="interest_img">
+                    <a href="">
+                      <img src={Support5} alt="" />
+                    </a>
                   </div>
-                </SwiperSlide>
-              </div>
+                  <a href="">Immune Support</a>
+                </div>
+              </SwiperSlide>
             </Swiper>
           </div>
         </div>

@@ -19,7 +19,7 @@ export function NewArrival() {
               <img src={Stamp} alt="" />
             </div>
           </div>
-          <div className="swiper" id="new-product">
+          <div id="new-product">
             <Swiper
               slidesPerView={4}
               spaceBetween={20}
@@ -44,104 +44,95 @@ export function NewArrival() {
                 },
               }}
             >
-              <div className="swiper-wrapper main_product">
+              <div className=" main_product">
                 <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="product_item">
-                      <div className="product_img">
-                        <div className="product_img_wrap">
-                          <img
-                            src={Pro1}
-                            alt="new-product"
-                            height="450px"
-                            width="340px"
-                          />
-                        </div>
+                  <div className="product_item">
+                    <div className="product_img">
+                      <div className="product_img_wrap">
+                        <img
+                          src={Pro1}
+                          alt="new-product"
+                          height="450px"
+                          width="340px"
+                        />
                       </div>
-                      <div className="product_content">
-                        <p>CBD+CBG OIL 20%</p>
-                        <h4>Full Moon Oil Cbd 20</h4>
-                        <div className="product_price flex">
-                          <h5>$19.00</h5>
-                          <s>$24.00</s>
-                          <span>20% off</span>
-                        </div>
+                    </div>
+                    <div className="product_content">
+                      <p>CBD+CBG OIL 20%</p>
+                      <h4>Full Moon Oil Cbd 20</h4>
+                      <div className="product_price flex">
+                        <h5>$19.00</h5>
+                        <s>$24.00</s>
+                        <span>20% off</span>
                       </div>
                     </div>
                   </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="product_item">
-                      <div className="product_img">
-                        <div className="product_img_wrap">
-                          <img
-                            src={Pro2}
-                            alt="new-product"
-                            height="450px"
-                            width="340px"
-                          />
-                        </div>
+                  <div className="product_item">
+                    <div className="product_img">
+                      <div className="product_img_wrap">
+                        <img
+                          src={Pro2}
+                          alt="new-product"
+                          height="450px"
+                          width="340px"
+                        />
                       </div>
-                      <div className="product_content">
-                        <p>CBD+CBG OIL 20%</p>
-                        <h4>Full Moon Oil Cbd 20</h4>
-                        <div className="product_price flex">
-                          <h5>$19.00</h5>
-                          <s>$24.00</s>
-                          <span>20% off</span>
-                        </div>
+                    </div>
+                    <div className="product_content">
+                      <p>CBD+CBG OIL 20%</p>
+                      <h4>Full Moon Oil Cbd 20</h4>
+                      <div className="product_price flex">
+                        <h5>$19.00</h5>
+                        <s>$24.00</s>
+                        <span>20% off</span>
                       </div>
                     </div>
                   </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="product_item">
-                      <div className="product_img">
-                        <div className="product_img_wrap">
-                          <img
-                            src={Pro3}
-                            alt="new-product"
-                            height="450px"
-                            width="340px"
-                          />
-                        </div>
+                  <div className="product_item">
+                    <div className="product_img">
+                      <div className="product_img_wrap">
+                        <img
+                          src={Pro3}
+                          alt="new-product"
+                          height="450px"
+                          width="340px"
+                        />
                       </div>
-                      <div className="product_content">
-                        <p>CBD+CBG OIL 20%</p>
-                        <h4>Full Moon Oil Cbd 20</h4>
-                        <div className="product_price flex">
-                          <h5>$19.00</h5>
-                          <s>$24.00</s>
-                          <span>20% off</span>
-                        </div>
+                    </div>
+                    <div className="product_content">
+                      <p>CBD+CBG OIL 20%</p>
+                      <h4>Full Moon Oil Cbd 20</h4>
+                      <div className="product_price flex">
+                        <h5>$19.00</h5>
+                        <s>$24.00</s>
+                        <span>20% off</span>
                       </div>
                     </div>
                   </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                  {' '}
-                  <div className="swiper-slide">
-                    <div className="product_item">
-                      <div className="product_img">
-                        <div className="product_img_wrap">
-                          <img
-                            src={Pro4}
-                            alt="new-product"
-                            height="450px"
-                            width="340px"
-                          />
-                        </div>
+                  <div className="product_item">
+                    <div className="product_img">
+                      <div className="product_img_wrap">
+                        <img
+                          src={Pro4}
+                          alt="new-product"
+                          height="450px"
+                          width="340px"
+                        />
                       </div>
-                      <div className="product_content">
-                        <p>CBD+CBG OIL 20%</p>
-                        <h4>Full Moon Oil Cbd 20</h4>
-                        <div className="product_price flex">
-                          <h5>$19.00</h5>
-                          <s>$24.00</s>
-                          <span>20% off</span>
-                        </div>
+                    </div>
+                    <div className="product_content">
+                      <p>CBD+CBG OIL 20%</p>
+                      <h4>Full Moon Oil Cbd 20</h4>
+                      <div className="product_price flex">
+                        <h5>$19.00</h5>
+                        <s>$24.00</s>
+                        <span>20% off</span>
                       </div>
                     </div>
                   </div>
