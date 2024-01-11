@@ -17,7 +17,7 @@ import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import swiperBundle from 'swiper/css/bundle';
 import {useEffect, useState} from 'react';
-
+import swiperNav from 'swiper/css/navigation';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
@@ -40,6 +40,7 @@ export function links() {
   return [
     {rel: 'stylesheet', href: appStyles},
     {rel: 'stylesheet', href: swiperBundle},
+    {rel: 'stylesheet', href: swiperNav},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

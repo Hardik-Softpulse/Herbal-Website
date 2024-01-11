@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import Banner from '../image/banner-img.png'
-import Banner1 from '../image/banner-vector1.png'
-import Banner2 from '../image/banner-vector2.png'
-import Banner3 from '../image/banner-vector3.png'
-import Banner4 from '../image/banner-vector4.png'
-import BannerResponsive from '../image/banner-responsive.avif'
-import { Navigation, Pagination } from 'swiper/modules';
+import Banner from '../image/banner-img.png';
+import Banner1 from '../image/banner-vector1.png';
+import Banner2 from '../image/banner-vector2.png';
+import Banner3 from '../image/banner-vector3.png';
+import Banner4 from '../image/banner-vector4.png';
+import BannerResponsive from '../image/banner-responsive.avif';
+import {Navigation, Pagination} from 'swiper/modules';
 
 export function Hero() {
- 
   return (
     <section className="banner_slider">
       <div className="main_banner">
         <div id="banner_slider">
-          <Swiper modules={[Navigation , Pagination]} pagination={{clickable: true}} navigation>
-            <SwiperSlide>
+          <Swiper
+            modules={[Navigation, Pagination]}
+            pagination={{clickable: true}}
+            navigation={{clickable: true}}
+            lazy={true}
+          >
+            <SwiperSlide lazy="true">
               <div className="banner_img">
                 <img src={Banner} alt="" />
               </div>
@@ -52,7 +56,7 @@ export function Hero() {
                 </div>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide lazy="true">
               <div className="banner_img">
                 <img src={Banner} alt="" />
               </div>
@@ -89,7 +93,7 @@ export function Hero() {
                 </div>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide lazy="true">
               <div className="banner_img">
                 <img src={Banner} alt="" />
               </div>
@@ -132,4 +136,3 @@ export function Hero() {
     </section>
   );
 }
-
