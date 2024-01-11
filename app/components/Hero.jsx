@@ -21,10 +21,10 @@ export function Hero() {
           >
             <SwiperSlide lazy="true">
               <div className="banner_img">
-                <img src={Banner} alt="" />
+                <img src={Banner} alt="" loading="lazy"/>
               </div>
               <div className="banner_responsive">
-                <img src={BannerResponsive} alt="" />
+                <img src={BannerResponsive} alt="" loading="lazy"/>
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">
@@ -58,10 +58,10 @@ export function Hero() {
             </SwiperSlide>
             <SwiperSlide lazy="true">
               <div className="banner_img">
-                <img src={Banner} alt="" />
+                <img src={Banner} alt="" loading="lazy"/>
               </div>
               <div className="banner_responsive">
-                <img src={BannerResponsive} alt="" />
+                <img src={BannerResponsive} alt="" loading="lazy"/>
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">
@@ -95,10 +95,10 @@ export function Hero() {
             </SwiperSlide>
             <SwiperSlide lazy="true">
               <div className="banner_img">
-                <img src={Banner} alt="" />
+                <img src={Banner} alt="" loading="lazy"/>
               </div>
               <div className="banner_responsive">
-                <img src={BannerResponsive} alt="" />
+                <img src={BannerResponsive} alt="" loading="lazy"/>
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">

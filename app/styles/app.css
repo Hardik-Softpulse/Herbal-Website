@@ -2918,14 +2918,14 @@ textarea {
   justify-content: center;
   padding-top: 10px;
 }
-/* .swiper-button-prev:after,
+.swiper-button-prev:after,
 .swiper-rtl .swiper-button-next:after {
   content: '<' !important;
 }
 .swiper-button-next:after,
 .swiper-rtl .swiper-button-prev:after {
   content: '>' !important;
-} */
+}
 
 
 
