@@ -231,9 +231,9 @@ header {
 }
 .main_banner .swiper-button-prev::after,
 .main_banner .swiper-button-next::after {
-  font-size: 12px;
-  height: 10px;
-  width: 10px;
+  font-size: 16px;
+  height: 14px;
+  width: 11px;
   color: #fff;
   margin-left: 5px;
 }
@@ -2918,14 +2918,23 @@ textarea {
   justify-content: center;
   padding-top: 10px;
 }
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after {
+  content: '<' !important;
+}
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+  content: '>' !important;
+}
 
-
-
-
-
-
-
-
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {

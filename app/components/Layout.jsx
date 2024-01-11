@@ -12,7 +12,7 @@ import Card3 from '../image/card3.png';
 import Card4 from '../image/card4.png';
 import Card5 from '../image/card5.png';
 import Card6 from '../image/card6.png';
-import {useEffect} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Link} from '@remix-run/react';
 
@@ -25,60 +25,62 @@ export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
         miniCart={miniCart}
         setMiniCart={setMiniCart}
       />
-      <main>{children}</main>
+      {children ? <main>{children}</main> : <span className="loader"></span>}
       <Footer />
     </>
   );
 }
 
 function Header({menu, setMenu, miniCart, setMiniCart}) {
-  // useEffect(() => {
-  //   let didScroll;
-  //   let lastScrollTop = 0;
-  //   const damper = 20; // the number of pixels scrolled before header state is changed.
-  //   const header = document.querySelector('header').offsetHeight;
+  const [hideNav, setHideNav] = useState(false);
+  const headerRef = useRef(null);
 
-  //   const handleScroll = () => {
-  //     didScroll = true;
-  //   };
+  useEffect(() => {
+    let didScroll;
+    let lastScrollTop = 0;
+    const damper = 20;
 
-  //   const hasScrolled = () => {
-  //     const st = window.scrollY;
-  //     if (Math.abs(lastScrollTop - st) <= damper) {
-  //       return;
-  //     }
+    const handleScroll = () => {
+      didScroll = true;
+    };
 
-  //     if (st > lastScrollTop && st > header) {
-  //       document.querySelector('header').classNameList.add('hide-nav');
-  //     } else {
-  //       if (st + window.innerHeight < document.body.offsetHeight) {
-  //         document.querySelector('header').classNameList.remove('hide-nav');
-  //       }
-  //     }
+    const hasScrolled = () => {
+      const st = window.scrollY;
+      if (Math.abs(lastScrollTop - st) <= damper) {
+        return;
+      }
 
-  //     lastScrollTop = st;
-  //   };
+      if (st > lastScrollTop && st > headerRef.current.offsetHeight) {
+        setHideNav(true);
+      } else {
+        if (st + window.innerHeight < document.body.offsetHeight) {
+          setHideNav(false);
+        }
+      }
 
-  //   window.addEventListener('scroll', handleScroll);
+      lastScrollTop = st;
+    };
 
-  //   const scrollInterval = setInterval(() => {
-  //     if (didScroll) {
-  //       hasScrolled();
-  //       didScroll = false;
-  //     }
-  //   }, 150);
+    window.addEventListener('scroll', handleScroll);
 
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //     clearInterval(scrollInterval);
-  //   };
-  // }, []);
+    const scrollInterval = setInterval(() => {
+      if (didScroll) {
+        hasScrolled();
+        didScroll = false;
+      }
+    }, 150);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(scrollInterval);
+    };
+  }, []);
 
   return (
-    <header>
+    <header ref={headerRef} className={hideNav ? 'hide-nav' : ''}>
       <div className="top_header">
         <p>
-          Get 10% off on minimum purchase of $100 use code <span>10OFF</span>{' '}
+          Get 10% off on minimum purchase of $100 use code <span>10OFF</span>
         </p>
       </div>
       <div className="container">
@@ -181,7 +183,7 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
                   href=""
                   className="flex shop_cart"
                   onClick={(e) => {
-                    e.preventDefault(); 
+                    e.preventDefault();
                     setMiniCart(!miniCart);
                   }}
                 >

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import Banner from '../image/banner-img.png'
 import Banner1 from '../image/banner-vector1.png'
@@ -9,6 +9,7 @@ import BannerResponsive from '../image/banner-responsive.avif'
 import { Navigation, Pagination } from 'swiper/modules';
 
 export function Hero() {
+ 
   return (
     <section className="banner_slider">
       <div className="main_banner">
