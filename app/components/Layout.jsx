@@ -604,7 +604,7 @@ function Footer() {
               <a href="#">Returns</a>
             </p>
             <p>
-              <a href="/ContactUS">Contact Us</a>
+              <a href="#">Contact Us</a>
             </p>
           </div>
         </div>

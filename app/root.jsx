@@ -124,7 +124,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className={menu && miniCart ? 'active' : ''}>
+      <body className={menu || miniCart ? 'active' : ''}>
         <Layout
           {...data}
           menu={menu}
