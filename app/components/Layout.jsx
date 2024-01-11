@@ -12,64 +12,67 @@ import Card3 from '../image/card3.png';
 import Card4 from '../image/card4.png';
 import Card5 from '../image/card5.png';
 import Card6 from '../image/card6.png';
-import {Link} from '@remix-run/react';
-import {Swiper, SwiperSlide} from 'swiper/react';
 import {useEffect, useState} from 'react';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Link} from '@remix-run/react';
 
-export function Layout({children, menu, setMenu}) {
+export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
   return (
     <div>
-      <Header menu={menu} setMenu={setMenu} />
+      <Header
+        menu={menu}
+        setMenu={setMenu}
+        miniCart={miniCart}
+        setMiniCart={setMiniCart}
+      />
       <main className="abt_sec">{children}</main>
       <Footer />
     </div>
   );
 }
 
-function Header({menu, setMenu}) {
-  const {miniCart, setMiniCart} = useState(false);
+function Header({menu, setMenu, miniCart, setMiniCart}) {
+  // useEffect(() => {
+  //   let didScroll;
+  //   let lastScrollTop = 0;
+  //   const damper = 20; // the number of pixels scrolled before header state is changed.
+  //   const header = document.querySelector('header').offsetHeight;
 
-  useEffect(() => {
-    let didScroll;
-    let lastScrollTop = 0;
-    const damper = 20; // the number of pixels scrolled before header state is changed.
-    const header = document.querySelector('header').offsetHeight;
+  //   const handleScroll = () => {
+  //     didScroll = true;
+  //   };
 
-    const handleScroll = () => {
-      didScroll = true;
-    };
+  //   const hasScrolled = () => {
+  //     const st = window.scrollY;
+  //     if (Math.abs(lastScrollTop - st) <= damper) {
+  //       return;
+  //     }
 
-    const hasScrolled = () => {
-      const st = window.scrollY;
-      if (Math.abs(lastScrollTop - st) <= damper) {
-        return;
-      }
+  //     if (st > lastScrollTop && st > header) {
+  //       document.querySelector('header').classNameList.add('hide-nav');
+  //     } else {
+  //       if (st + window.innerHeight < document.body.offsetHeight) {
+  //         document.querySelector('header').classNameList.remove('hide-nav');
+  //       }
+  //     }
 
-      if (st > lastScrollTop && st > header) {
-        document.querySelector('header').classList.add('hide-nav');
-      } else {
-        if (st + window.innerHeight < document.body.offsetHeight) {
-          document.querySelector('header').classList.remove('hide-nav');
-        }
-      }
+  //     lastScrollTop = st;
+  //   };
 
-      lastScrollTop = st;
-    };
+  //   window.addEventListener('scroll', handleScroll);
 
-    window.addEventListener('scroll', handleScroll);
+  //   const scrollInterval = setInterval(() => {
+  //     if (didScroll) {
+  //       hasScrolled();
+  //       didScroll = false;
+  //     }
+  //   }, 150);
 
-    const scrollInterval = setInterval(() => {
-      if (didScroll) {
-        hasScrolled();
-        didScroll = false;
-      }
-    }, 150);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearInterval(scrollInterval);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //     clearInterval(scrollInterval);
+  //   };
+  // }, []);
 
   return (
     <header>
@@ -81,10 +84,8 @@ function Header({menu, setMenu}) {
       <div className="container">
         <div className="main_header flex align_center justify_between">
           <div className="menu_icon">
-            <button
-              className={`menu_btn bars ${menu ? 'active' : ''}`}
-              onClick={() => setMenu(!menu)}
-            >
+            <button    className={`menu_btn bars ${menu ? 'active' : ''}`}
+              onClick={() => setMenu(!menu)}>
               <svg
                 width="20"
                 height="15"
@@ -97,10 +98,8 @@ function Header({menu, setMenu}) {
                 <rect y="12" width="20" height="3" fill="white" />
               </svg>
             </button>
-            <button
-              className={`menu_btn cross ${menu ? 'active' : ''}`}
-              onClick={() => setMenu(!menu)}
-            >
+            <button className={`menu_btn cross ${menu ? 'active' : ''}`}
+              onClick={() => setMenu(!menu)}>
               <svg
                 width="17"
                 height="17"
@@ -117,13 +116,13 @@ function Header({menu, setMenu}) {
             </button>
           </div>
           <div className="main_logo ">
-            <Link to="/" className="flex align_center">
+            <a href="index.html" className="flex align_center">
               <img src={logo} alt="" />
-            </Link>
+            </a>
           </div>
           <div className={`navigation ${menu ? 'active' : ''}`}>
             <nav>
-              <div className=" main_menu">
+              <div className="main_menu">
                 <ul className="flex align_center">
                   <li>
                     <a href="#">Shop</a>
@@ -132,13 +131,13 @@ function Header({menu, setMenu}) {
                     <a href="#">Learn</a>
                   </li>
                   <li>
-                    <Link to="/aboutUs">About</Link>
+                    <a href="about.html">About</a>
                   </li>
                   <li>
                     <a href="#">Meet your herbs</a>
                   </li>
                   <li>
-                    <Link to="/blog">Blogs </Link>
+                    <a href="#">Blogs </a>
                   </li>
                 </ul>
               </div>
@@ -173,11 +172,34 @@ function Header({menu, setMenu}) {
                 </a>
               </li>
               <li>
-                <AccountLink />
+                <a href="/account/login" className="flex">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.6673 17.5V15.8333C16.6673 14.9493 16.3161 14.1014 15.691 13.4763C15.0659 12.8512 14.218 12.5 13.334 12.5H6.66732C5.78326 12.5 4.93542 12.8512 4.31029 13.4763C3.68517 14.1014 3.33398 14.9493 3.33398 15.8333V17.5"
+                      stroke="#1C6758"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M9.99935 9.16667C11.8403 9.16667 13.3327 7.67428 13.3327 5.83333C13.3327 3.99238 11.8403 2.5 9.99935 2.5C8.1584 2.5 6.66602 3.99238 6.66602 5.83333C6.66602 7.67428 8.1584 9.16667 9.99935 9.16667Z"
+                      stroke="#1C6758"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </a>
               </li>
               <li>
-                <span
-                  href="#"
+                <a
+                  href=""
                   className="flex shop_cart"
                   onClick={() => setMiniCart(!miniCart)}
                 >
@@ -217,7 +239,7 @@ function Header({menu, setMenu}) {
                       </clipPath>
                     </defs>
                   </svg>
-                </span>
+                </a>
                 <div className={`mini_cart ${miniCart ? 'active' : ''}`}>
                   <div className="cart_heading">
                     <div className="cart_title flex justify_between">
@@ -255,7 +277,7 @@ function Header({menu, setMenu}) {
                                     type="text"
                                     className="in-num"
                                     value="1"
-                                    readOnly=""
+                                    readOnly
                                   />
                                   <span className="plus"></span>
                                 </div>
@@ -286,8 +308,8 @@ function Header({menu, setMenu}) {
                                   <input
                                     type="text"
                                     className="in-num"
-                                    value="1"
-                                    readOnly=""
+                                    value={1}
+                                    readOnly
                                   />
                                   <span className="plus"></span>
                                 </div>
@@ -305,54 +327,40 @@ function Header({menu, setMenu}) {
                         <h3>Related Product</h3>
                       </div>
                       <div className="swiper" id="cart_slider">
-                        <Swiper
-                          slidesPerView={2}
-                          centeredSlides={false}
-                          spaceBetween={20}
-                        >
-                          <div className="swiper-wrapper">
-                            <SwiperSlide>
-                              <div className="swiper-slide">
-                                <div className="cart_slider_img">
-                                  <img src={Cart1} alt="" />
-                                </div>
-                                <div className="cart_slider_content">
-                                  <h3>Full Moon Oil Cbd 20</h3>
-                                </div>
-                              </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                              <div className="swiper-slide">
-                                <div className="cart_slider_img">
-                                  <img src={Cart2} alt="" />
-                                </div>
-                                <div className="cart_slider_content">
-                                  <h3>Full Moon Oil Cbd 20</h3>
-                                </div>
-                              </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                              <div className="swiper-slide">
-                                <div className="cart_slider_img">
-                                  <img src={Cart1} alt="" />
-                                </div>
-                                <div className="cart_slider_content">
-                                  <h3>Full Moon Oil Cbd 20</h3>
-                                </div>
-                              </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                              <div className="swiper-slide">
-                                <div className="cart_slider_img">
-                                  <img src={Cart2} alt="" />
-                                </div>
-                                <div className="cart_slider_content">
-                                  <h3>Full Moon Oil Cbd 20</h3>
-                                </div>
-                              </div>
-                            </SwiperSlide>
+                        <div className="swiper-wrapper">
+                          <div className="swiper-slide">
+                            <div className="cart_slider_img">
+                              <img src={Cart1} alt="" />
+                            </div>
+                            <div className="cart_slider_content">
+                              <h3>Full Moon Oil Cbd 20</h3>
+                            </div>
                           </div>
-                        </Swiper>
+                          <div className="swiper-slide">
+                            <div className="cart_slider_img">
+                              <img src={Cart2} alt="" />
+                            </div>
+                            <div className="cart_slider_content">
+                              <h3>Full Moon Oil Cbd 20</h3>
+                            </div>
+                          </div>
+                          <div className="swiper-slide">
+                            <div className="cart_slider_img">
+                              <img src={Cart1} alt="" />
+                            </div>
+                            <div className="cart_slider_content">
+                              <h3>Full Moon Oil Cbd 20</h3>
+                            </div>
+                          </div>
+                          <div className="swiper-slide">
+                            <div className="cart_slider_img">
+                              <img src={Cart2} alt="" />
+                            </div>
+                            <div className="cart_slider_content">
+                              <h3>Full Moon Oil Cbd 20</h3>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -385,7 +393,9 @@ function Header({menu, setMenu}) {
   );
 }
 
-function Footer() {
+ 
+
+function Footer({menu}) {
   return (
     <footer>
       <div className="container">
@@ -664,3 +674,5 @@ function AccountLink() {
     </Link>
   );
 }
+
+
