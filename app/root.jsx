@@ -12,11 +12,11 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from '@remix-run/react';
-import favicon from '../public/favicon.svg';
+import favicon from './image/favicon.png';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import swiperBundle from 'swiper/css/bundle';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -109,8 +109,20 @@ export default function App() {
   const nonce = useNonce();
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const [menu , setMenu] = useState(false)
-  const [miniCart , setMiniCart]= useState(false)
+  const [menu, setMenu] = useState(false);
+  const [miniCart, setMiniCart] = useState(false);
+
+  const handleCheckout = () => {
+
+    setMiniCart(false);
+
+    
+    navigate('/checkout');
+  };
+
+  useEffect(() => {
+    
+  }, []);
 
   return (
     <html lang="en">
@@ -125,8 +137,14 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Layout {...data} menu={menu} setMenu={setMenu} miniCart={miniCart} setMiniCart={setMiniCart}>
+      <body className={menu && miniCart ? 'active' : ''}>
+        <Layout
+          {...data}
+          menu={menu}
+          setMenu={setMenu}
+          miniCart={miniCart}
+          setMiniCart={setMiniCart}
+        >
           <Outlet />
         </Layout>
         <ScrollRestoration nonce={nonce} />

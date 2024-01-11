@@ -5,6 +5,7 @@ import Banner1 from '../image/banner-vector1.png'
 import Banner2 from '../image/banner-vector2.png'
 import Banner3 from '../image/banner-vector3.png'
 import Banner4 from '../image/banner-vector4.png'
+import BannerResponsive from '../image/banner-responsive.avif'
 import { Navigation, Pagination } from 'swiper/modules';
 
 export function Hero() {
@@ -18,7 +19,7 @@ export function Hero() {
                 <img src={Banner} alt="" />
               </div>
               <div className="banner_responsive">
-                <img src="image/banner-responsive.avif" alt="" />
+                <img src={BannerResponsive} alt="" />
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">
@@ -55,7 +56,7 @@ export function Hero() {
                 <img src={Banner} alt="" />
               </div>
               <div className="banner_responsive">
-                <img src="image/banner-responsive.avif" alt="" />
+                <img src={BannerResponsive} alt="" />
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">
@@ -92,7 +93,7 @@ export function Hero() {
                 <img src={Banner} alt="" />
               </div>
               <div className="banner_responsive">
-                <img src="image/banner-responsive.avif" alt="" />
+                <img src={BannerResponsive} alt="" />
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">

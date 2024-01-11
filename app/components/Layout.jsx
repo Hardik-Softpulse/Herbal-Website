@@ -12,22 +12,22 @@ import Card3 from '../image/card3.png';
 import Card4 from '../image/card4.png';
 import Card5 from '../image/card5.png';
 import Card6 from '../image/card6.png';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Link} from '@remix-run/react';
 
 export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
   return (
-    <div>
+    <>
       <Header
         menu={menu}
         setMenu={setMenu}
         miniCart={miniCart}
         setMiniCart={setMiniCart}
       />
-      <main className="abt_sec">{children}</main>
+      <main>{children}</main>
       <Footer />
-    </div>
+    </>
   );
 }
 
@@ -120,7 +120,7 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
             </button>
           </div>
           <div className="main_logo ">
-            <a href="index.html" className="flex align_center">
+            <a href="/" className="flex align_center">
               <img src={logo} alt="" />
             </a>
           </div>
@@ -180,7 +180,10 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
                 <a
                   href=""
                   className="flex shop_cart"
-                  onClick={() => setMiniCart(!miniCart)}
+                  onClick={(e) => {
+                    e.preventDefault(); 
+                    setMiniCart(!miniCart);
+                  }}
                 >
                   <svg
                     width="20"
@@ -305,41 +308,45 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
                       <div className="cart_related_title">
                         <h3>Related Product</h3>
                       </div>
-                      <div className="swiper" id="cart_slider">
-                        <div className="swiper-wrapper">
-                          <div className="swiper-slide">
+                      <div id="cart_slider">
+                        <Swiper
+                          slidesPerView={2}
+                          centeredSlides={false}
+                          spaceBetween={20}
+                        >
+                          <SwiperSlide>
                             <div className="cart_slider_img">
                               <img src={Cart1} alt="" />
                             </div>
                             <div className="cart_slider_content">
                               <h3>Full Moon Oil Cbd 20</h3>
                             </div>
-                          </div>
-                          <div className="swiper-slide">
+                          </SwiperSlide>
+                          <SwiperSlide>
                             <div className="cart_slider_img">
                               <img src={Cart2} alt="" />
                             </div>
                             <div className="cart_slider_content">
                               <h3>Full Moon Oil Cbd 20</h3>
                             </div>
-                          </div>
-                          <div className="swiper-slide">
+                          </SwiperSlide>
+                          <SwiperSlide>
                             <div className="cart_slider_img">
                               <img src={Cart1} alt="" />
                             </div>
                             <div className="cart_slider_content">
                               <h3>Full Moon Oil Cbd 20</h3>
                             </div>
-                          </div>
-                          <div className="swiper-slide">
+                          </SwiperSlide>
+                          <SwiperSlide>
                             <div className="cart_slider_img">
                               <img src={Cart2} alt="" />
                             </div>
                             <div className="cart_slider_content">
                               <h3>Full Moon Oil Cbd 20</h3>
                             </div>
-                          </div>
-                        </div>
+                          </SwiperSlide>
+                        </Swiper>
                       </div>
                     </div>
                   </div>
