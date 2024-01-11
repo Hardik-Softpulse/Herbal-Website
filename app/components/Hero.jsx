@@ -1,28 +1,24 @@
+import React from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import BannerImg from '../image/banner-img.png';
-import BannerResponsive from '../image/banner-responsive.avif';
-import BannerVector1 from '../image/banner-vector1.png';
-import BannerVector2 from '../image/banner-vector2.png';
-import BannerVector3 from '../image/banner-vector3.png';
-import BannerVector4 from '../image/banner-vector4.png';
-import {Navigation, Pagination} from 'swiper/modules';
+import Banner from '../image/banner-img.png'
+import Banner1 from '../image/banner-vector1.png'
+import Banner2 from '../image/banner-vector2.png'
+import Banner3 from '../image/banner-vector3.png'
+import Banner4 from '../image/banner-vector4.png'
+import { Navigation, Pagination } from 'swiper/modules';
 
 export function Hero() {
   return (
     <section className="banner_slider">
       <div className="main_banner">
         <div id="banner_slider">
-          <Swiper
-            modules={[Navigation, Pagination]}
-            pagination={{clickable: true}}
-            navigation
-          >
+          <Swiper modules={[Navigation , Pagination]} pagination={{clickable: true}} navigation>
             <SwiperSlide>
               <div className="banner_img">
-                <img src={BannerImg} alt="" />
+                <img src={Banner} alt="" />
               </div>
               <div className="banner_responsive">
-                <img src={BannerResponsive} alt="" />
+                <img src="image/banner-responsive.avif" alt="" />
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">
@@ -31,19 +27,19 @@ export function Hero() {
                     <h1>Live longer and healthy on planet Earth</h1>
                     <div className="banner_vector_contant flex">
                       <div className="banner_vector">
-                        <img src={BannerVector1} alt="" />
+                        <img src={Banner1} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector2} alt="" />
+                        <img src={Banner2} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector3} alt="" />
+                        <img src={Banner3} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector4} alt="" />
+                        <img src={Banner4} alt="" />
                         <p>Handmade</p>
                       </div>
                     </div>
@@ -56,10 +52,10 @@ export function Hero() {
             </SwiperSlide>
             <SwiperSlide>
               <div className="banner_img">
-                <img src={BannerImg} alt="" />
+                <img src={Banner} alt="" />
               </div>
               <div className="banner_responsive">
-                <img src={BannerResponsive} alt="" />
+                <img src="image/banner-responsive.avif" alt="" />
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">
@@ -68,19 +64,19 @@ export function Hero() {
                     <h1>Live longer and healthy on planet Earth</h1>
                     <div className="banner_vector_contant flex">
                       <div className="banner_vector">
-                        <img src={BannerVector1} alt="" />
+                        <img src={Banner1} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector2} alt="" />
+                        <img src={Banner2} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector3} alt="" />
+                        <img src={Banner3} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector4} alt="" />
+                        <img src={Banner4} alt="" />
                         <p>Handmade</p>
                       </div>
                     </div>
@@ -93,10 +89,10 @@ export function Hero() {
             </SwiperSlide>
             <SwiperSlide>
               <div className="banner_img">
-                <img src={BannerImg} alt="" />
+                <img src={Banner} alt="" />
               </div>
               <div className="banner_responsive">
-                <img src={BannerResponsive} alt="" />
+                <img src="image/banner-responsive.avif" alt="" />
               </div>
               <div className="container">
                 <div className="main_banner_contant flex justify_end">
@@ -105,19 +101,19 @@ export function Hero() {
                     <h1>Live longer and healthy on planet Earth</h1>
                     <div className="banner_vector_contant flex">
                       <div className="banner_vector">
-                        <img src={BannerVector1} alt="" />
+                        <img src={Banner1} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector2} alt="" />
+                        <img src={Banner2} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector3} alt="" />
+                        <img src={Banner3} alt="" />
                         <p>Handmade</p>
                       </div>
                       <div className="banner_vector">
-                        <img src={BannerVector4} alt="" />
+                        <img src={Banner4} alt="" />
                         <p>Handmade</p>
                       </div>
                     </div>
@@ -129,9 +125,9 @@ export function Hero() {
               </div>
             </SwiperSlide>
           </Swiper>
-          
         </div>
       </div>
     </section>
   );
 }
+

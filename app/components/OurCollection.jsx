@@ -1,10 +1,10 @@
-import Support1 from '../image/support1.png';
-import Support7 from '../image/support7.png';
-import Support6 from '../image/support6.png';
-import Support5 from '../image/support5.png';
-import Support4 from '../image/support4.png';
-import Support3 from '../image/support3.png';
-import Support2 from '../image/support2.png';
+import Support1 from '../image/support-1.png';
+import Support7 from '../image/support-7.png';
+import Support6 from '../image/support-6.png';
+import Support5 from '../image/support-5.png';
+import Support4 from '../image/support-4.png';
+import Support3 from '../image/support-3.png';
+import Support2 from '../image/support-2.png';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
 

@@ -16,12 +16,12 @@ export function ReviewSection() {
               <span>(1617 Ratings)</span>
             </div>
           </div>
-          <div className="swiper" id="testimonial">
+          <div id="testimonial">
             <Swiper
               slidesPerView={3}
               spaceBetween={20}
               modules={[Navigation]}
-              navigation={{clickable: true}}
+              navigation
               breakpoints={{
                 100: {
                   slidesPerView: 3,
@@ -45,155 +45,140 @@ export function ReviewSection() {
                 },
               }}
             >
-              <div className="swiper-wrapper">
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="testimonial_content">
-                      <div className="star_content flex align_center">
-                        <img src={FiveStar} alt="" />
-                        <span>12 December 2022</span>
-                      </div>
-                      <h3>Love your product!!</h3>
-                      <div className="quote_content flex align_center">
-                        <div className="quote_img">
-                          <img src={Quote} alt="" />
-                        </div>
-                        <div className="quote">
-                          <p>
-                            I have been taking Turmeric for years and I
-                            especially like Gaia products and the service is
-                            great. Thanks for a great product.
-                          </p>
-                          <h6>Gimmy Timission</h6>
-                        </div>
-                      </div>
+              <SwiperSlide>
+                <div className="testimonial_content">
+                  <div className="star_content flex align_center">
+                    <img src={FiveStar} alt="" />
+                    <span>12 December 2022</span>
+                  </div>
+                  <h3>Love your product!!</h3>
+                  <div className="quote_content flex align_center">
+                    <div className="quote_img">
+                      <img src={Quote} alt="" />
+                    </div>
+                    <div className="quote">
+                      <p>
+                        I have been taking Turmeric for years and I especially
+                        like Gaia products and the service is great. Thanks for
+                        a great product.
+                      </p>
+                      <h6>Gimmy Timission</h6>
                     </div>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="testimonial_content">
-                      <div className="star_content flex align_center">
-                        <img src={FiveStar} alt="" />
-                        <span>12 December 2022</span>
-                      </div>
-                      <h3>Love your product!!</h3>
-                      <div className="quote_content flex align_center">
-                        <div className="quote_img">
-                          <img src={Quote} alt="" />
-                        </div>
-                        <div className="quote">
-                          <p>
-                            I have been taking Turmeric for years and I
-                            especially like Gaia products and the service is
-                            great. Thanks for a great product.
-                          </p>
-                          <h6>Gimmy Timission</h6>
-                        </div>
-                      </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="testimonial_content">
+                  <div className="star_content flex align_center">
+                    <img src={FiveStar} alt="" />
+                    <span>12 December 2022</span>
+                  </div>
+                  <h3>Love your product!!</h3>
+                  <div className="quote_content flex align_center">
+                    <div className="quote_img">
+                      <img src={Quote} alt="" />
+                    </div>
+                    <div className="quote">
+                      <p>
+                        I have been taking Turmeric for years and I especially
+                        like Gaia products and the service is great. Thanks for
+                        a great product.
+                      </p>
+                      <h6>Gimmy Timission</h6>
                     </div>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="testimonial_content">
-                      <div className="star_content flex align_center">
-                        <img src={FiveStar} alt="" />
-                        <span>12 December 2022</span>
-                      </div>
-                      <h3>Love your product!!</h3>
-                      <div className="quote_content flex align_center">
-                        <div className="quote_img">
-                          <img src={Quote} alt="" />
-                        </div>
-                        <div className="quote">
-                          <p>
-                            I have been taking Turmeric for years and I
-                            especially like Gaia products and the service is
-                            great. Thanks for a great product.
-                          </p>
-                          <h6>Gimmy Timission</h6>
-                        </div>
-                      </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="testimonial_content">
+                  <div className="star_content flex align_center">
+                    <img src={FiveStar} alt="" />
+                    <span>12 December 2022</span>
+                  </div>
+                  <h3>Love your product!!</h3>
+                  <div className="quote_content flex align_center">
+                    <div className="quote_img">
+                      <img src={Quote} alt="" />
+                    </div>
+                    <div className="quote">
+                      <p>
+                        I have been taking Turmeric for years and I especially
+                        like Gaia products and the service is great. Thanks for
+                        a great product.
+                      </p>
+                      <h6>Gimmy Timission</h6>
                     </div>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="testimonial_content">
-                      <div className="star_content flex align_center">
-                        <img src={FiveStar} alt="" />
-                        <span>12 December 2022</span>
-                      </div>
-                      <h3>Love your product!!</h3>
-                      <div className="quote_content flex align_center">
-                        <div className="quote_img">
-                          <img src={Quote} alt="" />
-                        </div>
-                        <div className="quote">
-                          <p>
-                            I have been taking Turmeric for years and I
-                            especially like Gaia products and the service is
-                            great. Thanks for a great product.
-                          </p>
-                          <h6>Gimmy Timission</h6>
-                        </div>
-                      </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="testimonial_content">
+                  <div className="star_content flex align_center">
+                    <img src={FiveStar} alt="" />
+                    <span>12 December 2022</span>
+                  </div>
+                  <h3>Love your product!!</h3>
+                  <div className="quote_content flex align_center">
+                    <div className="quote_img">
+                      <img src={Quote} alt="" />
+                    </div>
+                    <div className="quote">
+                      <p>
+                        I have been taking Turmeric for years and I especially
+                        like Gaia products and the service is great. Thanks for
+                        a great product.
+                      </p>
+                      <h6>Gimmy Timission</h6>
                     </div>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="testimonial_content">
-                      <div className="star_content flex align_center">
-                        <img src={FiveStar} alt="" />
-                        <span>12 December 2022</span>
-                      </div>
-                      <h3>Love your product!!</h3>
-                      <div className="quote_content flex align_center">
-                        <div className="quote_img">
-                          <img src={Quote} alt="" />
-                        </div>
-                        <div className="quote">
-                          <p>
-                            I have been taking Turmeric for years and I
-                            especially like Gaia products and the service is
-                            great. Thanks for a great product.
-                          </p>
-                          <h6>Gimmy Timission</h6>
-                        </div>
-                      </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="testimonial_content">
+                  <div className="star_content flex align_center">
+                    <img src={FiveStar} alt="" />
+                    <span>12 December 2022</span>
+                  </div>
+                  <h3>Love your product!!</h3>
+                  <div className="quote_content flex align_center">
+                    <div className="quote_img">
+                      <img src={Quote} alt="" />
+                    </div>
+                    <div className="quote">
+                      <p>
+                        I have been taking Turmeric for years and I especially
+                        like Gaia products and the service is great. Thanks for
+                        a great product.
+                      </p>
+                      <h6>Gimmy Timission</h6>
                     </div>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="swiper-slide">
-                    <div className="testimonial_content">
-                      <div className="star_content flex align_center">
-                        <img src={FiveStar} alt="" />
-                        <span>12 December 2022</span>
-                      </div>
-                      <h3>Love your product!!</h3>
-                      <div className="quote_content flex align_center">
-                        <div className="quote_img">
-                          <img src={Quote} alt="" />
-                        </div>
-                        <div className="quote">
-                          <p>
-                            I have been taking Turmeric for years and I
-                            especially like Gaia products and the service is
-                            great. Thanks for a great product.
-                          </p>
-                          <h6>Gimmy Timission</h6>
-                        </div>
-                      </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="testimonial_content">
+                  <div className="star_content flex align_center">
+                    <img src={FiveStar} alt="" />
+                    <span>12 December 2022</span>
+                  </div>
+                  <h3>Love your product!!</h3>
+                  <div className="quote_content flex align_center">
+                    <div className="quote_img">
+                      <img src={Quote} alt="" />
+                    </div>
+                    <div className="quote">
+                      <p>
+                        I have been taking Turmeric for years and I especially
+                        like Gaia products and the service is great. Thanks for
+                        a great product.
+                      </p>
+                      <h6>Gimmy Timission</h6>
                     </div>
                   </div>
-                </SwiperSlide>
-              </div>
+                </div>
+              </SwiperSlide>
             </Swiper>
           </div>
-          
         </div>
       </div>
     </section>

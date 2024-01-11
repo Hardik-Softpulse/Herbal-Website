@@ -43,7 +43,7 @@ export function BestSeller() {
                 },
               }}
             >
-              <div className="main_product">
+              <div className=" main_product">
                 <SwiperSlide>
                   <div className="product_item">
                     <div className="product_img">
