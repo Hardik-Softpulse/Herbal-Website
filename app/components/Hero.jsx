@@ -17,7 +17,7 @@ export function Hero() {
             modules={[Navigation, Pagination]}
             pagination={{clickable: true}}
             navigation={{clickable: true}}
-            lazy={true}
+          
           >
             <SwiperSlide lazy="true">
               <div className="banner_img">
@@ -26,7 +26,7 @@ export function Hero() {
               <div className="banner_responsive">
                 <img src={BannerResponsive} alt="" loading="lazy"/>
               </div>
-              <div className="container">
+              <div className="container" loading="lazy">
                 <div className="main_banner_contant flex justify_end">
                   <div className="banner_contant">
                     <h4>Herbs that help you</h4>
