@@ -2933,8 +2933,9 @@ textarea {
 }
 .loader {
   position: fixed;
-  top: 17%;
+  top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   width: 48px;
   height: 48px;
   border: 5px solid var(--themeColor);
@@ -2942,7 +2943,7 @@ textarea {
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
-  animation: rotation 1s linear infinite;
+  animation: rotation 1s linear infinite
 }
 
 @keyframes rotation {
