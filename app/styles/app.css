@@ -1,9 +1,4 @@
-/* Kumbh Sans for logo font*/
-@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@900&display=swap');
-/* 'PT Serif', serif for heading */
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap');
-/* 'Jost', sans-serif for body */
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
+@import url(custome-font.css);
 
 * {
   margin: 0;
@@ -114,7 +109,7 @@ header {
   padding: 25px 0;
 }
 .main_logo a {
-  font-family: 'Kumbh Sans';
+  /* font-family: 'Kumbh Sans'; */
   font-weight: 900;
   font-size: 40px;
   line-height: 50px;
@@ -231,9 +226,9 @@ header {
 }
 .main_banner .swiper-button-prev::after,
 .main_banner .swiper-button-next::after {
-  font-size: 16px;
-  height: 14px;
-  width: 11px;
+  font-size: 12px;
+  height: 10px;
+  width: 10px;
   color: #fff;
   margin-left: 5px;
 }
@@ -249,7 +244,7 @@ header {
 }
 .main_banner .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal {
-  bottom: var(--swiper-pagination-bottom, -3px);
+  bottom: var(--swiper-pagination-bottom, -2px);
 }
 /* end banner */
 
@@ -301,7 +296,6 @@ header {
 /* end Shop By Interest */
 
 /* start new product */
-
 .main_product {
   position: relative;
   /* margin: 0 -10px; */
@@ -2918,16 +2912,42 @@ textarea {
   justify-content: center;
   padding-top: 10px;
 }
+
 .swiper-button-prev:after,
-.swiper-rtl .swiper-button-next:after {
-  content: '<' !important;
-}
-.swiper-button-next:after,
-.swiper-rtl .swiper-button-prev:after {
-  content: '>' !important;
+.swiper-button-next:after {
+  content: '' !important;
+  display: block;
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  border-bottom: solid 2px #fff;
+  border-right: solid 2px #fff;
+  left: 50%;
+  transform: translate(-12px, -50%) rotate(-45deg);
+  top: 50%;
 }
 
+.swiper-button-prev:after {
+  transform: translate(-9px, -50%) rotate(135deg);
+}
 
+/* #banner_slider .swiper .swiper-button-prev:after,
+.swiper-button-next:after {
+  border-bottom: solid 2px #fff;
+  border-right: solid 2px #fff;
+}
+
+#interest .swiper .swiper-button-prev:after,
+.swiper-button-next:after {
+  border-bottom: #000;
+  border-right: solid 2px #000;
+}
+
+#testimonial .swiper .swiper-button-prev:after,
+.swiper-button-next:after {
+  border-bottom: solid 2px #fff;
+  border-right: solid 2px #fff;
+} */
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {

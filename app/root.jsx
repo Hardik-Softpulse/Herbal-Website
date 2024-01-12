@@ -15,9 +15,15 @@ import {
 import favicon from './image/favicon.png';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
-import swiperBundle from 'swiper/css/bundle';
-import {useEffect, useState} from 'react';
+import swiperPag from 'swiper/css/pagination';
+import { useState} from 'react';
 import swiperNav from 'swiper/css/navigation';
+// import swiper from 'swiper/css';
+import swiperBundle from'swiper/swiper-bundle.css';
+import fontCss from './styles/custome-font.css';
+
+
+
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
@@ -39,8 +45,11 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 export function links() {
   return [
     {rel: 'stylesheet', href: appStyles},
-    {rel: 'stylesheet', href: swiperBundle},
+    {rel: 'stylesheet', href: fontCss},
+    {rel: 'stylesheet', href: swiperPag},
     {rel: 'stylesheet', href: swiperNav},
+    // {rel: 'stylesheet', href: swiper},
+    {rel: 'stylesheet', href: swiperBundle},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -122,6 +131,9 @@ export default function App() {
           httpEquiv="Content-Security-Policy"
           content="style-src 'self' 'unsafe-inline' https://cdn.shopify.com https://fonts.googleapis.com localhost:*;"
         />
+        
+
+
         <Meta />
         <Links />
       </head>
