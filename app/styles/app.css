@@ -2930,7 +2930,7 @@ textarea {
 .swiper-button-prev:after {
   transform: translate(-9px, -50%) rotate(135deg);
 }
-/* .loader {
+.loader {
   position: fixed;
   top: 17%;
   left: 50%;
@@ -2942,7 +2942,7 @@ textarea {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  } */
+  }
 
   @keyframes rotation {
   0% {

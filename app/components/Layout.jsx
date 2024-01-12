@@ -35,13 +35,13 @@ export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
         miniCart={miniCart}
         setMiniCart={setMiniCart}
       />
-      {contentLoaded ? (
+      {/* {contentLoaded ? ( */}
         <main>{children}</main>
-      ) : (
-        <div>
-          <span className="loader"></span>
-        </div>
-      )}
+      {/* // ) : (
+      //   <div>
+      //     <span className="loader"></span>
+      //   </div>
+      // )} */}
       <Footer />
     </>
   );
