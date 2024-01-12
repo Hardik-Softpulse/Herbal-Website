@@ -16,13 +16,11 @@ import favicon from './image/favicon.png';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import swiperPag from 'swiper/css/pagination';
-import { useState} from 'react';
+import {useState} from 'react';
 import swiperNav from 'swiper/css/navigation';
 // import swiper from 'swiper/css';
-import swiperBundle from'swiper/swiper-bundle.css';
+import swiperBundle from 'swiper/swiper-bundle.css';
 import fontCss from './styles/custome-font.css';
-
-
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -131,8 +129,6 @@ export default function App() {
           httpEquiv="Content-Security-Policy"
           content="style-src 'self' 'unsafe-inline' https://cdn.shopify.com https://fonts.googleapis.com localhost:*;"
         />
-        
-
 
         <Meta />
         <Links />

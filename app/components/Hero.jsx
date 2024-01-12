@@ -8,8 +8,8 @@ import Banner4 from '../image/banner-vector4.png';
 import BannerResponsive from '../image/banner-responsive.avif';
 import {Navigation, Pagination} from 'swiper/modules';
 
-
 export function Hero() {
+
   return (
     <section className="banner_slider">
       <div className="main_banner">
@@ -17,10 +17,10 @@ export function Hero() {
           modules={[Navigation, Pagination]}
           pagination={{clickable: true}}
           navigation={{clickable: true}}
-          lazy={true} 
+          lazy={true}
           id="banner_slider"
         >
-          <SwiperSlide>
+          <SwiperSlide loading="lazy">
             <div className="banner_img">
               <img src={Banner} alt="" loading="lazy" />
             </div>
@@ -57,7 +57,7 @@ export function Hero() {
               </div>
             </div>
           </SwiperSlide>
-          <SwiperSlide>
+          <SwiperSlide loading="lazy">
             <div className="banner_img">
               <img src={Banner} alt="" loading="lazy" />
             </div>
@@ -94,7 +94,7 @@ export function Hero() {
               </div>
             </div>
           </SwiperSlide>
-          <SwiperSlide>
+          <SwiperSlide loading="lazy">
             <div className="banner_img">
               <img src={Banner} alt="" loading="lazy" />
             </div>

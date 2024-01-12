@@ -17,6 +17,16 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {Link} from '@remix-run/react';
 
 export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
+  const [contentLoaded, setContentLoaded] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setContentLoaded(true);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <>
       <Header
@@ -25,7 +35,13 @@ export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
         miniCart={miniCart}
         setMiniCart={setMiniCart}
       />
-      {children ? <main>{children}</main> : <span className="loader"></span>}
+      {contentLoaded ? (
+        <main>{children}</main>
+      ) : (
+        <div>
+          <span className="loader"></span>
+        </div>
+      )}
       <Footer />
     </>
   );
