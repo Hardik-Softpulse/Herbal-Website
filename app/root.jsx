@@ -20,7 +20,7 @@ import {useState} from 'react';
 import swiperNav from 'swiper/css/navigation';
 // import swiper from 'swiper/css';
 import swiperBundle from 'swiper/swiper-bundle.css';
-import fontCss from './styles/custome-font.css';
+// import fontCss from './styles/custome-font.css';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -43,7 +43,7 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 export function links() {
   return [
     {rel: 'stylesheet', href: appStyles},
-    {rel: 'stylesheet', href: fontCss},
+    // {rel: 'stylesheet', href: fontCss},
     {rel: 'stylesheet', href: swiperPag},
     {rel: 'stylesheet', href: swiperNav},
     // {rel: 'stylesheet', href: swiper},

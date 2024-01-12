@@ -1,4 +1,4 @@
-@import url(custome-font.css);
+/* @import url(custome-font.css); */
 
 * {
   margin: 0;
@@ -633,7 +633,7 @@ header {
 }
 .testimonial .swiper-button-next,
 .testimonial .swiper-button-prev {
-  top: 86px !important;
+  top: 35px !important;
   right: 0px;
   bottom: 0;
   left: auto;
@@ -647,6 +647,7 @@ header {
 }
 .testimonial .swiper-button-prev::after,
 .testimonial .swiper-button-next::after {
+  
   font-size: 12px;
   height: 10px;
   width: 10px;
@@ -2951,6 +2952,11 @@ textarea {
   100% {
     transform: rotate(360deg);
   }
+}
+
+#testimonial .swiper-initialized {
+  padding-top: 80px;
+  margin-top: -80px;
 }
 
 /* 1400, 1150, 991, 767, 550, 375 */

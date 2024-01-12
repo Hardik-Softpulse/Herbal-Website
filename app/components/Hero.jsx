@@ -17,15 +17,14 @@ export function Hero() {
           modules={[Navigation, Pagination]}
           pagination={{clickable: true}}
           navigation={{clickable: true}}
-          lazy={true}
           id="banner_slider"
         >
-          <SwiperSlide loading="lazy">
+          <SwiperSlide >
             <div className="banner_img">
-              <img src={Banner} alt="" loading="lazy" />
+              <img src={Banner} alt="" />
             </div>
             <div className="banner_responsive">
-              <img src={BannerResponsive} alt="" loading="lazy" />
+              <img src={BannerResponsive} alt="" />
             </div>
             <div className="container">
               <div className="main_banner_contant flex justify_end">
@@ -57,12 +56,12 @@ export function Hero() {
               </div>
             </div>
           </SwiperSlide>
-          <SwiperSlide loading="lazy">
+          <SwiperSlide >
             <div className="banner_img">
-              <img src={Banner} alt="" loading="lazy" />
+              <img src={Banner} alt="" />
             </div>
             <div className="banner_responsive">
-              <img src={BannerResponsive} alt="" loading="lazy" />
+              <img src={BannerResponsive} alt="" />
             </div>
             <div className="container">
               <div className="main_banner_contant flex justify_end">
@@ -94,12 +93,12 @@ export function Hero() {
               </div>
             </div>
           </SwiperSlide>
-          <SwiperSlide loading="lazy">
+          <SwiperSlide >
             <div className="banner_img">
-              <img src={Banner} alt="" loading="lazy" />
+              <img src={Banner} alt="" />
             </div>
             <div className="banner_responsive">
-              <img src={BannerResponsive} alt="" loading="lazy" />
+              <img src={BannerResponsive} alt="" />
             </div>
             <div className="container">
               <div className="main_banner_contant flex justify_end">

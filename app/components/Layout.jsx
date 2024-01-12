@@ -27,7 +27,7 @@ export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
     return () => clearTimeout(timeout);
   }, []);
 
-  return (
+  return contentLoaded ? (
     <>
       <Header
         menu={menu}
@@ -35,15 +35,13 @@ export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
         miniCart={miniCart}
         setMiniCart={setMiniCart}
       />
-      {contentLoaded ? (
-        <main>{children}</main>
-      ) : (
-        <div>
-          <span className="loader"></span>
-        </div>
-      )}
+
+      <main>{children}</main>
+
       <Footer />
     </>
+  ) : (
+    <span className="loader"></span>
   );
 }
 
