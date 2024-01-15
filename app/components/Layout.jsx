@@ -35,9 +35,7 @@ export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
         miniCart={miniCart}
         setMiniCart={setMiniCart}
       />
-
-      <main>{children}</main>
-
+      <>{children}</>
       <Footer />
     </>
   ) : (
@@ -157,7 +155,7 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
                     <a href="#">Meet your herbs</a>
                   </li>
                   <li>
-                    <a href="#">Blogs </a>
+                    <a href="/blog">Blogs </a>
                   </li>
                 </ul>
               </div>

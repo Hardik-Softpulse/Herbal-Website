@@ -73,41 +73,43 @@ export default function Login() {
   const error = data?.error || null;
 
   return (
-    <section>
-    <div className="container">
-      <div className="spacer">
-        <div className="section_title">
-          <h2>Welcome Back, Login here</h2>
-        </div>
-        <div className="register_frm">
-          <div className="right_contact_form">
-            <form action="">
-              <div className="contact_email">
-                <label htmlFor="">E-mail Address </label>
-                <br />
-                <input type="email" />
+    <main class="abt_sec">
+      <section>
+        <div className="container">
+          <div className="spacer">
+            <div className="section_title">
+              <h2>Welcome Back, Login here</h2>
+            </div>
+            <div className="register_frm">
+              <div className="right_contact_form">
+                <form action="">
+                  <div className="contact_email">
+                    <label htmlFor="">E-mail Address </label>
+                    <br />
+                    <input type="email" />
+                  </div>
+                  <div className="contact_email">
+                    <label htmlFor="">Password </label>
+                    <br />
+                    <input type="password" />
+                  </div>
+                  <div className="login_btn">
+                    <button>LogIn</button>
+                  </div>
+                  <span>
+                    Not have an account?{' '}
+                    <Link to="/account/register">Signup </Link> here
+                  </span>
+                  <div className="forgot_pass">
+                    <a href="#">Forgot Password?</a>
+                  </div>
+                </form>
               </div>
-              <div className="contact_email">
-                <label htmlFor="">Password </label>
-                <br />
-                <input type="password" />
-              </div>
-              <div className="login_btn">
-                <button>LogIn</button>
-              </div>
-              <span>
-                Not have an account?{' '}
-                <Link to="/account/register">Signup </Link> here
-              </span>
-              <div className="forgot_pass">
-                <a href="#">Forgot Password?</a>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
+    </main>
   );
 }
 

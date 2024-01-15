@@ -18,9 +18,7 @@ import {Layout} from '~/components/Layout';
 import swiperPag from 'swiper/css/pagination';
 import {useState} from 'react';
 import swiperNav from 'swiper/css/navigation';
-// import swiper from 'swiper/css';
-import swiperBundle from 'swiper/swiper-bundle.css';
-// import fontCss from './styles/custome-font.css';
+import swiper from 'swiper/css';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -46,8 +44,8 @@ export function links() {
     // {rel: 'stylesheet', href: fontCss},
     {rel: 'stylesheet', href: swiperPag},
     {rel: 'stylesheet', href: swiperNav},
-    // {rel: 'stylesheet', href: swiper},
-    {rel: 'stylesheet', href: swiperBundle},
+    {rel: 'stylesheet', href: swiper},
+    // {rel: 'stylesheet', href: swiperBundle},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

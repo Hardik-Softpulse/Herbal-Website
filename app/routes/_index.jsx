@@ -27,7 +27,7 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="home">
+    <main>
       <Hero />
       <OurCollection />
       <NewArrival />
@@ -37,7 +37,7 @@ export default function Homepage() {
       <HelthBanner />
       <ReviewSection />
       <Newsletter />
-    </div>
+    </main>
   );
 }
 
