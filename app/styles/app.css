@@ -1842,7 +1842,7 @@ body.active::before {
   border-radius: 10px;
 }
 
-#product_detail_thumb .swiper-slide-active img {
+#product_detail_thumb .swiper-slide-thumb-active img {
   border: 1px solid #1c6758;
 }
 .left_product_detail .swiper-slide {
