@@ -2318,8 +2318,8 @@ body.active::before {
   right: auto;
   top: 97%;
   background-color: #eef2e6;
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
 }
 #review_slider .swiper-button-next {
@@ -2327,8 +2327,8 @@ body.active::before {
   right: auto;
   top: 97%;
   background-color: #eef2e6;
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
 }
 #review_slider .swiper-button-prev::after,
@@ -2337,7 +2337,7 @@ body.active::before {
   height: 10px;
   width: 10px;
   color: var(--themeColor);
-  margin-left: 5px;
+  margin-left: 4px;
 }
 span.swiper-pagination-bullet {
   width: 0px;
@@ -2979,9 +2979,9 @@ textarea {
 div#product_detail_thumb {
   padding: 10px 0;
 }
-.swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden {
+/* .swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden {
   padding: 0 0 43px 0;
-}
+} */
 .swiper-slide.swiper-slide-thumb-active.swiper-slide-visible.swiper-slide-fully-visible.swiper-slide-active {
   height: 112.75px;
   margin-bottom: 10px;

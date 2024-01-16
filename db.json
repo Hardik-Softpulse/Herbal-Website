@@ -1,0 +1,200 @@
+{
+    "sections": {
+      "slideshow": {
+        "type": "slideshow",
+        "blocks": {
+          "slide-0": {
+            "type": "slide",
+            "settings": {
+              "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/slider-3-2_ff5f8456-752f-4a30-8855-faf90244a1b7.jpg",
+              "heading": "Browse our latest products",
+              "heading_size": "h2",
+              "subheading": "",
+              "button_label": "Shop Now",
+              "link": "/collections\/new-arrival",
+              "button_style_secondary": false,
+              "box_align": "middle-left",
+              "show_text_box": true,
+              "text_alignment": "left",
+              "image_overlay_opacity": 10,
+              "color_scheme": "background-2",
+              "text_alignment_mobile": "left"
+            }
+          },
+          "slide-1": {
+            "type": "slide",
+            "settings": {
+              "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/slider-3.jpg",
+              "heading": "FASHION",
+              "heading_size": "h2",
+              "subheading": "Forward Finds",
+              "button_label": "Shop Now",
+              "link": "/collections\/new-arrival",
+              "button_style_secondary": false,
+              "box_align": "top-left",
+              "show_text_box": true,
+              "text_alignment": "center",
+              "image_overlay_opacity": 0,
+              "color_scheme": "background-1",
+              "text_alignment_mobile": "center"
+            }
+          }
+        },
+        "block_order": [
+          "slide-0",
+          "slide-1"
+        ],
+        "settings": {
+          "layout": "full_bleed",
+          "slide_height": "adapt_image",
+          "slider_visual": "counter",
+          "auto_rotate": false,
+          "change_slides_speed": 5,
+          "image_behavior": "none",
+          "show_text_below": true,
+          "accessibility_info": "Slideshow about our brand"
+        }
+      },
+      "featured_collection_BA3iCE": {
+        "type": "featured-collection",
+        "settings": {
+          "title": "New Arrivals",
+          "heading_size": "h1",
+          "description": "",
+          "show_description": false,
+          "description_style": "body",
+          "collection": "new-arrival",
+          "products_to_show": 4,
+          "columns_desktop": 4,
+          "full_width": false,
+          "show_view_all": true,
+          "view_all_style": "solid",
+          "enable_desktop_slider": false,
+          "color_scheme": "",
+          "image_ratio": "adapt",
+          "image_shape": "default",
+          "show_secondary_image": false,
+          "show_vendor": false,
+          "show_rating": false,
+          "enable_quick_add": false,
+          "columns_mobile": "2",
+          "swipe_on_mobile": false,
+          "padding_top": 36,
+          "padding_bottom": 36
+        }
+      },
+      "image_with_text_WnPBEa": {
+        "type": "image-with-text",
+        "blocks": {
+          "heading_CmWefn": {
+            "type": "heading",
+            "settings": {
+              "heading": "MARKDOWN SALE",
+              "heading_size": "h1"
+            }
+          },
+          "text_JUEM86": {
+            "type": "text",
+            "settings": {
+              "text": "<p>UP TO 50% OFFSHOP TRENDY STYLES NOW!<\/p>",
+              "text_style": "body"
+            }
+          },
+          "button_NtNXcH": {
+            "type": "button",
+            "settings": {
+              "button_label": "Shop Now",
+              "button_link": "shopify:\/\/collections",
+              "button_style_secondary": false
+            }
+          }
+        },
+        "block_order": [
+          "heading_CmWefn",
+          "text_JUEM86",
+          "button_NtNXcH"
+        ],
+        "settings": {
+          "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/shop-clothes-rev.jpg",
+          "height": "adapt",
+          "desktop_image_width": "medium",
+          "layout": "image_first",
+          "desktop_content_position": "top",
+          "desktop_content_alignment": "left",
+          "content_layout": "no-overlap",
+          "section_color_scheme": "",
+          "color_scheme": "",
+          "image_behavior": "none",
+          "mobile_content_alignment": "left",
+          "padding_top": 36,
+          "padding_bottom": 36
+        }
+      },
+      "collage_WJfMLy": {
+        "type": "collage",
+        "blocks": {
+          "collection_eKCctF": {
+            "type": "collection",
+            "settings": {
+              "collection": "accessories"
+            }
+          },
+          "collection_cLNd8V": {
+            "type": "collection",
+            "settings": {
+              "collection": "shoes"
+            }
+          }
+        },
+        "block_order": [
+          "collection_eKCctF",
+          "collection_cLNd8V"
+        ],
+        "settings": {
+          "heading": "Multimedia collage",
+          "heading_size": "h1",
+          "desktop_layout": "left",
+          "mobile_layout": "column",
+          "card_styles": "product-card-wrapper",
+          "color_scheme": "",
+          "padding_top": 36,
+          "padding_bottom": 36
+        }
+      },
+      "featured_collection_iiKYDe": {
+        "type": "featured-collection",
+        "settings": {
+          "title": "Best Selling of The Year 2022",
+          "heading_size": "h1",
+          "description": "",
+          "show_description": false,
+          "description_style": "body",
+          "collection": "women",
+          "products_to_show": 4,
+          "columns_desktop": 4,
+          "full_width": false,
+          "show_view_all": true,
+          "view_all_style": "solid",
+          "enable_desktop_slider": false,
+          "color_scheme": "",
+          "image_ratio": "adapt",
+          "image_shape": "default",
+          "show_secondary_image": false,
+          "show_vendor": false,
+          "show_rating": false,
+          "enable_quick_add": false,
+          "columns_mobile": "2",
+          "swipe_on_mobile": false,
+          "padding_top": 36,
+          "padding_bottom": 36
+        }
+      }
+    },
+    "order": [
+      "slideshow",
+      "featured_collection_BA3iCE",
+      "image_with_text_WnPBEa",
+      "collage_WJfMLy",
+      "featured_collection_iiKYDe"
+    ]
+  }
