@@ -1,4 +1,4 @@
-import {useNonce} from '@shopify/hydrogen';
+import {ShopifySalesChannel, useNonce} from '@shopify/hydrogen';
 import {defer} from '@shopify/remix-oxygen';
 import {
   Links,
@@ -19,18 +19,16 @@ import swiperPag from 'swiper/css/pagination';
 import {useState} from 'react';
 import swiperNav from 'swiper/css/navigation';
 import swiper from 'swiper/css';
+import {seoPayload} from '~/lib/seo.server';
+import invariant from 'tiny-invariant';
+import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 
-/**
- * This is important to avoid re-fetching root queries on sub-navigations
- * @type {ShouldRevalidateFunction}
- */
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
-  // revalidate when a mutation is performed e.g add to cart, login...
+  
   if (formMethod && formMethod !== 'GET') {
     return true;
   }
 
-  // revalidate when manually revalidating via useRevalidator
   if (currentUrl.toString() === nextUrl.toString()) {
     return true;
   }
@@ -58,65 +56,41 @@ export function links() {
   ];
 }
 
-/**
- * @return {LoaderReturnData}
- */
+
 export const useRootLoaderData = () => {
   const [root] = useMatches();
   return root?.data;
 };
 
-/**
- * @param {LoaderFunctionArgs}
- */
-export async function loader({context}) {
-  const {storefront, session, cart} = context;
-  const customerAccessToken = await session.get('customerAccessToken');
-  const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
-  // validate the customer access token is valid
-  const {isLoggedIn, headers} = await validateCustomerAccessToken(
-    session,
-    customerAccessToken,
-  );
+export async function loader({request, context}) {
+  const {session, storefront, cart} = context;
+  const [customerAccessToken, layout] = await Promise.all([
+    session.get('customerAccessToken'),
+    getLayoutData(context),
+  ]);
 
-  // defer the cart query by not awaiting it
-  const cartPromise = cart.get();
+  const seo = seoPayload.root({shop: layout.shop, url: request.url});
 
-  // defer the footer query (below the fold)
-  const footerPromise = storefront.query(FOOTER_QUERY, {
-    cache: storefront.CacheLong(),
-    variables: {
-      footerMenuHandle: 'footer', // Adjust to your footer menu handle
+  return defer({
+    isLoggedIn: Boolean(customerAccessToken),
+    layout,
+    selectedLocale: storefront.i18n,
+    cart: cart.get(),
+    analytics: {
+      shopifySalesChannel: ShopifySalesChannel.hydrogen,
+      shopId: layout.shop.id,
     },
+    seo,
   });
-
-  // await the header query (above the fold)
-  const headerPromise = storefront.query(HEADER_QUERY, {
-    cache: storefront.CacheLong(),
-    variables: {
-      headerMenuHandle: 'main-menu', // Adjust to your header menu handle
-    },
-  });
-
-  return defer(
-    {
-      cart: cartPromise,
-      footer: footerPromise,
-      header: await headerPromise,
-      isLoggedIn,
-      publicStoreDomain,
-    },
-    {headers},
-  );
 }
 
 export default function App() {
   const nonce = useNonce();
-  /** @type {LoaderReturnData} */
   const data = useLoaderData();
   const [menu, setMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
+
 
   return (
     <html lang="en">
@@ -133,7 +107,7 @@ export default function App() {
       </head>
       <body className={menu || miniCart ? 'active' : ''}>
         <Layout
-          {...data}
+          layout={data.layout}
           menu={menu}
           setMenu={setMenu}
           miniCart={miniCart}
@@ -191,20 +165,7 @@ export function ErrorBoundary() {
   );
 }
 
-/**
- * Validates the customer access token and returns a boolean and headers
- * @see https://shopify.dev/docs/api/storefront/latest/objects/CustomerAccessToken
- *
- * @example
- * ```js
- * const {isLoggedIn, headers} = await validateCustomerAccessToken(
- *  customerAccessToken,
- *  session,
- * );
- * ```
- * @param {LoaderFunctionArgs['context']['session']} session
- * @param {CustomerAccessToken} [customerAccessToken]
- */
+
 async function validateCustomerAccessToken(session, customerAccessToken) {
   let isLoggedIn = false;
   const headers = new Headers();
@@ -226,7 +187,37 @@ async function validateCustomerAccessToken(session, customerAccessToken) {
   return {isLoggedIn, headers};
 }
 
-const MENU_FRAGMENT = `#graphql
+const LAYOUT_QUERY = `#graphql
+  query layout(
+    $language: LanguageCode
+    $headerMenuHandle: String!
+    $footerMenuHandle: String!
+  ) @inContext(language: $language) {
+    shop {
+      ...Shop
+    }
+    headerMenu: menu(handle: $headerMenuHandle) {
+      ...Menu
+    }
+    footerMenu: menu(handle: $footerMenuHandle) {
+      ...Menu
+    }
+  }
+  fragment Shop on Shop {
+    id
+    name
+    description
+    primaryDomain {
+      url
+    }
+    brand {
+      logo {
+        image {
+          url
+        }
+      }
+    }
+  }
   fragment MenuItem on MenuItem {
     id
     resourceId
@@ -252,50 +243,48 @@ const MENU_FRAGMENT = `#graphql
   }
 `;
 
-const HEADER_QUERY = `#graphql
-  fragment Shop on Shop {
-    id
-    name
-    description
-    primaryDomain {
-      url
-    }
-    brand {
-      logo {
-        image {
-          url
-        }
-      }
-    }
-  }
-  query Header(
-    $country: CountryCode
-    $headerMenuHandle: String!
-    $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
-    shop {
-      ...Shop
-    }
-    menu(handle: $headerMenuHandle) {
-      ...Menu
-    }
-  }
-  ${MENU_FRAGMENT}
-`;
+async function getLayoutData({storefront, env}) {
+  const data = await storefront.query(LAYOUT_QUERY, {
+    variables: {
+      headerMenuHandle: 'main-menu',
+      footerMenuHandle: 'footer',
+      language: storefront.i18n.language,
+    },
+  });
 
-const FOOTER_QUERY = `#graphql
-  query Footer(
-    $country: CountryCode
-    $footerMenuHandle: String!
-    $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
-    menu(handle: $footerMenuHandle) {
-      ...Menu
-    }
-  }
-  ${MENU_FRAGMENT}
-`;
+  invariant(data, 'No data returned from Shopify API');
 
+  /*
+        Modify specific links/routes (optional)
+        @see: https://shopify.dev/api/storefront/unstable/enums/MenuItemType
+        e.g here we map:
+          - /blogs/news -> /news
+          - /blog/news/blog-post -> /news/blog-post
+          - /collections/all -> /products
+      */
+  const customPrefixes = {BLOG: '', CATALOG: 'products'};
+
+  const headerMenu = data?.headerMenu
+    ? parseMenu(
+        data.headerMenu,
+        data.shop.primaryDomain.url,
+        env,
+        customPrefixes,
+      )
+    : undefined;
+
+  const footerMenu = data?.footerMenu
+    ? parseMenu(
+        data.footerMenu,
+        data.shop.primaryDomain.url,
+
+        env,
+        customPrefixes,
+      )
+    : undefined;
+
+  return {shop: data.shop, headerMenu, footerMenu};
+}
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
 /** @typedef {import('@remix-run/react').ShouldRevalidateFunction} ShouldRevalidateFunction */
 /** @typedef {import('@shopify/hydrogen/storefront-api-types').CustomerAccessToken} CustomerAccessToken */

@@ -5,32 +5,89 @@ import {
   getPaginationVariables,
   Image,
   Money,
+  AnalyticsPageType,
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/utils';
+import Filter from '../components/Filter';
+import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
+import {seoPayload} from '~/lib/seo.server';
+import NewArrival from '../image/NewArrivals.png';
+import {ProductCard} from '../components';
+import {getImageLoadingPriority} from '~/lib/const';
 
-/**
- * @type {MetaFunction<typeof loader>}
- */
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
 };
 
-/**
- * @param {LoaderFunctionArgs}
- */
 export async function loader({request, params, context}) {
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
     pageBy: 8,
   });
+  const {collectionHandle} = params;
+  const searchParams = new URL(request.url).searchParams;
+  const knownFilters = ['productVendor', 'productType'];
+  const available = 'available';
+  const variantOption = 'variantOption';
+  const {sortKey, reverse} = getSortValuesFromParam(searchParams.get('sort'));
+  const filters = [];
+  const appliedFilters = [];
+
+  for (const [key, value] of searchParams.entries()) {
+    if (available === key) {
+      filters.push({available: value === 'true'});
+      appliedFilters.push({
+        label: value === 'true' ? 'In stock' : 'Out of stock',
+        urlParam: {
+          key: available,
+          value,
+        },
+      });
+    } else if (knownFilters.includes(key)) {
+      filters.push({[key]: value});
+      appliedFilters.push({label: value, urlParam: {key, value}});
+    } else if (key.includes(variantOption)) {
+      const [name, val] = value.split(':');
+      filters.push({variantOption: {name, value: val}});
+      appliedFilters.push({label: val, urlParam: {key, value}});
+    }
+  }
+
+  if (searchParams.has('minPrice') || searchParams.has('maxPrice')) {
+    const price = {};
+    if (searchParams.has('minPrice')) {
+      price.min = Number(searchParams.get('minPrice')) || 0;
+      appliedFilters.push({
+        label: `Min: $${price.min}`,
+        urlParam: {key: 'minPrice', value: searchParams.get('minPrice')},
+      });
+    }
+    if (searchParams.has('maxPrice')) {
+      price.max = Number(searchParams.get('maxPrice')) || 0;
+      appliedFilters.push({
+        label: `Max: $${price.max}`,
+        urlParam: {key: 'maxPrice', value: searchParams.get('maxPrice')},
+      });
+    }
+    filters.push({
+      price,
+    });
+  }
 
   if (!handle) {
     return redirect('/collections');
   }
 
   const {collection} = await storefront.query(COLLECTION_QUERY, {
-    variables: {handle, ...paginationVariables},
+    variables: {
+      handle,
+      ...paginationVariables,
+      filters,
+      sortKey,
+      reverse,
+      language: context.storefront.i18n.language,
+    },
   });
 
   if (!collection) {
@@ -38,38 +95,181 @@ export async function loader({request, params, context}) {
       status: 404,
     });
   }
-  return json({collection});
+  const seo = seoPayload.collection({collection, url: request.url});
+
+  return json({
+    collection,
+    appliedFilters,
+    analytics: {
+      pageType: AnalyticsPageType.collection,
+      collectionHandle,
+      resourceId: collection.id,
+    },
+    seo,
+  });
 }
 
 export default function Collection() {
-  /** @type {LoaderReturnData} */
-  const {collection} = useLoaderData();
+  const {collection, appliedFilters} = useLoaderData();
+  const {products, image, handle, title} = collection;
+  console.log('collection', collection);
 
   return (
-    <div className="collection">
-      <h1>{collection.title}</h1>
-      <p className="collection-description">{collection.description}</p>
-      <Pagination connection={collection.products}>
-        {({nodes, isLoading, PreviousLink, NextLink}) => (
-          <>
-            <PreviousLink>
-              {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-            </PreviousLink>
-            <ProductsGrid products={nodes} />
-            <br />
-            <NextLink>
-              {isLoading ? 'Loading...' : <span>Load more ↓</span>}
-            </NextLink>
-          </>
-        )}
-      </Pagination>
-    </div>
+    <main className="abt_sec">
+      <section className="main_arrivals">
+        <div>
+          <div className="main_arrivals_banner">
+            <div className="arrivals_banner_img">
+              <img src={NewArrival} alt="" />
+              <div className="arrivals_content flex align_center justify_center">
+                <h2>{title}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container">
+          <div className="spacer">
+            <div className="main_filter flex">
+              <Filter filters={products.filters} />
+
+              <div className="right_filter">
+                <div className="right_filter_head flex justify_between">
+                  <h4>{products.nodes.length} Products</h4>
+                  <select name="" id="">
+                    <option value="">Sort By</option>
+                  </select>
+                </div>
+
+                <Pagination connection={products}>
+                  {({nodes, isLoading, PreviousLink, NextLink}) => (
+                    <>
+                      <div className="main_product flex">
+                        {nodes.map((product, i) => {
+                          console.log('product', product);
+                          return (
+                            <ProductCard
+                              key={product.id}
+                              loading={getImageLoadingPriority(i)}
+                              product={product}
+                            />
+                          );
+                        })}
+                      </div>
+                      {!isLoading && (
+                        <>
+                          <PreviousLink>
+                            <button className="btn">Previous</button>
+                          </PreviousLink>
+
+                          <NextLink>
+                            <button className="btn">Load More</button>
+                          </NextLink>
+                        </>
+                      )}
+                    </>
+                  )}
+                </Pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container">
+          <div className="sfpacer">
+            <div className="main_health flex align_center justify_center">
+              <div className="health">
+                {/* <img src={Health2} alt="" /> */}
+                <div className="health_content">
+                  <h4>100% Hand Made</h4>
+                  <p>
+                    These handmade Herbal are loaded with anti-bacterial and
+                    anti-inflammatory properties.
+                  </p>
+                </div>
+              </div>
+              <div className="health">
+                {/* <img src={Health3} alt="" /> */}
+                <div className="health_content">
+                  <h4>1000 year old tradition</h4>
+                  <p>
+                    These handmade Herbal are loaded with anti-bacterial and
+                    anti-inflammatory properties.
+                  </p>
+                </div>
+              </div>
+              <div className="health">
+                {/* <img src={Health4} alt="" /> */}
+                <div className="health_content">
+                  <h4>Live Long & Healthy</h4>
+                  <p>
+                    These handmade Herbal are loaded with anti-bacterial and
+                    anti-inflammatory properties.
+                  </p>
+                </div>
+              </div>
+              <div className="health">
+                {/* <img src={Health1} alt="" /> */}
+                <div className="health_content">
+                  <h4>Balanced Life</h4>
+                  <p>
+                    These handmade Herbal are loaded with anti-bacterial and
+                    anti-inflammatory properties.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container">
+          <div className="spacer">
+            <div className="main_discount_banner flex align_center">
+              <div className="discount_vector">
+                {/* <img src={Discount} alt="" /> */}
+              </div>
+              <div className="discount_content">
+                <h4>Do you want a 10% discount for your first purchase?</h4>
+                <p>Join our newsletter and get discount</p>
+                <input type="email" placeholder="Enter your email address" />
+                <div className="discount_btn">
+                  <a href="#" className="btn">
+                    Subscribe
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    // <div className="collection">
+    //   <h1>{collection.title}</h1>
+    //   <p className="collection-description">{collection.description}</p>
+    //   <Pagination connection={collection.products}>
+    //     {({nodes, isLoading, PreviousLink, NextLink}) => (
+    //       <>
+    //         <PreviousLink>
+    //           {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
+    //         </PreviousLink>
+    //         <ProductsGrid products={nodes} />
+    //         <br />
+    //         <NextLink>
+    //           {isLoading ? 'Loading...' : <span>Load more ↓</span>}
+    //         </NextLink>
+    //       </>
+    //     )}
+    //   </Pagination>
+    // </div>
   );
 }
 
-/**
- * @param {{products: ProductItemFragment[]}}
- */
 function ProductsGrid({products}) {
   return (
     <div className="products-grid">
@@ -86,12 +286,6 @@ function ProductsGrid({products}) {
   );
 }
 
-/**
- * @param {{
- *   product: ProductItemFragment;
- *   loading?: 'eager' | 'lazy';
- * }}
- */
 function ProductItem({product, loading}) {
   const variant = product.variants.nodes[0];
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
@@ -119,78 +313,110 @@ function ProductItem({product, loading}) {
   );
 }
 
-const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment MoneyProductItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment ProductItem on Product {
-    id
-    handle
-    title
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
-    }
-    priceRange {
-      minVariantPrice {
-        ...MoneyProductItem
-      }
-      maxVariantPrice {
-        ...MoneyProductItem
-      }
-    }
-    variants(first: 1) {
-      nodes {
-        selectedOptions {
-          name
-          value
-        }
-      }
-    }
-  }
-`;
-
-// NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
 const COLLECTION_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
-  query Collection(
+  query CollectionDetails(
     $handle: String!
-    $country: CountryCode
     $language: LanguageCode
+    $filters: [ProductFilter!]
+    $sortKey: ProductCollectionSortKeys!
+    $reverse: Boolean
     $first: Int
     $last: Int
     $startCursor: String
     $endCursor: String
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext(language: $language) {
     collection(handle: $handle) {
       id
       handle
       title
       description
+      seo {
+        description
+        title
+      }
+      image {
+        id
+        url
+        width
+        height
+        altText
+      }
       products(
         first: $first,
         last: $last,
         before: $startCursor,
-        after: $endCursor
+        after: $endCursor,
+        filters: $filters,
+        sortKey: $sortKey,
+        reverse: $reverse
       ) {
+        filters {
+          id
+          label
+          type
+          values {
+            id
+            label
+            count
+            input
+          }
+        }
         nodes {
-          ...ProductItem
+          ...ProductCard
         }
         pageInfo {
           hasPreviousPage
           hasNextPage
-          endCursor
           startCursor
+          endCursor
+        }
+      }
+    }
+    collections(first: 100) {
+      edges {
+        node {
+          title
+          handle
         }
       }
     }
   }
+  ${PRODUCT_CARD_FRAGMENT}
 `;
-
+function getSortValuesFromParam(sortParam) {
+  switch (sortParam) {
+    case 'price-high-low':
+      return {
+        sortKey: 'PRICE',
+        reverse: true,
+      };
+    case 'price-low-high':
+      return {
+        sortKey: 'PRICE',
+        reverse: false,
+      };
+    case 'best-selling':
+      return {
+        sortKey: 'BEST_SELLING',
+        reverse: false,
+      };
+    case 'newest':
+      return {
+        sortKey: 'CREATED',
+        reverse: true,
+      };
+    case 'featured':
+      return {
+        sortKey: 'MANUAL',
+        reverse: false,
+      };
+    default:
+      return {
+        sortKey: 'RELEVANCE',
+        reverse: false,
+      };
+  }
+}
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
 /** @template T @typedef {import('@remix-run/react').MetaFunction<T>} MetaFunction */
 /** @typedef {import('storefrontapi.generated').ProductItemFragment} ProductItemFragment */

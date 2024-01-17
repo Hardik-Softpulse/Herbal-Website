@@ -16,7 +16,15 @@ import {useEffect, useRef, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Link} from '@remix-run/react';
 
-export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
+export function Layout({
+  layout,
+  children,
+  menu,
+  setMenu,
+  miniCart,
+  setMiniCart,
+}) {
+  const {headerMenu, footerMenu} = layout;
   const [contentLoaded, setContentLoaded] = useState(false);
 
   useEffect(() => {
@@ -30,21 +38,23 @@ export function Layout({children, menu, setMenu, miniCart, setMiniCart}) {
   return contentLoaded ? (
     <>
       <Header
+        header={headerMenu}
         menu={menu}
         setMenu={setMenu}
         miniCart={miniCart}
         setMiniCart={setMiniCart}
       />
       <>{children}</>
-      <Footer />
+      <Footer footer={footerMenu} />
     </>
   ) : (
     <span className="loader"></span>
   );
 }
 
-function Header({menu, setMenu, miniCart, setMiniCart}) {
+function Header({header, menu, setMenu, miniCart, setMiniCart}) {
   const [hideNav, setHideNav] = useState(false);
+  const [subMenu, setSubMenu] = useState(false);
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -142,21 +152,46 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
             <nav>
               <div className="main_menu">
                 <ul className="flex align_center">
-                  <li>
-                    <a href="#">Shop</a>
-                  </li>
-                  <li>
-                    <a href="#">Learn</a>
-                  </li>
-                  <li>
-                    <a href="about.html">About</a>
-                  </li>
-                  <li>
-                    <a href="#">Meet your herbs</a>
-                  </li>
-                  <li>
-                    <a href="/blog">Blogs </a>
-                  </li>
+                  {(header?.items || []).map((item) => {
+                    return (
+                      <li key={item.id}>
+                        <Link
+                          to={item.to}
+                          target={item.target}
+                          onClick={() => {
+                            handleMenu(item.title);
+                          }}
+                        >
+                          {item.title}
+                        </Link>
+                        {item.items != 0 && (
+                          <span onClick={() => setSubMenu(!subMenu)}>
+                            <svg
+                              aria-hidden="true"
+                              focusable="false"
+                              viewBox="0 0 10 6"
+                              width="11px"
+                              height="11px"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z"
+                                fill="currentColor"
+                              ></path>
+                            </svg>
+                          </span>
+                        )}
+
+                        {subMenu &&
+                          item.items?.map((menuItem) => (
+                            <div key={menuItem.id}>
+                              <a href={menuItem.to}>{menuItem.title}</a>
+                            </div>
+                          ))}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </nav>
@@ -393,7 +428,7 @@ function Header({menu, setMenu, miniCart, setMiniCart}) {
   );
 }
 
-function Footer() {
+function Footer({footer}) {
   return (
     <footer>
       <div className="container">
@@ -549,78 +584,17 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="foot2">
-            <h5>Company</h5>
-            <p>
-              <a href="#">Meet the team</a>
-            </p>
-            <p>
-              <a href="#">Careers</a>
-            </p>
-            <p>
-              <a href="#">Media Room</a>
-            </p>
-            <p>
-              <a href="#">Retailer Resources</a>
-            </p>
-            <p>
-              <a href="#">Healthcare Professionals</a>
-            </p>
-            <p>
-              <a href="#">Transparency in Coverage</a>
-            </p>
-          </div>
-          <div className="foot2">
-            <h5>Resources</h5>
-            <p>
-              <a href="#">Herb Reference Guide</a>
-            </p>
-            <p>
-              <a href="#">Meet Your Herbs</a>
-            </p>
-            <p>
-              <a href="#">Media Room</a>
-            </p>
-            <p>
-              <a href="#">Herbal FAQs</a>
-            </p>
-            <p>
-              <a href="#">Our Blog</a>
-            </p>
-          </div>
-          <div className="foot2">
-            <h5>About Herbal</h5>
-            <p>
-              <a href="#">Our Story</a>
-            </p>
-            <p>
-              <a href="#">Our Farm</a>
-            </p>
-            <p>
-              <a href="#">Quality & Sourcing</a>
-            </p>
-            <p>
-              <a href="#">Sustainability</a>
-            </p>
-            <p>
-              <a href="#">Social Impact</a>
-            </p>
-          </div>
-          <div className="foot2">
-            <h5>Support</h5>
-            <p>
-              <a href="#">Subscribe & Save</a>
-            </p>
-            <p>
-              <a href="#">Shipping</a>
-            </p>
-            <p>
-              <a href="#">Returns</a>
-            </p>
-            <p>
-              <a href="#">Contact Us</a>
-            </p>
-          </div>
+
+          {(footer?.items || []).map((item) => (
+            <div className="foot2" key={item.id}>
+              <h5>{item.title}</h5>
+              {item.items.map((subItem) => (
+                <p key={subItem.id}>
+                  <FooterLink key={subItem.id} item={subItem} />
+                </p>
+              ))}
+            </div>
+          ))}
         </div>
         <div className="footer_bottom flex align_center justify_between">
           <div className="services flex">
@@ -628,7 +602,7 @@ function Footer() {
             <a href="#">Privacy</a>
             <a href="#">Disclaimer</a>
             <a href="#">Accessibility</a>
-            <a href="#">Return Policy</a>
+            <a href="/return_policy">Return Policy</a>
           </div>
           <div className="services flex">
             <img src={Card1} alt="" />
@@ -669,6 +643,22 @@ function AccountLink() {
           strokeLinejoin="round"
         />
       </svg>
+    </Link>
+  );
+}
+
+function FooterLink({item}) {
+  if (item.to.startsWith('http')) {
+    return (
+      <a href={item.to} target={item.target} rel="noopener noreferrer">
+        {item.title}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={item.to} target={item.target} prefetch="intent">
+      {item.title}
     </Link>
   );
 }

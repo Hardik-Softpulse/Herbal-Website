@@ -1,39 +1,204 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
-import {Suspense} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
-import { Banner, BestSeller, HelthBanner, Hero, ImgBanner, NewArrival, Newsletter, OurCollection, ReviewSection } from '~/components';
+import {Suspense, useState} from 'react';
+import {Image, Money, getPaginationVariables} from '@shopify/hydrogen';
+import {
+  Banner,
+  HelthBanner,
+  Hero,
+  ImgBanner,
+  NewArrival,
+  Newsletter,
+  OurCollection,
+  ReviewSection,
+} from '~/components';
+import jsonData from '../../db.json';
 
-/**
- * @type {MetaFunction}
- */
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
 };
 
-/**
- * @param {LoaderFunctionArgs}
- */
-export async function loader({context}) {
+export async function loader({request, context}) {
   const {storefront} = context;
-  const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
-  const featuredCollection = collections.nodes[0];
-  const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
+  const paginationVariables = getPaginationVariables(request, {
+    pageBy: 10,
+  });
 
-  return defer({featuredCollection, recommendedProducts});
+  const {collections} = await storefront.query(COLLECTIONS_QUERY, {
+    variables: paginationVariables,
+  });
+  const recommendedProduct = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
+
+  const {sections} = jsonData;
+  const {featured_collection_BA3iCE, featured_collection_iiKYDe} = sections;
+  const collectionHandle = featured_collection_BA3iCE.settings.collection;
+  const collHandle = featured_collection_iiKYDe.settings.collection;
+
+  const SINGLE_COLLECTION_QUERY = `#graphql
+  query getCollectionByHandle($handle: String!, $language: LanguageCode) @inContext(language: $language) {
+  collection(handle: $handle) {
+    id
+    title
+    handle
+    description
+    products(first: ${featured_collection_BA3iCE.settings.products_to_show}) {
+      nodes {
+        id
+        title
+        description
+        publishedAt
+        handle
+        vendor
+        variants(first: 1) {
+          nodes {
+            id
+            availableForSale
+            image {
+              url
+              altText
+              width
+              height
+            }
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+            selectedOptions {
+              name
+              value
+            }
+            product {
+              handle
+              title
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+  const SINGLE_COLLECTION = `#graphql
+query getCollectionByHandle($handle: String!, $language: LanguageCode) @inContext(language: $language) {
+collection(handle: $handle) {
+  id
+  title
+  handle
+  description
+  products(first: ${featured_collection_iiKYDe.settings.products_to_show}) {
+    nodes {
+      id
+      title
+      description
+      publishedAt
+      handle
+      vendor
+      variants(first: 1) {
+        nodes {
+          id
+          availableForSale
+          image {
+            url
+            altText
+            width
+            height
+          }
+          price {
+            amount
+            currencyCode
+          }
+          compareAtPrice {
+            amount
+            currencyCode
+          }
+          selectedOptions {
+            name
+            value
+          }
+          product {
+            handle
+            title
+          }
+        }
+      }
+    }
+  }
+}
+}
+`;
+
+  return defer({
+    collections,
+    recommendedProduct,
+    collection: storefront.query(SINGLE_COLLECTION_QUERY, {
+      variables: {
+        handle: collectionHandle,
+      },
+    }),
+    bestseller: storefront.query(SINGLE_COLLECTION, {
+      variables: {
+        handle: collHandle,
+      },
+    }),
+  });
 }
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
-  const data = useLoaderData();
+  const {collections, recommendedProduct, collection, bestseller} =
+    useLoaderData();
+
+  const [section, setSection] = useState(jsonData.sections);
+
+  const {
+    slideshow,
+    image_with_text_WnPBEa,
+    featured_collection_BA3iCE,
+    featured_collection_iiKYDe,
+    collage_WJfMLy,
+  } = section;
+
   return (
     <main>
-      <Hero />
+      <Hero slide={slideshow} />
       <OurCollection />
-      <NewArrival />
-      <Banner />
-      <ImgBanner />
-      <BestSeller />
+      {collection && (
+        <Suspense>
+          <Await resolve={collection}>
+            {({collection}) => {
+              return (
+                <NewArrival
+                  product={collection.products.nodes}
+                  title={featured_collection_BA3iCE.settings.title}
+                  count={featured_collection_BA3iCE.settings.products_to_show}
+                />
+              );
+            }}
+          </Await>
+        </Suspense>
+      )}
+      <Banner banner={image_with_text_WnPBEa} />
+      <ImgBanner collection={collections.nodes} collage={collage_WJfMLy} />
+      {bestseller && (
+        <Suspense>
+          <Await resolve={bestseller}>
+            {({collection}) => {
+              return (
+                <NewArrival
+                  product={collection.products.nodes}
+                  title={featured_collection_iiKYDe.settings.title}
+                  count={featured_collection_iiKYDe.settings.products_to_show}
+                />
+              );
+            }}
+          </Await>
+        </Suspense>
+      )}
       <HelthBanner />
       <ReviewSection />
       <Newsletter />
@@ -64,11 +229,6 @@ function FeaturedCollection({collection}) {
   );
 }
 
-/**
- * @param {{
- *   products: Promise<RecommendedProductsQuery>;
- * }}
- */
 function RecommendedProducts({products}) {
   return (
     <div className="recommended-products">
@@ -103,10 +263,11 @@ function RecommendedProducts({products}) {
   );
 }
 
-const FEATURED_COLLECTION_QUERY = `#graphql
-  fragment FeaturedCollection on Collection {
+const COLLECTIONS_QUERY = `#graphql
+  fragment Collection on Collection {
     id
     title
+    handle
     image {
       id
       url
@@ -114,13 +275,29 @@ const FEATURED_COLLECTION_QUERY = `#graphql
       width
       height
     }
-    handle
   }
-  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
+  query StoreCollections(
+    $country: CountryCode
+    $endCursor: String
+    $first: Int
+    $language: LanguageCode
+    $last: Int
+    $startCursor: String
+  ) @inContext(country: $country, language: $language) {
+    collections(
+      first: $first,
+      last: $last,
+      before: $startCursor,
+      after: $endCursor
+    ) {
       nodes {
-        ...FeaturedCollection
+        ...Collection
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
       }
     }
   }

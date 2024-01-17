@@ -1,7 +1,22 @@
-import ImgBanner2 from '../image/img-banner2.png'
-import ImgBanner1 from '../image/img-banner1.png'
+import ImgBanner2 from '../image/img-banner2.png';
+import ImgBanner1 from '../image/img-banner1.png';
 
-export function ImgBanner() {
+export function ImgBanner({collection, collage}) {
+  console.log('collage', collage);
+
+  const {blocks} = collage;
+  const {collection_cLNd8V, collection_eKCctF} = blocks;
+
+  const section1 = collection.find(
+    (type) => type.handle === collection_cLNd8V.settings?.collection,
+  );
+
+  const section2 = collection.find(
+    (type) => type.handle === collection_eKCctF.settings?.collection,
+  );
+
+  console.log('first', section1);
+
   return (
     <section className="img_banner_sec">
       <div className="container">
@@ -11,7 +26,7 @@ export function ImgBanner() {
               <div className="news_banner_img1">
                 <div className="news_img_wrap">
                   <img
-                    src={ImgBanner2}
+                    src={section1.image.url}
                     alt=""
                     height="690px"
                     width="690px"
@@ -19,11 +34,9 @@ export function ImgBanner() {
                 </div>
               </div>
               <div className="news_banner_content">
-                <p>Herbal products make you</p>
-                <h4>
-                  More Beautiful and <br /> confident every time.
-                </h4>
-                <a href="#" className="btn">
+                {/* <p>Herbal products make you</p> */}
+                <h4>{section1.title}</h4>
+                <a href={`/collections/${section1.handle}`} className="btn">
                   Shop Now
                 </a>
               </div>
@@ -31,15 +44,13 @@ export function ImgBanner() {
             <div className="banner_news">
               <div className="news_banner_img2">
                 <div className="news_img_wrap">
-                  <img src={ImgBanner1} alt="" />
+                  <img src={section2.image.url} alt="" />
                 </div>
               </div>
               <div className="news_banner_content2">
-                <p>Herbal products make you</p>
-                <h4>
-                  Healthy and fit everyday <br /> no need to gym
-                </h4>
-                <a href="#" className="btn">
+                {/* <p>Herbal products make you</p> */}
+                <h4>{section2.title}</h4>
+                <a href={`/collections/${section2.handle}`} className="btn">
                   Know More
                 </a>
               </div>
@@ -50,3 +61,4 @@ export function ImgBanner() {
     </section>
   );
 }
+

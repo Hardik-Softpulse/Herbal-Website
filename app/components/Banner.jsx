@@ -1,7 +1,10 @@
-import Medicine2 from '../image/medicine2.png'
-import Medicine1 from '../image/medicine1.png'
+import Medicine2 from '../image/medicine2.png';
+import Medicine1 from '../image/medicine1.png';
 
-export function Banner() {
+export function Banner({banner}) {
+  const {blocks} = banner;
+  const {heading_CmWefn, text_JUEM86, button_NtNXcH} = blocks;
+
   return (
     <section id="medicine_banner">
       <div className="medicine_banner">
@@ -12,16 +15,11 @@ export function Banner() {
             </div>
             <div className="medicine_content">
               <div className="section_title">
-                <h2>Herbal Medicine & Ayurveda</h2>
+                <h2>{heading_CmWefn.settings?.heading}</h2>
               </div>
-              <p>
-                Herbal Medicine is an interdisciplinary branch between Herbal
-                Medicine and Ayurveda and it covers all the fields of Herbal
-                Medicine related to Botany, Medicinal Plant Research,
-                Pharmacognosy, Phytochemistry, Phytotherapy, botanical
-                medicines, Ayurveda and Natural chemistry, Agriculture Science,
-                Unani Medicine, Biotechnology and Biochemistry.
-              </p>
+              <p
+                dangerouslySetInnerHTML={{__html: text_JUEM86.settings.text}}
+              ></p>
               <a href="#" className="btn">
                 Know More
               </a>

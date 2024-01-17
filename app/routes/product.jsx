@@ -479,7 +479,7 @@ function Product() {
                   <Swiper
                     modules={[Navigation, Pagination]}
                     pagination={pagination}
-                    navigation
+                    navigation={true}
                   >
                     <SwiperSlide>
                       <div className="review_pro">

@@ -21,15 +21,16 @@ export async function loader({request, context: {storefront}}) {
     throw new Response('No data found', {status: 404});
   }
 
-  const sitemap = generateSitemap({data, baseUrl: new URL(request.url).origin});
+  return new Response(
+    generateSitemap({data, baseUrl: new URL(request.url).origin}),
+    {
+      headers: {
+        'Content-Type': 'application/xml',
 
-  return new Response(sitemap, {
-    headers: {
-      'Content-Type': 'application/xml',
-
-      'Cache-Control': `max-age=${60 * 60 * 24}`,
+        'Cache-Control': `max-age=${60 * 60 * 24}`,
+      },
     },
-  });
+  );
 }
 
 /**

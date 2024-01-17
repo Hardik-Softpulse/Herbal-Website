@@ -3,7 +3,7 @@ export {Layout} from './Layout';
 // export {Drawer, useDrawer} from './Drawer';
 // export {Input} from './Input';
 // export {ProductGallery} from './ProductGallery';
-// export {ProductCard} from './ProductCard';
+export {ProductCard} from './ProductCard';
 // export {ProductSwimlane} from './ProductSwimlane';
 // export {Skeleton} from './Skeleton';
 // export {CountrySelector} from './CountrySelector';
@@ -25,12 +25,11 @@ export {NewArrival} from './NewArrival';
 export {OurCollection} from './OurCollection';
 // export {SectionProductCard} from './SectionProductCard';
 // export {OurBlogs} from './OurBlogs';
-export {BestSeller} from './BestSeller';
 // export * from './Icon';
 // export {FilterDrawer} from './FilterDrawer';
 // export {ReviewCard} from './Review/ReviewCard';
 // export {ResentlyView} from './ResentlyView';
-export {HelthBanner} from './HelthBanner'
-export {ImgBanner} from './ImgBanner'
-export {ReviewSection} from './ReviewSection'
-export {Newsletter} from './Newsletter'
+export {HelthBanner} from './HelthBanner';
+export {ImgBanner} from './ImgBanner';
+export {ReviewSection} from './ReviewSection';
+export {Newsletter} from './Newsletter';
