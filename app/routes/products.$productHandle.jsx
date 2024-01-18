@@ -166,70 +166,44 @@ function MainProductSection({section, product, selectedVariant, variants}) {
 
 function ProductImage({image}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  if (!image) {
-    return <div className="product-image" />;
-  }
+  // if (!image) {
+  //   return <div className="product-image" />;
+  // }
   return (
     <div className="left_product_detail">
-      <div className="left_pro_detail_slider">
-        <Swiper
-          thumbsSlider=""
-          id="product_detail_thumb"
-          modules={[Navigation, Thumbs]}
-          navigation={true}
-          loop={true}
-          direction="vertical"
-          spaceBetween={10}
-          slidesPerView={4}
-          slideToClickedSlide={true}
-          breakpoints={{
-            100: {
-              slidesPerView: 4,
-              spaceBetween: 10,
-              direction: 'horizontal',
-            },
-            767: {
-              slidesPerView: 4,
-              spaceBetween: 10,
-              direction: 'horizontal',
-            },
-            768: {
-              slidesPerView: 4,
-              spaceBetween: 10,
-              direction: 'vertical',
-            },
-          }}
-          onSwiper={setThumbsSwiper}
-        >
-          {image.nodes?.map((img) => {
-            <SwiperSlide key={img.id}>
-              <div className="pro_thumb_detail_img">
-                <Image
-                  src={img.image.url}
-                  alt="pro-detail"
-                  height="120px"
-                  width="120px"
-                />
-              </div>
-            </SwiperSlide>;
-          })}
-        </Swiper>
-      </div>
-
+    <div className="left_pro_detail_slider">
       <Swiper
-        id="product_detail"
-        modules={[Thumbs]}
-        thumbs={{
-          swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
-        }}
+        thumbsSlider=""
+        id="product_detail_thumb"
+        modules={[Navigation, Thumbs]}
+        navigation={true}
         loop={true}
+        direction="vertical"
         spaceBetween={10}
-        slidesPerView={1}
-        effect="fade"
+        slidesPerView={4}
+        slideToClickedSlide={true}
+        breakpoints={{
+          100: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            direction: 'horizontal',
+          },
+          767: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            direction: 'horizontal',
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            direction: 'vertical',
+          },
+        }}
+        onSwiper={setThumbsSwiper}
       >
-        {image.nodes?.map((img) => {
+        {image.nodes?.map((img) => (
           <SwiperSlide key={img.id}>
-            <div className="pro_detail_img">
+            <div className="pro_thumb_detail_img">
               <Image
                 src={img.image.url}
                 alt="pro-detail"
@@ -237,10 +211,36 @@ function ProductImage({image}) {
                 width="120px"
               />
             </div>
-          </SwiperSlide>;
-        })}
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
+
+    <Swiper
+      id="product_detail"
+      modules={[Thumbs]}
+      thumbs={{
+        swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+      }}
+      loop={true}
+      spaceBetween={10}
+      slidesPerView={1}
+      effect="fade"
+    >
+      {image.nodes?.map((img) => (
+        <SwiperSlide key={img.id}>
+          <div className="pro_detail_img">
+            <Image
+              src={img.image.url}
+              alt="pro-detail"
+              height="120px"
+              width="120px"
+            />
+          </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </div>
   );
 }
 
@@ -357,7 +357,7 @@ function ProductForm({variants}) {
           {selectedVariant && (
             <>
               {isOutOfStock ? (
-                <button disabled={isOutOfStock}>
+                <button className="btn" disabled={isOutOfStock}>
                   <span>Sold out</span>
                 </button>
               ) : (
