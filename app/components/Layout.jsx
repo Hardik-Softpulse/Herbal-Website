@@ -95,6 +95,7 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearInterval(scrollInterval);
+      
     };
   }, []);
 
@@ -185,7 +186,7 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
 
                         {subMenu &&
                           item.items?.map((menuItem) => (
-                            <div key={menuItem.id}>
+                            <div className="hdr_sub_menu" key={menuItem.id}>
                               <a href={menuItem.to}>{menuItem.title}</a>
                             </div>
                           ))}
