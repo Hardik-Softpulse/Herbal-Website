@@ -19,7 +19,7 @@ export {Hero} from './Hero';
 // export {SortFilter} from './SortFilter';
 // export {Grid} from './Grid';
 // export {FeaturedProducts} from './FeaturedProducts';
-// export {AddToCartButton} from './AddToCartButton';
+export {AddToCartButton} from './AddToCartButton';
 export {Banner} from './Banner';
 export {NewArrival} from './NewArrival';
 export {OurCollection} from './OurCollection';

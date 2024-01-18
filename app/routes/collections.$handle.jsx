@@ -1,17 +1,19 @@
 import {json, redirect} from '@shopify/remix-oxygen';
-import {useLoaderData, Link} from '@remix-run/react';
+import {
+  useLoaderData,
+  useLocation,
+  useSearchParams,
+  useNavigate,
+} from '@remix-run/react';
 import {
   Pagination,
   getPaginationVariables,
-  Image,
-  Money,
   AnalyticsPageType,
 } from '@shopify/hydrogen';
-import {useVariantUrl} from '~/utils';
 import Filter from '../components/Filter';
 import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {seoPayload} from '~/lib/seo.server';
-import NewArrival from '../image/NewArrivals.png';
+import NewArrival from '../image/women-coll.jpg';
 import {ProductCard} from '../components';
 import {getImageLoadingPriority} from '~/lib/const';
 
@@ -113,6 +115,45 @@ export default function Collection() {
   const {collection, appliedFilters} = useLoaderData();
   const {products, image, handle, title} = collection;
   console.log('collection', collection);
+  const items = [
+    {label: 'Featured', key: 'featured'},
+    {
+      label: 'Price: Low - High',
+      key: 'price-low-high',
+    },
+    {
+      label: 'Price: High - Low',
+      key: 'price-high-low',
+    },
+    {
+      label: 'Best Selling',
+      key: 'best-selling',
+    },
+    {
+      label: 'Newest',
+      key: 'newest',
+    },
+  ];
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const activeItem = items.find((item) => item.key === params.get('sort'));
+
+  const handleSortChange = (event) => {
+    const selectedSortOption = event.target.value;
+    navigateToSort(selectedSortOption);
+  };
+
+  const navigateToSort = (selectedSortOption) => {
+    const newUrl = getSortLink(selectedSortOption);
+    navigate(newUrl);
+  };
+
+  const getSortLink = (sort) => {
+    const params = new URLSearchParams(location.search);
+    params.set('sort', sort);
+    return `${location.pathname}?${params.toString()}`;
+  };
 
   return (
     <main className="abt_sec">
@@ -133,13 +174,25 @@ export default function Collection() {
         <div className="container">
           <div className="spacer">
             <div className="main_filter flex">
-              <Filter filters={products.filters} />
+              <Filter
+                filters={products.filters}
+                appliedFilters={appliedFilters}
+              />
 
               <div className="right_filter">
                 <div className="right_filter_head flex justify_between">
                   <h4>{products.nodes.length} Products</h4>
-                  <select name="" id="">
-                    <option value="">Sort By</option>
+                  <select
+                    name="sort_filter"
+                    id="sort_filter"
+                    value={activeItem ? activeItem.key : ''}
+                    onChange={handleSortChange}
+                  >
+                    {items.map((item) => (
+                      <option key={item.key} value={item.key}>
+                        {item.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -148,7 +201,6 @@ export default function Collection() {
                     <>
                       <div className="main_product flex">
                         {nodes.map((product, i) => {
-                          console.log('product', product);
                           return (
                             <ProductCard
                               key={product.id}
@@ -249,67 +301,6 @@ export default function Collection() {
         </div>
       </section>
     </main>
-    // <div className="collection">
-    //   <h1>{collection.title}</h1>
-    //   <p className="collection-description">{collection.description}</p>
-    //   <Pagination connection={collection.products}>
-    //     {({nodes, isLoading, PreviousLink, NextLink}) => (
-    //       <>
-    //         <PreviousLink>
-    //           {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-    //         </PreviousLink>
-    //         <ProductsGrid products={nodes} />
-    //         <br />
-    //         <NextLink>
-    //           {isLoading ? 'Loading...' : <span>Load more ↓</span>}
-    //         </NextLink>
-    //       </>
-    //     )}
-    //   </Pagination>
-    // </div>
-  );
-}
-
-function ProductsGrid({products}) {
-  return (
-    <div className="products-grid">
-      {products.map((product, index) => {
-        return (
-          <ProductItem
-            key={product.id}
-            product={product}
-            loading={index < 8 ? 'eager' : undefined}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-function ProductItem({product, loading}) {
-  const variant = product.variants.nodes[0];
-  const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
-  return (
-    <Link
-      className="product-item"
-      key={product.id}
-      prefetch="intent"
-      to={variantUrl}
-    >
-      {product.featuredImage && (
-        <Image
-          alt={product.featuredImage.altText || product.title}
-          aspectRatio="1/1"
-          data={product.featuredImage}
-          loading={loading}
-          sizes="(min-width: 45em) 400px, 100vw"
-        />
-      )}
-      <h4>{product.title}</h4>
-      <small>
-        <Money data={product.priceRange.minVariantPrice} />
-      </small>
-    </Link>
   );
 }
 

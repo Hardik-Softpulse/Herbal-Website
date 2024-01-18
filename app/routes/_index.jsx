@@ -12,7 +12,7 @@ import {
   OurCollection,
   ReviewSection,
 } from '~/components';
-import jsonData from '../../db.json';
+import jsonData from '../json/db.json';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
