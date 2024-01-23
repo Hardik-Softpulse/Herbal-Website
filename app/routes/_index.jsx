@@ -277,13 +277,12 @@ const COLLECTIONS_QUERY = `#graphql
     }
   }
   query StoreCollections(
-    $country: CountryCode
     $endCursor: String
     $first: Int
     $language: LanguageCode
     $last: Int
     $startCursor: String
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext(language: $language) {
     collections(
       first: $first,
       last: $last,
@@ -324,8 +323,8 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       }
     }
   }
-  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
+  query RecommendedProducts ( $language: LanguageCode)
+    @inContext( language: $language) {
     products(first: 4, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...RecommendedProduct

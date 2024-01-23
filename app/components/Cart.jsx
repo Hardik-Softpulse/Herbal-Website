@@ -1,21 +1,35 @@
 import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
-import {useVariantUrl} from '~/utils';
+import cross from '../image/cross.png';
 
-/**
- * @param {CartMainProps}
- */
-export function CartMain({layout, cart}) {
-  const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
-  const withDiscount =
-    cart &&
-    Boolean(cart.discountCodes.filter((code) => code.applicable).length);
-  const className = `cart-main ${withDiscount ? 'with-discount' : ''}`;
+export function CartMain({layout, cart, miniCart, setMiniCart}) {
+  console.log('cart', cart);
+  const linesCount = Boolean(cart?.lines?.edges?.length || 0);
 
+  console.log('lin', linesCount);
+  const cartHasItems = !!cart && cart.totalQuantity > 0;
   return (
-    <div className={className}>
+    <div class="mini_cart">
+      <div class="cart_heading">
+        <div class="cart_title flex justify_between">
+          <h3>Cart ({cart?.lines?.edges?.length})</h3>
+          <button class="close_cart" onClick={() => setMiniCart(!miniCart)}>
+            <img src={cross} alt="" />
+          </button>
+        </div>
+        <div class="cart_head">
+          <p>Your cart is reserved for 15.00 minutes</p>
+        </div>
+      </div>
       <CartEmpty hidden={linesCount} layout={layout} />
       <CartDetails cart={cart} layout={layout} />
+      {cartHasItems && (
+        <CartSummary
+          cost={cart.cost}
+          layout={layout}
+          checkoutUrl={cart.checkoutUrl}
+        />
+      )}
     </div>
   );
 }
@@ -24,144 +38,155 @@ export function CartMain({layout, cart}) {
  * @param {CartMainProps}
  */
 function CartDetails({layout, cart}) {
-  const cartHasItems = !!cart && cart.totalQuantity > 0;
-
   return (
-    <div className="cart-details">
+    <div class="cart_scroll">
       <CartLines lines={cart?.lines} layout={layout} />
-      {cartHasItems && (
-        <CartSummary cost={cart.cost} layout={layout}>
-          <CartDiscounts discountCodes={cart.discountCodes} />
-          <CartCheckoutActions checkoutUrl={cart.checkoutUrl} />
-        </CartSummary>
-      )}
     </div>
   );
 }
 
-/**
- * @param {{
- *   layout: CartMainProps['layout'];
- *   lines: CartApiQueryFragment['lines'] | undefined;
- * }}
- */
 function CartLines({lines, layout}) {
   if (!lines) return null;
 
   return (
-    <div aria-labelledby="cart-lines">
-      <ul>
-        {lines.nodes.map((line) => (
-          <CartLineItem key={line.id} line={line} layout={layout} />
-        ))}
-      </ul>
+    <div class="main_cart_product">
+      {lines.edges?.map((line) => (
+        <CartLineItem key={line.id} line={line} layout={layout} />
+      ))}
     </div>
   );
 }
 
-/**
- * @param {{
- *   layout: CartMainProps['layout'];
- *   line: CartLine;
- * }}
- */
 function CartLineItem({layout, line}) {
-  const {id, merchandise} = line;
-  const {product, title, image, selectedOptions} = merchandise;
-  const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
+  console.log('line', line);
+  const {id, merchandise} = line.node;
+  const {image, product, title, price, compareAtPrice, availableForSale} =
+    merchandise;
+
+  const calculatePercentageDifference = (defcompareAtPrice, defprice) => {
+    if (
+      defcompareAtPrice !== null &&
+      defprice !== null &&
+      !isNaN(defcompareAtPrice) &&
+      !isNaN(defprice)
+    ) {
+      const percentageDifference =
+        ((defcompareAtPrice - defprice) / defcompareAtPrice) * 100;
+      return percentageDifference.toFixed(0);
+    } else {
+      return null;
+    }
+  };
+
+  const defcompareAtPrice = compareAtPrice?.amount;
+  const defprice = price?.amount;
+
+  const percentageDifferenceResult = calculatePercentageDifference(
+    defcompareAtPrice,
+    defprice,
+  );
 
   return (
-    <li key={id} className="cart-line">
-      {image && (
-        <Image
-          alt={title}
-          aspectRatio="1/1"
-          data={image}
-          height={100}
-          loading="lazy"
-          width={100}
-        />
-      )}
-
-      <div>
-        <Link
-          prefetch="intent"
-          to={lineItemUrl}
-          onClick={() => {
-            if (layout === 'aside') {
-              // close the drawer
-              window.location.href = lineItemUrl;
-            }
-          }}
-        >
-          <p>
-            <strong>{product.title}</strong>
-          </p>
-        </Link>
-        <CartLinePrice line={line} as="span" />
-        <ul>
-          {selectedOptions.map((option) => (
-            <li key={option.name}>
-              <small>
-                {option.name}: {option.value}
-              </small>
-            </li>
-          ))}
-        </ul>
-        <CartLineQuantity line={line} />
+    <div class="cart_product flex">
+      <div class="cart_product_img">
+        {image && (
+          <Link to={`/products/${product.handle}`}>
+            <Image alt={image.url} data={image} />
+          </Link>
+        )}
       </div>
-    </li>
+      <div class="cart_product_content flex justify_between">
+        <div class="cart_product_info">
+          <p>{product.title}</p>
+          <div class="cart_product_price flex">
+            <h5>
+              <Money withoutTrailingZeros data={price} />
+            </h5>
+            <s>
+              <Money withoutTrailingZeros data={compareAtPrice} />
+            </s>
+            {compareAtPrice === null
+              ? ''
+              : availableForSale == true && (
+                  <span>{`${percentageDifferenceResult}%  off`}</span>
+                )}
+          </div>
+          <div class="cart_product_count">
+            <div class="num-block skin-2">
+              <div class="num-in">
+                <span class="minus dis"></span>
+                <input type="text" class="in-num" value="1" readonly="" />
+                <span class="plus"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <CartLineRemoveButton lineIds={id} />
+      </div>
+    </div>
   );
 }
 
-/**
- * @param {{checkoutUrl: string}}
- */
 function CartCheckoutActions({checkoutUrl}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
+    <div class="cart_checkout_btn">
       <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+        <button>Checkout</button>
       </a>
-      <br />
     </div>
   );
 }
 
-/**
- * @param {{
- *   children?: React.ReactNode;
- *   cost: CartApiQueryFragment['cost'];
- *   layout: CartMainProps['layout'];
- * }}
- */
-export function CartSummary({cost, layout, children = null}) {
-  const className =
-    layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
+export function CartSummary({cost, layout, checkoutUrl}) {
+  const originalSubtotal = cost?.subtotalAmount?.amount || 0;
+  const originalTotal = cost?.totalAmount?.amount || 0;
+
+  const discountAmount = originalSubtotal - originalTotal;
+  const discountAmountNumber = parseFloat(discountAmount);
+  const discountPrice = {
+    amount: discountAmountNumber.toString(),
+    currencyCode: 'USD',
+  };
 
   return (
-    <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
-      <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
-        <dd>
-          {cost?.subtotalAmount?.amount ? (
-            <Money data={cost?.subtotalAmount} />
-          ) : (
-            '-'
-          )}
-        </dd>
-      </dl>
-      {children}
+    <div class="cart_check_out">
+      <div class="cart_discount flex justify_between">
+        <p>Discount</p>
+        <p>
+          <Money data={discountPrice} />
+        </p>
+      </div>
+      <div class="cart_total flex justify_between">
+        <p>Subtotal</p>
+        <div class="total_price">
+          <s>
+            {cost?.subtotalAmount?.amount ? (
+              <Money data={cost?.subtotalAmount} />
+            ) : (
+              '-'
+            )}
+          </s>
+          <span>
+            {cost?.totalAmount?.amount ? (
+              <Money data={cost?.totalAmount} />
+            ) : (
+              '-'
+            )}
+          </span>
+        </div>
+      </div>
+      <div className="product_cross_img">
+        <CartCheckoutActions checkoutUrl={checkoutUrl} />
+      </div>
+      <p class="cart_p">
+        Shipping cost and coupon code apply on checkout page*
+      </p>
     </div>
   );
 }
 
-/**
- * @param {{lineIds: string[]}}
- */
 function CartLineRemoveButton({lineIds}) {
   return (
     <CartForm
@@ -169,14 +194,13 @@ function CartLineRemoveButton({lineIds}) {
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button type="submit">Remove</button>
+      <button value="Checkout">
+        <img src={cross} alt="" />
+      </button>
     </CartForm>
   );
 }
 
-/**
- * @param {{line: CartLine}}
- */
 function CartLineQuantity({line}) {
   if (!line || typeof line?.quantity === 'undefined') return null;
   const {id: lineId, quantity} = line;
@@ -207,43 +231,10 @@ function CartLineQuantity({line}) {
         </button>
       </CartLineUpdateButton>
       &nbsp;
-      <CartLineRemoveButton lineIds={[lineId]} />
     </div>
   );
 }
 
-/**
- * @param {{
- *   line: CartLine;
- *   priceType?: 'regular' | 'compareAt';
- *   [key: string]: any;
- * }}
- */
-function CartLinePrice({line, priceType = 'regular', ...passthroughProps}) {
-  if (!line?.cost?.amountPerQuantity || !line?.cost?.totalAmount) return null;
-
-  const moneyV2 =
-    priceType === 'regular'
-      ? line.cost.totalAmount
-      : line.cost.compareAtAmountPerQuantity;
-
-  if (moneyV2 == null) {
-    return null;
-  }
-
-  return (
-    <div>
-      <Money withoutTrailingZeros {...passthroughProps} data={moneyV2} />
-    </div>
-  );
-}
-
-/**
- * @param {{
- *   hidden: boolean;
- *   layout?: CartMainProps['layout'];
- * }}
- */
 export function CartEmpty({hidden = false, layout = 'aside'}) {
   return (
     <div hidden={hidden}>
@@ -267,11 +258,6 @@ export function CartEmpty({hidden = false, layout = 'aside'}) {
   );
 }
 
-/**
- * @param {{
- *   discountCodes: CartApiQueryFragment['discountCodes'];
- * }}
- */
 function CartDiscounts({discountCodes}) {
   const codes =
     discountCodes
@@ -306,12 +292,6 @@ function CartDiscounts({discountCodes}) {
   );
 }
 
-/**
- * @param {{
- *   discountCodes?: string[];
- *   children: React.ReactNode;
- * }}
- */
 function UpdateDiscountForm({discountCodes, children}) {
   return (
     <CartForm
@@ -326,12 +306,6 @@ function UpdateDiscountForm({discountCodes, children}) {
   );
 }
 
-/**
- * @param {{
- *   children: React.ReactNode;
- *   lines: CartLineUpdateInput[];
- * }}
- */
 function CartLineUpdateButton({children, lines}) {
   return (
     <CartForm
@@ -343,14 +317,3 @@ function CartLineUpdateButton({children, lines}) {
     </CartForm>
   );
 }
-
-/** @typedef {CartApiQueryFragment['lines']['nodes'][0]} CartLine */
-/**
- * @typedef {{
- *   cart: CartApiQueryFragment | null;
- *   layout: 'page' | 'aside';
- * }} CartMainProps
- */
-
-/** @typedef {import('@shopify/hydrogen/storefront-api-types').CartLineUpdateInput} CartLineUpdateInput */
-/** @typedef {import('storefrontapi.generated').CartApiQueryFragment} CartApiQueryFragment */

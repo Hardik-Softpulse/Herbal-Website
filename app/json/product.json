@@ -12,23 +12,19 @@
         },
         "title": {
           "type": "title",
-          "settings": {
-          }
+          "settings": {}
         },
         "description": {
           "type": "description",
-          "settings": {
-          }
+          "settings": {}
         },
         "rating": {
           "type": "rating",
-          "settings": {
-          }
+          "settings": {}
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -38,8 +34,7 @@
         },
         "quantity_selector": {
           "type": "quantity_selector",
-          "settings": {
-          }
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -101,9 +96,9 @@
         "row_E86qJz": {
           "type": "row",
           "settings": {
-            "image": "shopify:\/\/shop_images\/slider-6-3.jpg",
+            "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/slider-6-3.jpg",
             "caption": "",
-            "heading": "Discover the Latest StylesforWomen",
+            "heading": "Discover the Latest Stylesfor Women",
             "text": "<p>From statement pieces to delicate designs, our collection has the perfect accessory to complement any outfit and elevate your look<\/p>",
             "button_label": "",
             "button_link": ""
@@ -112,7 +107,7 @@
         "row_CfWqBG": {
           "type": "row",
           "settings": {
-            "image": "shopify:\/\/shop_images\/home-banner-12.jpg",
+            "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/home-banner-12.jpg",
             "caption": "",
             "heading": "Fashion Forward Finds",
             "text": "<p>Latest Styles for Men and Women <\/p>",

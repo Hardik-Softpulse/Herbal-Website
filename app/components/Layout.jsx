@@ -1,10 +1,4 @@
 import logo from '../image/logo.png';
-import Cross from '../image/cross.png';
-import Cartp1 from '../image/cartp1.png';
-import Cartp2 from '../image/cartp2.png';
-import Croos2 from '../image/croos2.png';
-import Cart1 from '../image/cart1.png';
-import Cart2 from '../image/cart2.png';
 import Logo3 from '../image/Logo3.png';
 import Card1 from '../image/card1.png';
 import Card2 from '../image/card2.png';
@@ -12,9 +6,12 @@ import Card3 from '../image/card3.png';
 import Card4 from '../image/card4.png';
 import Card5 from '../image/card5.png';
 import Card6 from '../image/card6.png';
-import {useEffect, useRef, useState} from 'react';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import {Link} from '@remix-run/react';
+import {Suspense, useEffect, useRef, useState} from 'react';
+import {Await, Link, useMatches} from '@remix-run/react';
+import {CartMain} from './Cart.jsx';
+import {useCartFetchers} from '~/hooks/useCartFetchers';
+import {CartForm} from '@shopify/hydrogen';
+import {CartLoading} from './CartLoading';
 
 export function Layout({
   layout,
@@ -26,7 +23,7 @@ export function Layout({
 }) {
   const {headerMenu, footerMenu} = layout;
   const [contentLoaded, setContentLoaded] = useState(false);
-
+  
   useEffect(() => {
     const timeout = setTimeout(() => {
       setContentLoaded(true);
@@ -95,7 +92,6 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearInterval(scrollInterval);
-      
     };
   }, []);
 
@@ -226,201 +222,7 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
                 </a>
               </li>
               <AccountLink />
-              <li>
-                <a
-                  href=""
-                  className="flex shop_cart"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMiniCart(!miniCart);
-                  }}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clipPath="url(#clip0_239_7783)">
-                      <path
-                        d="M7.49935 18.3333C7.95959 18.3333 8.33268 17.9602 8.33268 17.5C8.33268 17.0398 7.95959 16.6667 7.49935 16.6667C7.03911 16.6667 6.66602 17.0398 6.66602 17.5C6.66602 17.9602 7.03911 18.3333 7.49935 18.3333Z"
-                        stroke="#1C6758"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M16.6673 18.3333C17.1276 18.3333 17.5007 17.9602 17.5007 17.5C17.5007 17.0398 17.1276 16.6667 16.6673 16.6667C16.2071 16.6667 15.834 17.0398 15.834 17.5C15.834 17.9602 16.2071 18.3333 16.6673 18.3333Z"
-                        stroke="#1C6758"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M0.833984 0.833344H4.16732L6.40065 11.9917C6.47686 12.3753 6.68558 12.72 6.99027 12.9653C7.29497 13.2105 7.67623 13.3408 8.06732 13.3333H16.1673C16.5584 13.3408 16.9397 13.2105 17.2444 12.9653C17.5491 12.72 17.7578 12.3753 17.834 11.9917L19.1673 5.00001H5.00065"
-                        stroke="#1C6758"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_239_7783">
-                        <rect width="20" height="20" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </a>
-                <div className={`mini_cart ${miniCart ? 'active' : ''}`}>
-                  <div className="cart_heading">
-                    <div className="cart_title flex justify_between">
-                      <h3>Cart (2)</h3>
-                      <button
-                        className="close_cart"
-                        onClick={() => setMiniCart(!miniCart)}
-                      >
-                        <img src={Cross} alt="" />
-                      </button>
-                    </div>
-                    <div className="cart_head">
-                      <p>Your cart is reserved for 15.00 minutes</p>
-                    </div>
-                  </div>
-                  <div className="cart_scroll">
-                    <div className="main_cart_product">
-                      <div className="cart_product flex">
-                        <div className="cart_product_img">
-                          <img src={Cartp1} alt="" />
-                        </div>
-                        <div className="cart_product_content flex justify_between">
-                          <div className="cart_product_info">
-                            <p>Full Moon Oil Cbd 20</p>
-                            <div className="cart_product_price flex">
-                              <h5>$19.00</h5>
-                              <s>$24.00</s>
-                              <span>20% off</span>
-                            </div>
-                            <div className="cart_product_count">
-                              <div className="num-block skin-2">
-                                <div className="num-in">
-                                  <span className="minus dis"></span>
-                                  <input
-                                    type="text"
-                                    className="in-num"
-                                    value="1"
-                                    readOnly
-                                  />
-                                  <span className="plus"></span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="product_cross_img">
-                            <img src={Croos2} alt="" />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="cart_product flex">
-                        <div className="cart_product_img">
-                          <img src={Cartp2} alt="" />
-                        </div>
-                        <div className="cart_product_content flex justify_between">
-                          <div className="cart_product_info">
-                            <p>Full Moon Oil Cbd 20</p>
-                            <div className="cart_product_price flex">
-                              <h5>$19.00</h5>
-                              <s>$24.00</s>
-                              <span>20% off</span>
-                            </div>
-                            <div className="cart_product_count flex">
-                              <div className="num-block skin-2">
-                                <div className="num-in">
-                                  <span className="minus dis"></span>
-                                  <input
-                                    type="text"
-                                    className="in-num"
-                                    value={1}
-                                    readOnly
-                                  />
-                                  <span className="plus"></span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="product_cross_img">
-                            <img src={Croos2} alt="" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="cart_related_product">
-                      <div className="cart_related_title">
-                        <h3>Related Product</h3>
-                      </div>
-                      <div id="cart_slider">
-                        <Swiper
-                          slidesPerView={2}
-                          centeredSlides={false}
-                          spaceBetween={20}
-                        >
-                          <SwiperSlide>
-                            <div className="cart_slider_img">
-                              <img src={Cart1} alt="" />
-                            </div>
-                            <div className="cart_slider_content">
-                              <h3>Full Moon Oil Cbd 20</h3>
-                            </div>
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <div className="cart_slider_img">
-                              <img src={Cart2} alt="" />
-                            </div>
-                            <div className="cart_slider_content">
-                              <h3>Full Moon Oil Cbd 20</h3>
-                            </div>
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <div className="cart_slider_img">
-                              <img src={Cart1} alt="" />
-                            </div>
-                            <div className="cart_slider_content">
-                              <h3>Full Moon Oil Cbd 20</h3>
-                            </div>
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <div className="cart_slider_img">
-                              <img src={Cart2} alt="" />
-                            </div>
-                            <div className="cart_slider_content">
-                              <h3>Full Moon Oil Cbd 20</h3>
-                            </div>
-                          </SwiperSlide>
-                        </Swiper>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="cart_check_out">
-                    <div className="cart_discount flex justify_between">
-                      <p>Discount</p>
-                      <p>$10.00</p>
-                    </div>
-                    <div className="cart_total flex justify_between">
-                      <p>Subtotal</p>
-                      <div className="total_price">
-                        <s>$48.00</s>
-                        <span>$38.00</span>
-                      </div>
-                    </div>
-                    <div className="cart_checkout_btn">
-                      <button>Checkout</button>
-                    </div>
-                    <p className="cart_p">
-                      Shipping cost and coupon code apply on checkout page*
-                    </p>
-                  </div>
-                </div>
-              </li>
+              <CartCount miniCart={miniCart} setMiniCart={setMiniCart} />
             </ul>
           </div>
         </div>
@@ -645,6 +447,104 @@ function AccountLink() {
         />
       </svg>
     </Link>
+  );
+}
+
+function CartCount({miniCart, setMiniCart}) {
+  const [root] = useMatches();
+
+  const addToCartFetchers = useCartFetchers(CartForm.ACTIONS.LinesAdd);
+
+  useEffect(() => {
+    if (miniCart || !addToCartFetchers.length) return;
+  }, [addToCartFetchers, miniCart]);
+
+  return (
+    <Suspense fallback={<Badge count={0} miniCart={miniCart} />}>
+      <Await resolve={root.data?.cart}>
+        {(cart) => (
+          <Badge
+            miniCart={miniCart}
+            setMiniCart={setMiniCart}
+            count={cart?.totalQuantity || 0}
+          />
+        )}
+      </Await>
+    </Suspense>
+  );
+}
+
+function Badge({miniCart, setMiniCart, count}) {
+  return (
+    <li>
+      <a
+        href=""
+        className="flex shop_cart"
+        onClick={(e) => {
+          e.preventDefault();
+          setMiniCart(!miniCart);
+        }}
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clipPath="url(#clip0_239_7783)">
+            <path
+              d="M7.49935 18.3333C7.95959 18.3333 8.33268 17.9602 8.33268 17.5C8.33268 17.0398 7.95959 16.6667 7.49935 16.6667C7.03911 16.6667 6.66602 17.0398 6.66602 17.5C6.66602 17.9602 7.03911 18.3333 7.49935 18.3333Z"
+              stroke="#1C6758"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M16.6673 18.3333C17.1276 18.3333 17.5007 17.9602 17.5007 17.5C17.5007 17.0398 17.1276 16.6667 16.6673 16.6667C16.2071 16.6667 15.834 17.0398 15.834 17.5C15.834 17.9602 16.2071 18.3333 16.6673 18.3333Z"
+              stroke="#1C6758"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M0.833984 0.833344H4.16732L6.40065 11.9917C6.47686 12.3753 6.68558 12.72 6.99027 12.9653C7.29497 13.2105 7.67623 13.3408 8.06732 13.3333H16.1673C16.5584 13.3408 16.9397 13.2105 17.2444 12.9653C17.5491 12.72 17.7578 12.3753 17.834 11.9917L19.1673 5.00001H5.00065"
+              stroke="#1C6758"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_239_7783">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <span>{count || 0}</span>
+      </a>
+      {miniCart && <MiniCart miniCart={miniCart} setMiniCart={setMiniCart} />}
+    </li>
+  );
+}
+
+function MiniCart({miniCart, setMiniCart}) {
+  const [root] = useMatches();
+
+  return (
+    <Suspense fallback={<CartLoading />}>
+      <Await resolve={root.data?.cart}>
+        {(cart) => (
+          <>
+            <CartMain
+              cart={cart}
+              miniCart={miniCart}
+              setMiniCart={setMiniCart}
+            />
+          </>
+        )}
+      </Await>
+    </Suspense>
   );
 }
 

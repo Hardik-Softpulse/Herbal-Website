@@ -12,7 +12,7 @@ import {
   getStorefrontHeaders,
   createCookieSessionStorage,
 } from '@shopify/remix-oxygen';
-
+import {getLocaleFromRequest} from '~/lib/utils';
 /**
  * Export a fetch handler in module format.
  */
@@ -43,7 +43,7 @@ export default {
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        i18n: {language: 'EN', country: 'US'},
+        i18n: getLocaleFromRequest(request),
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: env.PUBLIC_STORE_DOMAIN,
@@ -60,7 +60,6 @@ export default {
         storefront,
         getCartId: cartGetIdDefault(request.headers),
         setCartId: cartSetIdDefault(),
-        cartQueryFragment: CART_QUERY_FRAGMENT,
       });
 
       /**
@@ -164,7 +163,7 @@ export class HydrogenSession {
 // NOTE: https://shopify.dev/docs/api/storefront/latest/queries/cart
 const CART_QUERY_FRAGMENT = `#graphql
   fragment Money on MoneyV2 {
-    currencyCode
+
     amount
   }
   fragment CartLine on CartLine {

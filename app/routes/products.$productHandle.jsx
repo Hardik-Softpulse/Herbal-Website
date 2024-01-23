@@ -1,6 +1,6 @@
 import {Suspense, useState} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {Await, useLoaderData} from '@remix-run/react';
+import {Await, Link, useLoaderData} from '@remix-run/react';
 import data from '../json/product.json';
 import {
   Image,
@@ -8,6 +8,7 @@ import {
   VariantSelector,
   getSelectedProductOptions,
   AnalyticsPageType,
+  flattenConnection,
 } from '@shopify/hydrogen';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {Swiper, SwiperSlide} from 'swiper/react';
@@ -17,15 +18,17 @@ import Truck from '../image/truck.svg';
 import {routeHeaders} from '~/data/cache';
 import invariant from 'tiny-invariant';
 import {seoPayload} from '~/lib/seo.server';
-import {AddToCartButton} from '~/components';
+import {AddToCartButton, BestSeller, NewArrival} from '~/components';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
 };
 
 export const headers = routeHeaders;
+const BLOG_HANDLE = 'news';
 
 export async function loader({params, request, context}) {
+  const {language, country} = context.storefront.i18n;
   const {productHandle} = params;
   invariant(productHandle, 'Missing productHandle param, check route filename');
 
@@ -79,6 +82,36 @@ export async function loader({params, request, context}) {
     url: request.url,
   });
 
+  const data = context.storefront.query(FEATURED_ITEMS_QUERY, {
+    variables: {
+      language: context.storefront.i18n.language,
+    },
+  });
+
+  const {blog} = await context.storefront.query(BLOGS_ITEM, {
+    variables: {
+      blogHandle: BLOG_HANDLE,
+    },
+  });
+
+  if (!blog?.articles) {
+    throw new Response('Not found', {status: 404});
+  }
+
+  const articles = flattenConnection(blog.articles).map((article) => {
+    const {publishedAt} = article;
+    return {
+      ...article,
+      publishedAt: new Intl.DateTimeFormat(`${language}-${country}`, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }).format(new Date(publishedAt)),
+    };
+  });
+
+  const seoblog = seoPayload.blog({blog, url: request.url});
+
   return defer({
     variants,
     product,
@@ -92,6 +125,9 @@ export async function loader({params, request, context}) {
       totalValue: parseFloat(selectedVariant.price.amount),
     },
     seo,
+    data,
+    articles,
+    seoblog,
   });
 }
 
@@ -110,6 +146,9 @@ export default function Product() {
   const {selectedVariant} = product;
   const [productsData, setProductsData] = useState(data);
   const {sections, order} = productsData;
+
+  console.log('product', product)
+  console.log('variants', variants)
 
   return (
     <main className="abt_sec">
@@ -166,44 +205,68 @@ function MainProductSection({section, product, selectedVariant, variants}) {
 
 function ProductImage({image}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  // if (!image) {
-  //   return <div className="product-image" />;
-  // }
+
   return (
     <div className="left_product_detail">
-    <div className="left_pro_detail_slider">
+      <div className="left_pro_detail_slider">
+        <Swiper
+          // thumbsSlider=""
+          id="product_detail_thumb"
+          modules={[Navigation, Thumbs]}
+          navigation={true}
+          loop={true}
+          direction="vertical"
+          spaceBetween={10}
+          slidesPerView={4}
+          slideToClickedSlide={true}
+          breakpoints={{
+            100: {
+              slidesPerView: 4,
+              spaceBetween: 10,
+              direction: 'horizontal',
+            },
+            767: {
+              slidesPerView: 4,
+              spaceBetween: 10,
+              direction: 'horizontal',
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 10,
+              direction: 'vertical',
+            },
+          }}
+          onSwiper={setThumbsSwiper}
+        >
+          {image.nodes?.map((img) => (
+            <SwiperSlide key={img.id}>
+              <div className="pro_thumb_detail_img">
+                <Image
+                  src={img.image.url}
+                  alt="pro-detail"
+                  height="120px"
+                  width="120px"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
       <Swiper
-        thumbsSlider=""
-        id="product_detail_thumb"
-        modules={[Navigation, Thumbs]}
-        navigation={true}
-        loop={true}
-        direction="vertical"
-        spaceBetween={10}
-        slidesPerView={4}
-        slideToClickedSlide={true}
-        breakpoints={{
-          100: {
-            slidesPerView: 4,
-            spaceBetween: 10,
-            direction: 'horizontal',
-          },
-          767: {
-            slidesPerView: 4,
-            spaceBetween: 10,
-            direction: 'horizontal',
-          },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 10,
-            direction: 'vertical',
-          },
+        id="product_detail"
+        modules={[Thumbs]}
+        thumbs={{
+          swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
         }}
-        onSwiper={setThumbsSwiper}
+        loop={true}
+        spaceBetween={10}
+        slidesPerView={1}
+        effect="fade"
       >
         {image.nodes?.map((img) => (
           <SwiperSlide key={img.id}>
-            <div className="pro_thumb_detail_img">
+            <div className="pro_detail_img">
               <Image
                 src={img.image.url}
                 alt="pro-detail"
@@ -215,47 +278,10 @@ function ProductImage({image}) {
         ))}
       </Swiper>
     </div>
-
-    <Swiper
-      id="product_detail"
-      modules={[Thumbs]}
-      thumbs={{
-        swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
-      }}
-      loop={true}
-      spaceBetween={10}
-      slidesPerView={1}
-      effect="fade"
-    >
-      {image.nodes?.map((img) => (
-        <SwiperSlide key={img.id}>
-          <div className="pro_detail_img">
-            <Image
-              src={img.image.url}
-              alt="pro-detail"
-              height="120px"
-              width="120px"
-            />
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </div>
   );
 }
 
-function MultirowSection() {}
-
-function RelatedProductsSection() {}
-
-function FeaturedBlogSection() {}
-
 function ProductForm({variants}) {
-  console.log(
-    'product, selectedVariant, variants',
-
-    variants,
-  );
   const [quantity, setQuantity] = useState(1);
   const {product, shop, analytics} = useLoaderData();
 
@@ -338,8 +364,38 @@ function ProductForm({variants}) {
           <div className="pro_detail_size flex align_center">
             <h5>{option.name}:</h5>
             {option.values.length > 7
-              ? option.values.map(({value, to}) => <h4>{value}</h4>)
-              : option.values.map(({value, to}) => <h4>{value}</h4>)}
+              ? option.values.map(({value, to}) => {
+                  const data = selectedVariant.selectedOptions.some(
+                    (option) => option.value === value,
+                  );
+                  return (
+                    <Link
+                      key={option.name + value}
+                      to={to}
+                      preventScrollReset
+                      prefetch="intent"
+                      replace
+                    >
+                      <h4 className={data === true ? 'active' : ''}>{value}</h4>
+                    </Link>
+                  );
+                })
+              : option.values.map(({value, to}) => {
+                  const data = selectedVariant.selectedOptions.some(
+                    (option) => option.value === value,
+                  );
+                  return (
+                    <Link
+                      key={option.name + value}
+                      to={to}
+                      preventScrollReset
+                      prefetch="intent"
+                      replace
+                    >
+                      <h4 className={data === true ? 'active' : ''}>{value}</h4>
+                    </Link>
+                  );
+                })}
           </div>
         )}
       </VariantSelector>
@@ -354,34 +410,27 @@ function ProductForm({variants}) {
         </div>
 
         <div className="add_to_cart_btn">
-          {selectedVariant && (
-            <>
-              {isOutOfStock ? (
-                <button className="btn" disabled={isOutOfStock}>
-                  <span>Sold out</span>
-                </button>
-              ) : (
-                <AddToCartButton
-                  title="Add To Cart"
-                  disabled={
-                    !selectedVariant || !selectedVariant.availableForSale
-                  }
-                  lines={[
-                    {
-                      merchandiseId: selectedVariant.id,
-                      quantity: quantity,
-                    },
-                  ]}
-                  variant="primary"
-                  data-test="add-to-cart"
-                  analytics={{
-                    products: [productAnalytics],
-                    totalValue: parseFloat(productAnalytics.price),
-                  }}
-                  className="btn"
-                />
-              )}
-            </>
+          {selectedVariant?.availableForSale === false ? (
+            <button variant="secondary" disabled={isOutOfStock} className="btn">
+              <span>Sold out</span>
+            </button>
+          ) : (
+            <AddToCartButton
+              title="Add to cart"
+              lines={[
+                {
+                  merchandiseId: selectedVariant?.id,
+                  quantity: quantity,
+                },
+              ]}
+              variant="primary"
+              data-test="add-to-cart"
+              analytics={{
+                products: [productAnalytics],
+                totalValue: parseFloat(productAnalytics.price),
+              }}
+              className="btn"
+            />
           )}
         </div>
       </div>
@@ -417,6 +466,124 @@ function ProductForm({variants}) {
         </ul>
       </div>
     </div>
+  );
+}
+
+function MultirowSection({section}) {
+  const {row_E86qJz, row_CfWqBG} = section.blocks;
+  return (
+    <section>
+      <div className="container">
+        <div className="spacer">
+          <div className="main_highlight_sec flex align_center">
+            <div className="left_highlight_sec">
+              <h5>HIGHLIGHT</h5>
+              <h6>{row_E86qJz.settings.heading}</h6>
+              <div className="highlight_sec_point">
+                <h3>Helps relieve occasional coughs*</h3>
+                <p
+                  dangerouslySetInnerHTML={{__html: row_E86qJz.settings.text}}
+                ></p>
+              </div>
+            </div>
+            <div className="right_highlight_img">
+              <img
+                src={row_E86qJz.settings.image}
+                alt="highlight"
+                height="700px"
+                width="700px"
+              />
+            </div>
+          </div>
+          <div className="main_highlight_sec2 flex align_center">
+            <div className="left_highlight_sec">
+              <h5>HIGHLIGHT</h5>
+              <h6>{row_CfWqBG.settings.heading}</h6>
+              <div className="highlight_sec_point">
+                <h3>Helps relieve occasional coughs*</h3>
+                <p
+                  dangerouslySetInnerHTML={{__html: row_CfWqBG.settings.text}}
+                ></p>
+              </div>
+            </div>
+            <div className="right_highlight_img">
+              <img
+                src={row_CfWqBG.settings.image}
+                alt="highlight"
+                height="700px"
+                width="700px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RelatedProductsSection() {
+  const {data} = useLoaderData();
+
+  return (
+    <Suspense>
+      <Await
+        resolve={data}
+        errorElement="There was a problem loading related products"
+      >
+        {(datas) => (
+          <NewArrival
+            product={datas.featuredProducts.nodes}
+            title="You may also like"
+          />
+        )}
+      </Await>
+    </Suspense>
+  );
+}
+
+function FeaturedBlogSection() {
+  const {articles, seoblog} = useLoaderData();
+  return (
+    <section>
+      <div className="container">
+        <div className="spacer">
+          <div className="section_title">
+            <h2>Know More from Blog</h2>
+          </div>
+          <div className="main_blog flex">
+            {articles.map((data) => {
+              return (
+                <div className="blog">
+                  <div className="blog_img">
+                    <Image
+                      src={data.image.url}
+                      alt="blog"
+                      width="453px"
+                      height="197px"
+                    />
+                  </div>
+                  <div className="blog_content">
+                    <h2>{data.title}</h2>
+                    <p dangerouslySetInnerHTML={{__html: data.contentHtml}}></p>
+                    <Link
+                      to={`/${BLOG_HANDLE}/${data.handle}`}
+                      className="blog-img"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="product_btn">
+            <Link to={`/${BLOG_HANDLE}`} className="btn">
+              View All
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -567,3 +734,51 @@ async function getRecommendedProducts(storefront, productId) {
 
   return {nodes: mergedProducts};
 }
+
+export const FEATURED_ITEMS_QUERY = `#graphql
+  query FeaturedItems{
+    featuredProducts: products(first: 4) {
+      nodes {
+        ...ProductCard
+      }
+    }
+  }
+
+  ${PRODUCT_CARD_FRAGMENT}
+  `;
+const BLOGS_ITEM = `#graphql
+  query Blog($blogHandle: String!){
+    blog(handle: $blogHandle ) {
+      title
+      seo {
+        title
+        description
+      }
+      articles(first: 3) {
+        edges {
+          node {
+            ...Article
+          }
+        }
+      }
+    }
+  }
+  
+  fragment Article on Article  {
+    author: authorV2 {
+      name
+    }
+    contentHtml
+    handle
+    id
+    image {
+      id
+      altText
+      url
+      width
+      height
+    }
+    publishedAt
+    title
+  }
+  `;

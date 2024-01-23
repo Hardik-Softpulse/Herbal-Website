@@ -1,7 +1,6 @@
 import {flattenConnection, Image, Money, useMoney} from '@shopify/hydrogen';
 import {isDiscounted, isNewArrival} from '~/lib/utils';
 import {getProductPlaceholder} from '~/lib/placeholders';
-import {useEffect, useState} from 'react';
 import {Link} from '@remix-run/react';
 
 export function ProductCard({product, label}) {
@@ -68,13 +67,13 @@ export function ProductCard({product, label}) {
           </h5>
           <s>
             {isDiscounted(price, compareAtPrice) && (
-              <CompareAtPrice className="o-price" data={compareAtPrice} />
+              <CompareAtPrice data={compareAtPrice} />
             )}
           </s>
           {compareAtPrice === null
             ? ''
             : availableForSale == true && (
-                <span>{`${percentageDifferenceResult}%`}</span>
+                <span>{`${percentageDifferenceResult}%  off`}</span>
               )}
         </div>
       </div>
@@ -88,9 +87,9 @@ function CompareAtPrice({data, className}) {
   const styles = ('strike', className);
 
   return (
-    <span className={styles}>
+    <>
       {currencyNarrowSymbol}
       {withoutTrailingZerosAndCurrency}
-    </span>
+    </>
   );
 }
