@@ -12,6 +12,8 @@ import {CartMain} from './Cart.jsx';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {CartForm} from '@shopify/hydrogen';
 import {CartLoading} from './CartLoading';
+import {SearchForm} from './Search.jsx';
+// import {SearchForm} from './index.js';
 
 export function Layout({
   layout,
@@ -23,7 +25,7 @@ export function Layout({
 }) {
   const {headerMenu, footerMenu} = layout;
   const [contentLoaded, setContentLoaded] = useState(false);
-  
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setContentLoaded(true);
@@ -53,7 +55,7 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
   const [hideNav, setHideNav] = useState(false);
   const [subMenu, setSubMenu] = useState(false);
   const headerRef = useRef(null);
-
+  const [search, setSearch] = useState(false);
   useEffect(() => {
     let didScroll;
     let lastScrollTop = 0;
@@ -196,30 +198,39 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
           <div className="social_icon">
             <ul className="flex align_center">
               <li>
-                <a href="#" className="flex">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z"
-                      stroke="#1C6758"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M17.5 17.5L13.875 13.875"
-                      stroke="#1C6758"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
+                {/* <a
+                  href="/"
+                  className="flex"
+                 
+                > */}
+                <svg
+                  onClick={(e) => {
+                    e.preventDefault;
+                    setSearch(true);
+                  }}
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z"
+                    stroke="#1C6758"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M17.5 17.5L13.875 13.875"
+                    stroke="#1C6758"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {/* </a> */}
+                {search && <SearchForm />}
               </li>
               <AccountLink />
               <CartCount miniCart={miniCart} setMiniCart={setMiniCart} />

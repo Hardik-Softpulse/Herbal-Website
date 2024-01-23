@@ -10,13 +10,10 @@ export const NO_PREDICTIVE_SEARCH_RESULTS = [
   {type: 'articles', items: []},
 ];
 
-/**
- * @param {{searchTerm: string}}
- */
 export function SearchForm({searchTerm}) {
   const inputRef = useRef(null);
+  const params = useParams();
 
-  // focus the input when cmd+k is pressed
   useEffect(() => {
     function handleKeyDown(event) {
       if (event.key === 'k' && event.metaKey) {
@@ -37,30 +34,31 @@ export function SearchForm({searchTerm}) {
   }, []);
 
   return (
-    <Form method="get">
+    <Form
+      method="get"
+      action={params.locale ? `/${params.locale}/search` : '/search'}
+    >
       <input
         defaultValue={searchTerm}
         name="q"
+        className="search"
         placeholder="Search…"
         ref={inputRef}
         type="search"
       />
-      &nbsp;
       <button type="submit">Search</button>
     </Form>
   );
 }
 
-/**
- * @param {Pick<FetchSearchResultsReturn['searchResults'], 'results'>}
- */
 export function SearchResults({results}) {
   if (!results) {
     return null;
   }
   const keys = Object.keys(results);
+  console.log('results', results);
   return (
-    <div>
+    <div className="abc">
       {results &&
         keys.map((type) => {
           const resourceResults = results[type];

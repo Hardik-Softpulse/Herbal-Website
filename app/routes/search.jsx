@@ -2,18 +2,12 @@ import {defer} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {getPaginationVariables} from '@shopify/hydrogen';
 
-import {SearchForm, SearchResults, NoSearchResults} from '~/components/Search';
+import {SearchForm, SearchResults} from '~/components';
 
-/**
- * @type {MetaFunction}
- */
 export const meta = () => {
   return [{title: `Hydrogen | Search`}];
 };
 
-/**
- * @param {LoaderFunctionArgs}
- */
 export async function loader({request, context}) {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
@@ -54,16 +48,44 @@ export default function SearchPage() {
   /** @type {LoaderReturnData} */
   const {searchTerm, searchResults} = useLoaderData();
 
+  console.log('searchTerm', searchTerm);
+  console.log('searchResults', searchResults);
+
   return (
-    <div className="search">
-      <h1>Search</h1>
-      <SearchForm searchTerm={searchTerm} />
-      {!searchTerm || !searchResults.totalResults ? (
-        <NoSearchResults />
-      ) : (
-        <SearchResults results={searchResults.results} />
-      )}
-    </div>
+    <main class="abt_sec">
+      <section>
+        <div class="container">
+          <div class="spacer">
+            <h1>Search</h1>
+            <SearchForm searchTerm={searchTerm} />
+            {!searchTerm || !searchResults.totalResults ? (
+              <NoSearchResults />
+            ) : (
+              <SearchResults results={searchResults.results} />
+            )}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function NoSearchResults({noResults, recommendations, searchTerm}) {
+  return (
+    <>
+      <div className="mb-60 no_result text-center">
+        <ul>
+          <li>
+            We are sorry! We couldn't find results for
+            <span>{`"searched ${searchTerm}"`}</span>.
+          </li>
+          <li>
+            But don't give up – check the spelling or try less specific search
+            terms.
+          </li>
+        </ul>
+      </div>
+    </>
   );
 }
 
@@ -173,7 +195,3 @@ const SEARCH_QUERY = `#graphql
     }
   }
 `;
-
-/** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
-/** @template T @typedef {import('@remix-run/react').MetaFunction<T>} MetaFunction */
-/** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */

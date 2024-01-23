@@ -132,7 +132,7 @@ function ArticleItem({article, loading}) {
         <h2>{article.title}</h2> <h5>{publishedAt}</h5>
         <p dangerouslySetInnerHTML={{__html: article.contentHtml}}></p>
         <Link to={`/blogs/${article.blog.handle}/${article.handle}`}>
-          Read More{' '}
+          Read More
         </Link>
       </div>
     </div>
