@@ -21,6 +21,8 @@ export function ProductCard({product, label}) {
     cardLabel = 'New';
   }
 
+  console.log('cardLabel', cardLabel);
+
   const calculatePercentageDifference = (defcompareAtPrice, defprice) => {
     if (
       defcompareAtPrice !== null &&
@@ -56,6 +58,11 @@ export function ProductCard({product, label}) {
               width="340px"
             />
           </Link>
+          {cardLabel && (
+            <div class="product_top_price">
+              <p>{cardLabel}</p>
+            </div>
+          )}
         </div>
       </div>
       <div className="product_content">

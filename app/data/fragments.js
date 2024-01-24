@@ -45,7 +45,7 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
     handle
     vendor
     description 
-    media(first: 7) {
+    media(first: 10) {
       nodes {
         ...Media
       }
