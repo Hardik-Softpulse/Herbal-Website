@@ -62,11 +62,11 @@ export default function SearchPage() {
   console.log('noResultRecommendations', noResultRecommendations);
 
   return (
-    <main class="abt_sec">
+    <main className="abt_sec">
       <section>
-        <div class="container">
-          <div class="spacer">
-            <div class="section_title">
+        <div className="container">
+          <div className="spacer">
+            <div className="section_title">
               <h2>{seo.title}</h2>
             </div>
             <SearchForm searchTerm={searchTerm} />

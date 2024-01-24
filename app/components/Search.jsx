@@ -88,4 +88,3 @@ function SearchResultsProductsGrid({products}) {
     </Pagination>
   );
 }
-

@@ -147,8 +147,8 @@ export default function Product() {
   const [productsData, setProductsData] = useState(data);
   const {sections, order} = productsData;
 
-  console.log('product', product)
-  console.log('variants', variants)
+  console.log('product', product);
+  console.log('variants', variants);
 
   return (
     <main className="abt_sec">
@@ -241,12 +241,27 @@ function ProductImage({image}) {
           {image.nodes?.map((img) => (
             <SwiperSlide key={img.id}>
               <div className="pro_thumb_detail_img">
-                <Image
+                {/* <Image
                   src={img.image.url}
                   alt="pro-detail"
                   height="120px"
                   width="120px"
-                />
+                /> */}
+                {img?.mediaContentType === 'VIDEO' ? (
+                  <video controls height="100px" width="100px">
+                    <source
+                      src={img.sources[0]?.url}
+                      type={img.sources[0]?.mimeType}
+                    />
+                  </video>
+                ) : (
+                  <Image
+                    src={img.image?.url}
+                    alt="pro-detail"
+                    height="120px"
+                    width="120px"
+                  />
+                )}
               </div>
             </SwiperSlide>
           ))}
@@ -267,12 +282,24 @@ function ProductImage({image}) {
         {image.nodes?.map((img) => (
           <SwiperSlide key={img.id}>
             <div className="pro_detail_img">
-              <Image
-                src={img.image.url}
+              {/* <Image
+                src={img.image?.url}
                 alt="pro-detail"
                 height="120px"
                 width="120px"
-              />
+              /> */}
+              {img?.mediaContentType === 'VIDEO' ? (
+                <video controls >
+                  <source src={img.sources[0]?.url} type={img.sources[0]?.mimeType} />
+                </video>
+              ) : (
+                <Image
+                  src={img.image?.url}
+                  alt="pro-detail"
+                  height="120px"
+                  width="120px"
+                />
+              )}
             </div>
           </SwiperSlide>
         ))}
