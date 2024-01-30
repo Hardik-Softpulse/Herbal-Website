@@ -1,4 +1,4 @@
-import logo from '../image/logo.png';
+import logo from '../image/logo-ethenic.png';
 import Logo3 from '../image/Logo3.png';
 import Card1 from '../image/card1.png';
 import Card2 from '../image/card2.png';

@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import Banner1 from '../image/banner-vector1.png';
-import Banner2 from '../image/banner-vector2.png';
-import Banner3 from '../image/banner-vector3.png';
-import Banner4 from '../image/banner-vector4.png';
 import BannerResponsive from '../image/banner-responsive.avif';
 import {Navigation, Pagination} from 'swiper/modules';
 
-export function Hero({slide}) {
+export function Hero({data}) {
   const [contentLoaded, setContentLoaded] = useState(false);
+  const {block_order, blocks, settings} = data;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -31,11 +28,12 @@ export function Hero({slide}) {
             loadMinimalLoader={() => <span className="loader"></span>}
             id="banner_slider"
           >
-            {Object.values(slide?.blocks)?.map((slides, i) => {
+            {block_order.map((blockId) => {
+              const {settings} = blocks[blockId];
               return (
-                <SwiperSlide key={`slide-${i}`}>
+                <SwiperSlide key={blockId}>
                   <div className="banner_img">
-                    <img src={slides.settings.image} alt="" />
+                    <img src={settings.image} alt="" />
                   </div>
                   <div className="banner_responsive">
                     <img src={BannerResponsive} alt="" />
@@ -43,27 +41,9 @@ export function Hero({slide}) {
                   <div className="container">
                     <div className="main_banner_contant flex justify_end">
                       <div className="banner_contant">
-                        <h4>{slides.settings.subheading}</h4>
-                        <h1>{slides.settings.heading}</h1>
-                        <div className="banner_vector_contant flex">
-                          <div className="banner_vector">
-                            <img src={Banner1} alt="" />
-                            <p>Handmade</p>
-                          </div>
-                          <div className="banner_vector">
-                            <img src={Banner2} alt="" />
-                            <p>Handmade</p>
-                          </div>
-                          <div className="banner_vector">
-                            <img src={Banner3} alt="" />
-                            <p>Handmade</p>
-                          </div>
-                          <div className="banner_vector">
-                            <img src={Banner4} alt="" />
-                            <p>Handmade</p>
-                          </div>
-                        </div>
-                        <a href={slide.settings.link} className="btn">
+                        <h4>{settings.subheading}</h4>
+                        <h1>{settings.heading}</h1>
+                        <a href="/collections/new-arrival" className="btn">
                           Shop Now
                         </a>
                       </div>

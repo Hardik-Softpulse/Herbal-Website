@@ -43,11 +43,6 @@ export async function loader({params, request, context}) {
     },
   });
 
-  // In order to show which variants are available in the UI, we need to query
-  // all of them. But there might be a *lot*, so instead separate the variants
-  // into it's own separate query that is deferred. So there's a brief moment
-  // where variant options might show as available when they're not, but after
-  // this deferred query resolves, the UI will update.
   const variants = context.storefront.query(VARIANTS_QUERY, {
     variables: {
       handle: productHandle,
@@ -147,6 +142,8 @@ export default function Product() {
   const [productsData, setProductsData] = useState(data);
   const {sections, order} = productsData;
 
+  console.log('productsData', productsData);
+
   console.log('product', product);
   console.log('variants', variants);
 
@@ -180,12 +177,16 @@ function renderSection(sections, sectionKey, props) {
 }
 
 function MainProductSection({section, product, selectedVariant, variants}) {
+  console.log('product', product);
   return (
     <section>
       <div className="container">
         <div className="spacer">
           <div className="main_product_detail flex align_center">
-            <ProductImage image={product.media} />
+            <ProductImage
+              image={product.media}
+              selectedVariant={product?.selectedVariant}
+            />
             <Suspense fallback={<ProductForm variants={[]} />}>
               <Await
                 errorElement="There was a problem loading related products"
@@ -203,7 +204,7 @@ function MainProductSection({section, product, selectedVariant, variants}) {
   );
 }
 
-function ProductImage({image}) {
+function ProductImage({image, selectedVariant}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
@@ -256,7 +257,7 @@ function ProductImage({image}) {
                   </video>
                 ) : (
                   <Image
-                    src={img.image?.url}
+                    src={selectedVariant?.image?.url ?? img.image?.url}
                     alt="pro-detail"
                     height="120px"
                     width="120px"
@@ -289,12 +290,15 @@ function ProductImage({image}) {
                 width="120px"
               /> */}
               {img?.mediaContentType === 'VIDEO' ? (
-                <video controls >
-                  <source src={img.sources[0]?.url} type={img.sources[0]?.mimeType} />
+                <video controls>
+                  <source
+                    src={img.sources[0]?.url}
+                    type={img.sources[0]?.mimeType}
+                  />
                 </video>
               ) : (
                 <Image
-                  src={img.image?.url}
+                  src={selectedVariant.image?.url ?? img.image?.url}
                   alt="pro-detail"
                   height="120px"
                   width="120px"

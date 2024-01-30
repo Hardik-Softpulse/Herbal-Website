@@ -17,6 +17,27 @@ function Filter({filters, appliedFilters = []}) {
     }));
   };
 
+  const toggleAppliedFilter = (filter) => {
+    const isFilterApplied = appliedFilters.some(
+      (obj) => obj.label === filter.label,
+    );
+    console.log('sFilterApplied', isFilterApplied);
+    if (isFilterApplied) {
+      // Filter is applied, remove it
+      const newFilters = appliedFilters.filter(
+        (obj) => obj.label !== filter.label,
+      );
+      navigate(`${location.pathname}?${newFilters.map((f) => f.to).join('&')}`);
+    } else {
+      // Filter is not applied, add it
+      navigate(
+        `${location.pathname}?${[...appliedFilters, filter]
+          .map((f) => f.to)
+          .join('&')}`,
+      );
+    }
+  };
+
   return (
     <div className="left_filter">
       <h3>Filter</h3>
@@ -45,7 +66,9 @@ function Filter({filters, appliedFilters = []}) {
                         type="checkbox"
                         name={items.label}
                         id={items.id}
-                        onChange={() => navigate(to)}
+                        onChange={() => {
+                          navigate(to);
+                        }}
                         checked={
                           appliedFilters?.some(
                             (obj) => obj.label === items.label,
@@ -57,12 +80,11 @@ function Filter({filters, appliedFilters = []}) {
                       <div className="left_product_type">
                         <label
                           className={`pro_type_button ${
-                            appliedFilters?.some(
-                              (obj) => obj.label === items.label,
-                            )
-                              ? 'active'
-                              : ''
+                            toggleAppliedFilter ? 'active' : ''
                           }`}
+                          onClick={() =>
+                            toggleAppliedFilter({label: items.label, to})
+                          }
                           htmlFor={items.id}
                         >
                           {items.label}

@@ -24,7 +24,7 @@ export {Banner} from './Banner';
 export {NewArrival} from './NewArrival';
 export {OurCollection} from './OurCollection';
 // export {SectionProductCard} from './SectionProductCard';
-// export {OurBlogs} from './OurBlogs';
+export {FeaturedBlog} from './FeaturedBlog';
 // export * from './Icon';
 // export {FilterDrawer} from './FilterDrawer';
 // export {ReviewCard} from './Review/ReviewCard';

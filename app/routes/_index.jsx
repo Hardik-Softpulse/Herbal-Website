@@ -1,10 +1,15 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense, useState} from 'react';
-import {Image, Money, getPaginationVariables} from '@shopify/hydrogen';
+import {
+  Image,
+  Money,
+  flattenConnection,
+  getPaginationVariables,
+} from '@shopify/hydrogen';
 import {
   Banner,
-  HelthBanner,
+  FeaturedBlog,
   Hero,
   ImgBanner,
   NewArrival,
@@ -13,6 +18,7 @@ import {
   ReviewSection,
 } from '~/components';
 import jsonData from '../json/db.json';
+import {seoPayload} from '~/lib/seo.server';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -20,6 +26,7 @@ export const meta = () => {
 
 export async function loader({request, context}) {
   const {storefront} = context;
+  const {language, country} = context.storefront.i18n;
   const paginationVariables = getPaginationVariables(request, {
     pageBy: 10,
   });
@@ -29,188 +36,197 @@ export async function loader({request, context}) {
   });
   const recommendedProduct = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  const {sections} = jsonData;
-  const {featured_collection_BA3iCE, featured_collection_iiKYDe} = sections;
-  const collectionHandle = featured_collection_BA3iCE.settings.collection;
-  const collHandle = featured_collection_iiKYDe.settings.collection;
+  const {
+    featured_collection,
+    featured_collection_3ATADh,
+    featured_blog_F9yDUi,
+  } = jsonData.sections;
 
-  const SINGLE_COLLECTION_QUERY = `#graphql
-  query getCollectionByHandle($handle: String!, $language: LanguageCode) @inContext(language: $language) {
-  collection(handle: $handle) {
-    id
-    title
-    handle
-    description
-    products(first: ${featured_collection_BA3iCE.settings.products_to_show}) {
-      nodes {
-        id
-        title
-        description
-        publishedAt
-        handle
-        vendor
-        variants(first: 1) {
-          nodes {
-            id
-            availableForSale
-            image {
-              url
-              altText
-              width
-              height
-            }
-            price {
-              amount
-              currencyCode
-            }
-            compareAtPrice {
-              amount
-              currencyCode
-            }
-            selectedOptions {
-              name
-              value
-            }
-            product {
-              handle
-              title
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`;
+  const {blog} = await context.storefront.query(BLOGS_QUERY, {
+    variables: {
+      blogHandle: featured_blog_F9yDUi.settings.blog,
+    },
+  });
 
-  const SINGLE_COLLECTION = `#graphql
-query getCollectionByHandle($handle: String!, $language: LanguageCode) @inContext(language: $language) {
-collection(handle: $handle) {
-  id
-  title
-  handle
-  description
-  products(first: ${featured_collection_iiKYDe.settings.products_to_show}) {
-    nodes {
-      id
-      title
-      description
-      publishedAt
-      handle
-      vendor
-      variants(first: 1) {
-        nodes {
-          id
-          availableForSale
-          image {
-            url
-            altText
-            width
-            height
-          }
-          price {
-            amount
-            currencyCode
-          }
-          compareAtPrice {
-            amount
-            currencyCode
-          }
-          selectedOptions {
-            name
-            value
-          }
-          product {
-            handle
-            title
-          }
-        }
-      }
-    }
+  if (!blog?.articles) {
+    throw new Response('Not found', {status: 404});
   }
-}
-}
-`;
+
+  const articles = flattenConnection(blog.articles).map((article) => {
+    const {publishedAt} = article;
+    return {
+      ...article,
+      publishedAt: new Intl.DateTimeFormat(`${language}-${country}`, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }).format(new Date(publishedAt)),
+    };
+  });
+
+  const seoblog = seoPayload.blog({blog, url: request.url});
 
   return defer({
     collections,
     recommendedProduct,
     collection: storefront.query(SINGLE_COLLECTION_QUERY, {
       variables: {
-        handle: collectionHandle,
+        handle: featured_collection.settings.collection,
       },
     }),
     bestseller: storefront.query(SINGLE_COLLECTION, {
       variables: {
-        handle: collHandle,
+        handle: featured_collection_3ATADh.settings.collection,
       },
     }),
+    articles,
+    seoblog,
   });
 }
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
-  const {collections, recommendedProduct, collection, bestseller} =
-    useLoaderData();
-
-  const [section, setSection] = useState(jsonData.sections);
-
   const {
-    slideshow,
-    image_with_text_WnPBEa,
-    featured_collection_BA3iCE,
-    featured_collection_iiKYDe,
-    collage_WJfMLy,
-  } = section;
+    collections,
+    recommendedProduct,
+    collection,
+    bestseller,
+    articles,
+    seoblog,
+  } = useLoaderData();
+
+  const [section, setSection] = useState(jsonData);
+  const {
+    featured_collection,
+    featured_collection_3ATADh,
+    featured_blog_F9yDUi,
+  } = jsonData.sections;
+  console.log('jsonData', jsonData);
 
   return (
     <main>
-      <Hero slide={slideshow} />
-      <OurCollection />
-      {collection && (
-        <Suspense>
-          <Await resolve={collection}>
-            {({collection}) => {
-              return (
-                <NewArrival
-                  product={collection.products.nodes}
-                  title={featured_collection_BA3iCE.settings.title}
-                  count={featured_collection_BA3iCE.settings.products_to_show}
-                />
-              );
-            }}
-          </Await>
-        </Suspense>
-      )}
-      <Banner banner={image_with_text_WnPBEa} />
-      <ImgBanner collection={collections.nodes} collage={collage_WJfMLy} />
-      {bestseller && (
-        <Suspense>
-          <Await resolve={bestseller}>
-            {({collection}) => {
-              return (
-                <NewArrival
-                  product={collection.products.nodes}
-                  title={featured_collection_iiKYDe.settings.title}
-                  count={featured_collection_iiKYDe.settings.products_to_show}
-                />
-              );
-            }}
-          </Await>
-        </Suspense>
-      )}
-      <HelthBanner />
-      <ReviewSection />
-      <Newsletter />
+      {jsonData.order.map((section, index) => {
+        switch (section) {
+          case 'slideshow_zJHXXX':
+            return <Hero key={index} data={jsonData.sections[section]} />;
+          case 'collection_list_pmLyr8':
+            return (
+              <OurCollection
+                collection={collections.nodes}
+                data={jsonData.sections[section]}
+              />
+            );
+          case 'featured_collection':
+            return (
+              collection && (
+                <Suspense>
+                  <Await resolve={collection}>
+                    {({collection}) => {
+                      return (
+                        <NewArrival
+                          key={index}
+                          title={
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: featured_collection.settings.title,
+                              }}
+                            ></span>
+                          }
+                          product={collection?.products?.nodes}
+                        />
+                      );
+                    }}
+                  </Await>
+                </Suspense>
+              )
+            );
+          case 'image_with_text_YNRzbm':
+            return <Banner key={index} data={jsonData.sections[section]} />;
+          case 'collage_tzbEdC':
+            return (
+              <ImgBanner
+                key={index}
+                collection={collections.nodes}
+                data={jsonData.sections[section]}
+              />
+            );
+          case 'featured_collection_3ATADh':
+            return (
+              bestseller && (
+                <Suspense>
+                  <Await resolve={bestseller}>
+                    {({collection}) => {
+                      return (
+                        <NewArrival
+                          product={collection?.products?.nodes}
+                          title={featured_collection_3ATADh.settings.title}
+                        />
+                      );
+                    }}
+                  </Await>
+                </Suspense>
+              )
+            );
+          case 'featured_blog_F9yDUi':
+            return (
+              <FeaturedBlog
+                key={index}
+                data={jsonData.sections[section]}
+                articles={articles}
+                seo={seoblog}
+              />
+            );
+          case 'newsletter_YrXTNj':
+            return <Newsletter key={index} data={jsonData.sections[section]} />;
+          default:
+            return null;
+        }
+      })}
     </main>
+    // <main>
+    //   <Suspense fallback={<div>Loading...</div>}>
+    //     <Hero slide={slideshow} />
+    //     <OurCollection />
+    //     {collection && (
+    //       <Suspense>
+    //         <Await resolve={collection}>
+    //           {({collection}) => {
+    //             return (
+    //               <NewArrival
+    //                 product={collection.products.nodes}
+    //                 title={featured_collection_BA3iCE.settings.title}
+    //                 count={featured_collection_BA3iCE.settings.products_to_show}
+    //               />
+    //             );
+    //           }}
+    //         </Await>
+    //       </Suspense>
+    //     )}
+    //     <Banner banner={image_with_text_WnPBEa} />
+    //     <ImgBanner collection={collections.nodes} collage={collage_WJfMLy} />
+    //     {bestseller && (
+    //       <Suspense>
+    //         <Await resolve={bestseller}>
+    //           {({collection}) => {
+    //             return (
+    //               <NewArrival
+    //                 product={collection.products.nodes}
+    //                 title={featured_collection_iiKYDe.settings.title}
+    //                 count={featured_collection_iiKYDe.settings.products_to_show}
+    //               />
+    //             );
+    //           }}
+    //         </Await>
+    //       </Suspense>
+    //     )}
+    //     <HelthBanner />
+    //     <ReviewSection />
+    //     <Newsletter />
+    //   </Suspense>
+    // </main>
   );
 }
 
-/**
- * @param {{
- *   collection: FeaturedCollectionFragment;
- * }}
- */
 function FeaturedCollection({collection}) {
   if (!collection) return null;
   const image = collection?.image;
@@ -262,6 +278,104 @@ function RecommendedProducts({products}) {
     </div>
   );
 }
+
+const SINGLE_COLLECTION_QUERY = `#graphql
+query getCollectionByHandle($handle: String!, $language: LanguageCode) @inContext(language: $language) {
+collection(handle: $handle) {
+  id
+  title
+  handle
+  description
+  products(first: 4) {
+    nodes {
+      id
+      title
+      description
+      publishedAt
+      handle
+      vendor
+      variants(first: 1) {
+        nodes {
+          id
+          availableForSale
+          image {
+            url
+            altText
+            width
+            height
+          }
+          price {
+            amount
+            currencyCode
+          }
+          compareAtPrice {
+            amount
+            currencyCode
+          }
+          selectedOptions {
+            name
+            value
+          }
+          product {
+            handle
+            title
+          }
+        }
+      }
+    }
+  }
+}
+}
+`;
+
+const SINGLE_COLLECTION = `#graphql
+query getCollectionByHandle($handle: String!, $language: LanguageCode) @inContext(language: $language) {
+collection(handle: $handle) {
+id
+title
+handle
+description
+products(first: 4) {
+  nodes {
+    id
+    title
+    description
+    publishedAt
+    handle
+    vendor
+    variants(first: 1) {
+      nodes {
+        id
+        availableForSale
+        image {
+          url
+          altText
+          width
+          height
+        }
+        price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+        selectedOptions {
+          name
+          value
+        }
+        product {
+          handle
+          title
+        }
+      }
+    }
+  }
+}
+}
+}
+`;
 
 const COLLECTIONS_QUERY = `#graphql
   fragment Collection on Collection {
@@ -331,6 +445,46 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       }
     }
   }
+`;
+
+const BLOGS_QUERY = `#graphql
+query Blog($blogHandle: String!){
+  blog(handle: $blogHandle ) {
+    title
+    seo {
+      title
+      description
+    }
+    articles(first: 3) {
+      edges {
+        node {
+          ...Article
+        }
+      }
+    }
+  }
+}
+
+fragment Article on Article  {
+  author: authorV2 {
+    name
+  }
+  contentHtml
+  handle
+  id
+  image {
+    id
+    altText
+    url
+    width
+    height
+  }
+  publishedAt
+  title
+  blog {
+    handle
+  }
+}
 `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */

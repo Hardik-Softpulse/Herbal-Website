@@ -1,14 +1,7 @@
-import Support1 from '../image/support-1.png';
-import Support7 from '../image/support-7.png';
-import Support6 from '../image/support-6.png';
-import Support5 from '../image/support-5.png';
-import Support4 from '../image/support-4.png';
-import Support3 from '../image/support-3.png';
-import Support2 from '../image/support-2.png';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
 
-export function OurCollection() {
+export function OurCollection({collection, data}) {
   return (
     <section>
       <div className="container">
@@ -49,105 +42,36 @@ export function OurCollection() {
                   spaceBetween: 20,
                 },
                 1100: {
-                  slidesPerView: 6,
+                  slidesPerView: 5,
                   spaceBetween: 20,
                 },
                 1300: {
-                  slidesPerView: 7,
+                  slidesPerView: 5,
                   spaceBetween: 20,
                 },
               }}
             >
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support1} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support7} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support6} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support5} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support4} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support3} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support2} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support1} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="interest_content">
-                  <div className="interest_img">
-                    <a href="">
-                      <img src={Support5} alt="" />
-                    </a>
-                  </div>
-                  <a href="">Immune Support</a>
-                </div>
-              </SwiperSlide>
+              {data.block_order.map((blockId) => {
+                const collectionData = data.blocks[blockId].settings;
+                const catagory = collection.find(
+                  (data) => data.handle === collectionData.collection,
+                );
+
+                return (
+                  <SwiperSlide key={catagory.id}>
+                    <div className="interest_content">
+                      <div className="interest_img">
+                        <a href={`/collections/${catagory.handle}`}>
+                          <img src={catagory.image?.url} alt="Collection-Image" />
+                        </a>
+                      </div>
+                      <a href={`/collections/${catagory.handle}`}>
+                        {catagory.title}
+                      </a>
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
             </Swiper>
           </div>
         </div>

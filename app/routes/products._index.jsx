@@ -50,6 +50,7 @@ export async function loader({request, context: {storefront}}) {
 
 export default function AllProducts() {
   const {products, seo} = useLoaderData();
+  console.log('products', products);
 
   return (
     <main className="abt_sec">
@@ -97,7 +98,11 @@ const ALL_PRODUCTS_QUERY = `#graphql
     $startCursor: String
     $endCursor: String
   ) @inContext(language: $language) {
-    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+    products(
+      first: $first, 
+      last: $last, 
+      before: $startCursor, 
+      after: $endCursor) {
       filters {
         id
         label

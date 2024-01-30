@@ -3,7 +3,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {Pagination} from 'swiper/modules';
 import {ProductCard} from '~/components';
 
-export function NewArrival({product, title, count}) {
+export function NewArrival({product, title}) {
   return (
     <section className="new_product">
       <div className="container">

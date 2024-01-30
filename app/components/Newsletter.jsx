@@ -1,6 +1,7 @@
 import Discount from '../image/discount.png';
 
-export function Newsletter() {
+export function Newsletter({data}) {
+  const {heading_3xJ7Q3, paragraph_yV7tRm} = data.blocks;
   return (
     <section className="dis_banner">
       <div className="container">
@@ -10,8 +11,14 @@ export function Newsletter() {
               <img src={Discount} alt="" />
             </div>
             <div className="discount_content">
-              <h4>Do you want a 10% discount for your first purchase?</h4>
-              <p>Join our newsletter and get discount</p>
+              <h4>{heading_3xJ7Q3.settings?.heading}</h4>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: paragraph_yV7tRm.settings?.text,
+                }}
+              >
+                
+              </p>
               <input type="email" placeholder="Enter your email address" />
               <div className="discount_btn">
                 <a href="#" className="btn">
