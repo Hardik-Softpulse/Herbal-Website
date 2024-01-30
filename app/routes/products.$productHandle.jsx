@@ -140,44 +140,58 @@ export default function Product() {
   const {product, variants} = useLoaderData();
   const {selectedVariant} = product;
   const [productsData, setProductsData] = useState(data);
-  const {sections, order} = productsData;
-
-  console.log('productsData', productsData);
-
-  console.log('product', product);
-  console.log('variants', variants);
 
   return (
     <main className="abt_sec">
-      {Object.keys(sections).map((sectionKey) => {
-        return renderSection(sections, sectionKey, {
-          product,
-          selectedVariant,
-          variants,
-        });
+      {productsData.order?.map((sectionKey) => {
+        const section = data.sections[sectionKey];
+        switch (section.type) {
+          case 'main-product':
+            return (
+              <MainProduct
+                key={sectionKey}
+                data={section}
+                product={product}
+                variants={variants}
+              />
+            );
+          case 'multicolumn_fk9hDA':
+            return <MultiColumn key={sectionKey} data={section} />;
+          case 'multirow':
+            return <MultiRow key={sectionKey} data={section} />;
+          case 'related-products':
+            return <RelatedProducts key={sectionKey} data={section} />;
+          default:
+            return null;
+        }
       })}
     </main>
   );
 }
 
-function renderSection(sections, sectionKey, props) {
-  const section = sections[sectionKey];
-  switch (section.type) {
-    case 'main-product':
-      return MainProductSection({section, ...props});
-    case 'multirow':
-      return MultirowSection({section, ...props});
-    case 'related-products':
-      return RelatedProductsSection({section, ...props});
-    case 'featured-blog':
-      return FeaturedBlogSection({section, ...props});
-    default:
-      return null;
-  }
+function MultiColumn() {
+  return (
+    <section>
+      <div class="container">
+        <div class="spacer">
+          <div class="section_title">
+            <h2>Clean, Pure & Certified</h2>
+          </div>
+          <div class="main_clean flex justify_center">
+            <div class="clean">
+              <div class="clean_img">
+                <img src="image/clean.png" alt="" />
+              </div>
+              <p>Holistic wellness</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function MainProductSection({section, product, selectedVariant, variants}) {
-  console.log('product', product);
+function MainProduct({section, product, selectedVariant, variants}) {
   return (
     <section>
       <div className="container">
@@ -500,26 +514,27 @@ function ProductForm({variants}) {
   );
 }
 
-function MultirowSection({section}) {
-  const {row_E86qJz, row_CfWqBG} = section.blocks;
+function MultiRow({data}) {
+  const {row_PBzXmV, row_wHPGzk} = data.blocks;
+
+  console.log('data', data);
   return (
     <section>
       <div className="container">
         <div className="spacer">
           <div className="main_highlight_sec flex align_center">
             <div className="left_highlight_sec">
-              <h5>HIGHLIGHT</h5>
-              <h6>{row_E86qJz.settings.heading}</h6>
+              <h5>{row_PBzXmV.settings.caption}</h5>
+              <h6>{row_PBzXmV.settings.heading}</h6>
               <div className="highlight_sec_point">
-                <h3>Helps relieve occasional coughs*</h3>
                 <p
-                  dangerouslySetInnerHTML={{__html: row_E86qJz.settings.text}}
+                  dangerouslySetInnerHTML={{__html: row_PBzXmV.settings.text}}
                 ></p>
               </div>
             </div>
             <div className="right_highlight_img">
               <img
-                src={row_E86qJz.settings.image}
+                src={row_PBzXmV.settings.image}
                 alt="highlight"
                 height="700px"
                 width="700px"
@@ -528,18 +543,18 @@ function MultirowSection({section}) {
           </div>
           <div className="main_highlight_sec2 flex align_center">
             <div className="left_highlight_sec">
-              <h5>HIGHLIGHT</h5>
-              <h6>{row_CfWqBG.settings.heading}</h6>
+              <h5>{row_wHPGzk.settings.caption}</h5>
+              <h6>{row_wHPGzk.settings.heading}</h6>
               <div className="highlight_sec_point">
-                <h3>Helps relieve occasional coughs*</h3>
+                {/* <h3>Helps relieve occasional coughs*</h3> */}
                 <p
-                  dangerouslySetInnerHTML={{__html: row_CfWqBG.settings.text}}
+                  dangerouslySetInnerHTML={{__html: row_wHPGzk.settings.text}}
                 ></p>
               </div>
             </div>
             <div className="right_highlight_img">
               <img
-                src={row_CfWqBG.settings.image}
+                src={row_wHPGzk.settings.image}
                 alt="highlight"
                 height="700px"
                 width="700px"
@@ -552,7 +567,7 @@ function MultirowSection({section}) {
   );
 }
 
-function RelatedProductsSection() {
+function RelatedProducts() {
   const {data} = useLoaderData();
 
   return (
