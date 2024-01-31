@@ -66,7 +66,6 @@ function Header({
   const [hideNav, setHideNav] = useState(false);
   const [subMenu, setSubMenu] = useState(false);
   const headerRef = useRef(null);
-
   const [activeSubMenuIndex, setActiveSubMenuIndex] = useState(null);
 
   useEffect(() => {
@@ -119,7 +118,7 @@ function Header({
     <header ref={headerRef} className={hideNav ? 'hide-nav' : ''}>
       <div className="top_header">
         <p>
-          Get 10% off on minimum purchase of $100 use code <span>10OFF</span>
+          Get 10% off on minimum purchase of ₹100 use code <span>10 OFF</span>
         </p>
       </div>
       <div className="container">
@@ -215,7 +214,7 @@ function Header({
           </div>
           <div className="social_icon">
             <ul className="flex align_center">
-              <li>
+              <li className="main_search_form">
                 {/* <a
                   href="/"
                   className="flex"
@@ -248,7 +247,7 @@ function Header({
                   />
                 </svg>
                 {/* </a> */}
-                {search && <SearchForm />}
+                {search && <SearchForm setSearch={setSearch} search={search} />}
               </li>
               <AccountLink />
               <CartCount miniCart={miniCart} setMiniCart={setMiniCart} />

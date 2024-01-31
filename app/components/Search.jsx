@@ -3,8 +3,9 @@ import {Pagination} from '@shopify/hydrogen';
 import React, {useRef, useEffect} from 'react';
 import {ProductCard} from './ProductCard';
 import {getImageLoadingPriority} from '~/lib/const';
+import cross from '../image/cross.svg';
 
-export function SearchForm({searchTerm}) {
+export function SearchForm({searchTerm, search, setSearch}) {
   const inputRef = useRef(null);
   const params = useParams();
 
@@ -33,6 +34,9 @@ export function SearchForm({searchTerm}) {
       method="get"
       action={params.locale ? `/${params.locale}/search` : '/search'}
     >
+      <button class="close_cart" onClick={() => setSearch(!search)}>
+        <img src={cross} alt="" />
+      </button>
       <input
         defaultValue={searchTerm}
         name="q"

@@ -17,7 +17,7 @@ export function Banner({data}) {
               <p
                 dangerouslySetInnerHTML={{__html: text_AYzYTT.settings?.text}}
               ></p>
-              <a href="#" className="btn">
+              <a href="/news" className="btn">
                 Know More
               </a>
             </div>
