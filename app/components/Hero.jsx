@@ -36,7 +36,7 @@ export function Hero({data}) {
                     <img src={settings.image} alt="" />
                   </div>
                   <div className="banner_responsive">
-                    <img src={BannerResponsive} alt="" />
+                    <img src={settings.image} alt="" />
                   </div>
                   <div className="container">
                     <div className="main_banner_contant flex justify_end">

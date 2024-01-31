@@ -256,8 +256,8 @@ function ProductImage({image, selectedVariant}) {
                   <Image
                     src={selectedVariant?.image?.url ?? img.image?.url}
                     alt="pro-detail"
-                    height="120px"
-                    width="120px"
+                    // height="120px"
+                    // width="120px"
                   />
                 )}
               </div>
@@ -297,8 +297,8 @@ function ProductImage({image, selectedVariant}) {
                 <Image
                   src={selectedVariant.image?.url ?? img.image?.url}
                   alt="pro-detail"
-                  height="120px"
-                  width="120px"
+                  // height="120px"
+                  // width="120px"
                 />
               )}
             </div>

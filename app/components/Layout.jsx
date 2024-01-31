@@ -7,7 +7,7 @@ import Card4 from '../image/card4.png';
 import Card5 from '../image/card5.png';
 import Card6 from '../image/card6.png';
 import {Suspense, useEffect, useRef, useState} from 'react';
-import {Await, Link, useMatches} from '@remix-run/react';
+import {Await, Link, NavLink, useMatches} from '@remix-run/react';
 import {CartMain} from './Cart.jsx';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {CartForm} from '@shopify/hydrogen';
@@ -160,7 +160,7 @@ function Header({
               >
                 <path
                   d="M1 1L16 16M16 1L1 16"
-                  stroke="white"
+                  stroke="#1C6758"
                   strokeWidth="2.4"
                 />
               </svg>
@@ -177,9 +177,9 @@ function Header({
                         key={item.id}
                         className={isSubMenuOpen ? 'active-submenu' : ''}
                       >
-                        <Link to={item.to} target={item.target}>
+                        <NavLink to={item.to} target={item.target}>
                           {item.title}
-                        </Link>
+                        </NavLink>
                         {item.items != 0 && (
                           <span onClick={() => handleMenu(item.id)}>
                             <svg
@@ -214,7 +214,7 @@ function Header({
           </div>
           <div className="social_icon">
             <ul className="flex align_center">
-              <li className="main_search_form">
+              <li>
                 {/* <a
                   href="/"
                   className="flex"
