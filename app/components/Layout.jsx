@@ -1,5 +1,5 @@
 import logo from '../image/logo-ethenic.png';
-import Logo3 from '../image/Logo3.png';
+import Logo3 from '../image/logo(white).png';
 import Card1 from '../image/card1.png';
 import Card2 from '../image/card2.png';
 import Card3 from '../image/card3.png';
@@ -23,6 +23,7 @@ export function Layout({
   setMiniCart,
   search,
   setSearch,
+  seo,
 }) {
   const {headerMenu, footerMenu} = layout;
   const [contentLoaded, setContentLoaded] = useState(false);
@@ -47,7 +48,7 @@ export function Layout({
         setSearch={setSearch}
       />
       <>{children}</>
-      <Footer footer={footerMenu} />
+      <Footer footer={footerMenu} seo={seo} />
     </>
   ) : (
     <span className="loader"></span>
@@ -259,7 +260,7 @@ function Header({
   );
 }
 
-function Footer({footer}) {
+function Footer({footer, seo}) {
   return (
     <footer>
       <div className="container">
@@ -271,9 +272,9 @@ function Footer({footer}) {
               </a>
             </div>
             <div className="foot1_content">
-              <p>Herbal Herbs Farm</p>
-              <p>Brevard, North Carolina</p>
-              <p>© Herbal Herbs, 2023. All Rights Reserved.</p>
+              <p>{seo.title}</p>
+              <p>{seo.description}</p>
+             
             </div>
             <div className="foot1_social">
               <h3>Follow us:</h3>

@@ -90,6 +90,8 @@ export default function App() {
   const [miniCart, setMiniCart] = useState(false);
   const [search, setSearch] = useState(false);
 
+  console.log('data', data);
+
   return (
     <html lang="en">
       <head>
@@ -106,6 +108,7 @@ export default function App() {
       <body className={menu || miniCart || search ? 'active' : ''}>
         <Layout
           layout={data.layout}
+          seo={data.seo}
           menu={menu}
           setMenu={setMenu}
           miniCart={miniCart}
