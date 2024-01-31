@@ -122,6 +122,7 @@ export default function Homepage() {
                 <Suspense>
                   <Await resolve={collection}>
                     {({collection}) => {
+                      console.log('collection', collection)
                       return (
                         <NewArrival
                           key={index}
@@ -132,6 +133,7 @@ export default function Homepage() {
                               }}
                             ></span>
                           }
+                          collectionHandle={collection.handle}
                           product={collection?.products?.nodes}
                         />
                       );

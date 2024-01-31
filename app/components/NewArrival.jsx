@@ -3,7 +3,8 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {Pagination} from 'swiper/modules';
 import {ProductCard} from '~/components';
 
-export function NewArrival({product, title}) {
+export function NewArrival({product, title,collectionHandle}) {
+  console.log('product', product)
   return (
     <section className="new_product">
       <div className="container">
@@ -51,7 +52,7 @@ export function NewArrival({product, title}) {
             </Swiper>
           </div>
           <div className="product_btn">
-            <a href="#" className="btn">
+            <a href={`collections/${collectionHandle}`} className="btn">
               Shop More
             </a>
           </div>
