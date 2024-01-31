@@ -63,7 +63,7 @@ export default function SearchPage() {
 
   return (
     <main className="abt_sec">
-      <section>
+      <section className="main_search_form">
         <div className="container">
           <div className="spacer">
             <div className="section_title">

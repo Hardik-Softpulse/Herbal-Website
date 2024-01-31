@@ -1,4 +1,4 @@
-import {Suspense, useState} from 'react';
+import {Suspense, useEffect, useState} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData} from '@remix-run/react';
 import data from '../json/product.json';
@@ -140,6 +140,8 @@ export default function Product() {
   const {product, variants} = useLoaderData();
   const {selectedVariant} = product;
   const [productsData, setProductsData] = useState(data);
+  console.log('productsData', productsData);
+
 
   return (
     <main className="abt_sec">
@@ -155,7 +157,7 @@ export default function Product() {
                 variants={variants}
               />
             );
-          case 'multicolumn_fk9hDA':
+          case 'multicolumn':
             return <MultiColumn key={sectionKey} data={section} />;
           case 'multirow':
             return <MultiRow key={sectionKey} data={section} />;
@@ -169,27 +171,7 @@ export default function Product() {
   );
 }
 
-function MultiColumn() {
-  return (
-    <section>
-      <div class="container">
-        <div class="spacer">
-          <div class="section_title">
-            <h2>Clean, Pure & Certified</h2>
-          </div>
-          <div class="main_clean flex justify_center">
-            <div class="clean">
-              <div class="clean_img">
-                <img src="image/clean.png" alt="" />
-              </div>
-              <p>Holistic wellness</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 function MainProduct({section, product, selectedVariant, variants}) {
   return (
@@ -217,6 +199,7 @@ function MainProduct({section, product, selectedVariant, variants}) {
     </section>
   );
 }
+
 
 function ProductImage({image, selectedVariant}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -514,10 +497,40 @@ function ProductForm({variants}) {
   );
 }
 
+function MultiColumn({data}) {
+  const {block_order, blocks,settings} = data;
+
+  console.log('data', data)
+  return (
+    <section>
+      <div class="container">
+        <div class="spacer">
+          <div class="section_title">
+            <h2>{settings.title}</h2>
+          </div>
+          <div class="main_clean flex justify_center">
+            {block_order.map((blockId) => {
+              const {settings} = blocks[blockId];
+              return (
+                <div class="clean">
+                  <div class="clean_img">
+                    <div
+                      dangerouslySetInnerHTML={{__html: settings.svgIcons}}
+                    ></div>
+                  </div>
+                  <p> {settings.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function MultiRow({data}) {
   const {row_PBzXmV, row_wHPGzk} = data.blocks;
-
-  console.log('data', data);
   return (
     <section>
       <div className="container">

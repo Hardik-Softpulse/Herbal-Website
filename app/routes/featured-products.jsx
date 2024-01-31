@@ -1,4 +1,3 @@
-import {getSelectedProductOptions} from '@shopify/hydrogen';
 import {json} from '@shopify/remix-oxygen';
 import invariant from 'tiny-invariant';
 
@@ -14,7 +13,7 @@ export async function loader({context: {storefront}}) {
 export async function getFeaturedData(storefront, variables = {}) {
   const data = await storefront.query(FEATURED_ITEMS_QUERY, {
     variables: {
-      pageBy: 12,
+      pageBy: 4,
       language: storefront.i18n.language,
       ...variables,
     },
@@ -27,8 +26,10 @@ export async function getFeaturedData(storefront, variables = {}) {
 
 export const FEATURED_ITEMS_QUERY = `#graphql
   query FeaturedItems(
-    $pageBy: Int = 12
-  )  {
+    $country: CountryCode
+    $language: LanguageCode
+    $pageBy: Int = 4
+  ) @inContext(country: $country, language: $language) {
     featuredCollections: collections(first: 3, sortKey: UPDATED_AT) {
       nodes {
         ...FeaturedCollectionDetails

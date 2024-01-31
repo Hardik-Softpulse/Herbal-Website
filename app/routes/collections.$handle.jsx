@@ -9,6 +9,7 @@ import {
   Pagination,
   getPaginationVariables,
   AnalyticsPageType,
+  flattenConnection,
 } from '@shopify/hydrogen';
 import Filter from '../components/Filter';
 import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
@@ -16,6 +17,9 @@ import {seoPayload} from '~/lib/seo.server';
 import NewArrival from '../image/women-coll.jpg';
 import {ProductCard} from '../components';
 import {getImageLoadingPriority} from '~/lib/const';
+import Discount from '../image/discount.png';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Navigation} from 'swiper/modules';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
@@ -81,7 +85,7 @@ export async function loader({request, params, context}) {
     return redirect('/collections');
   }
 
-  const {collection} = await storefront.query(COLLECTION_QUERY, {
+  const {collection, collections} = await storefront.query(COLLECTION_QUERY, {
     variables: {
       handle,
       ...paginationVariables,
@@ -101,6 +105,7 @@ export async function loader({request, params, context}) {
 
   return json({
     collection,
+    collections: flattenConnection(collections),
     appliedFilters,
     analytics: {
       pageType: AnalyticsPageType.collection,
@@ -112,7 +117,7 @@ export async function loader({request, params, context}) {
 }
 
 export default function Collection() {
-  const {collection, appliedFilters} = useLoaderData();
+  const {collection, appliedFilters, collections} = useLoaderData();
   const {products, image, handle, title} = collection;
   console.log('collection', collection);
   const items = [
@@ -232,48 +237,67 @@ export default function Collection() {
 
       <section>
         <div className="container">
-          <div className="sfpacer">
-            <div className="main_health flex align_center justify_center">
-              <div className="health">
-                {/* <img src={Health2} alt="" /> */}
-                <div className="health_content">
-                  <h4>100% Hand Made</h4>
-                  <p>
-                    These handmade Herbal are loaded with anti-bacterial and
-                    anti-inflammatory properties.
-                  </p>
-                </div>
-              </div>
-              <div className="health">
-                {/* <img src={Health3} alt="" /> */}
-                <div className="health_content">
-                  <h4>1000 year old tradition</h4>
-                  <p>
-                    These handmade Herbal are loaded with anti-bacterial and
-                    anti-inflammatory properties.
-                  </p>
-                </div>
-              </div>
-              <div className="health">
-                {/* <img src={Health4} alt="" /> */}
-                <div className="health_content">
-                  <h4>Live Long & Healthy</h4>
-                  <p>
-                    These handmade Herbal are loaded with anti-bacterial and
-                    anti-inflammatory properties.
-                  </p>
-                </div>
-              </div>
-              <div className="health">
-                {/* <img src={Health1} alt="" /> */}
-                <div className="health_content">
-                  <h4>Balanced Life</h4>
-                  <p>
-                    These handmade Herbal are loaded with anti-bacterial and
-                    anti-inflammatory properties.
-                  </p>
-                </div>
-              </div>
+          <div className="spacer">
+            <div className="section_title">
+              <h2>Shop By Interest</h2>
+            </div>
+            <div id="interest">
+              <Swiper
+                loop={true}
+                spaceBetween={20}
+                slidesPerView={7}
+                modules={[Navigation]}
+                navigation={{clickable: true}}
+                breakpoints={{
+                  100: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                  },
+                  200: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+                  415: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+                  501: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                  },
+                  700: {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                  },
+                  1000: {
+                    slidesPerView: 5,
+                    spaceBetween: 20,
+                  },
+                  1100: {
+                    slidesPerView: 5,
+                    spaceBetween: 20,
+                  },
+                  1300: {
+                    slidesPerView: 6,
+                    spaceBetween: 20,
+                  },
+                }}
+              >
+                {collections.map((data) => {
+                  return (
+                    <SwiperSlide key={data.id}>
+                      <div className="interest_content">
+                        <div className="interest_img">
+                          <a href={`/collections/${data.handle}`}>
+                            <img src={data.image?.url} alt="Collection-Image" />
+                          </a>
+                        </div>
+                        <a href={`/collections/${data.handle}`}>{data.title}</a>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
             </div>
           </div>
         </div>
@@ -284,7 +308,7 @@ export default function Collection() {
           <div className="spacer">
             <div className="main_discount_banner flex align_center">
               <div className="discount_vector">
-                {/* <img src={Discount} alt="" /> */}
+                <img src={Discount} alt="" />
               </div>
               <div className="discount_content">
                 <h4>Do you want a 10% discount for your first purchase?</h4>
@@ -366,8 +390,16 @@ const COLLECTION_QUERY = `#graphql
     collections(first: 100) {
       edges {
         node {
+          id
           title
           handle
+          image {
+            id
+            url
+            altText
+            width
+            height
+          }   
         }
       }
     }

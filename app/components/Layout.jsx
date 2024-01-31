@@ -12,8 +12,7 @@ import {CartMain} from './Cart.jsx';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {CartForm} from '@shopify/hydrogen';
 import {CartLoading} from './CartLoading';
-import {SearchForm} from './Search.jsx';
-// import {SearchForm} from './index.js';
+import {SearchForm} from '.';
 
 export function Layout({
   layout,
@@ -22,6 +21,8 @@ export function Layout({
   setMenu,
   miniCart,
   setMiniCart,
+  search,
+  setSearch,
 }) {
   const {headerMenu, footerMenu} = layout;
   const [contentLoaded, setContentLoaded] = useState(false);
@@ -42,6 +43,8 @@ export function Layout({
         setMenu={setMenu}
         miniCart={miniCart}
         setMiniCart={setMiniCart}
+        search={search}
+        setSearch={setSearch}
       />
       <>{children}</>
       <Footer footer={footerMenu} />
@@ -51,11 +54,21 @@ export function Layout({
   );
 }
 
-function Header({header, menu, setMenu, miniCart, setMiniCart}) {
+function Header({
+  header,
+  menu,
+  setMenu,
+  miniCart,
+  setMiniCart,
+  search,
+  setSearch,
+}) {
   const [hideNav, setHideNav] = useState(false);
   const [subMenu, setSubMenu] = useState(false);
   const headerRef = useRef(null);
-  const [search, setSearch] = useState(false);
+
+  const [activeSubMenuIndex, setActiveSubMenuIndex] = useState(null);
+
   useEffect(() => {
     let didScroll;
     let lastScrollTop = 0;
@@ -97,6 +110,11 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
     };
   }, []);
 
+  const handleMenu = (index) => {
+    setSubMenu(!subMenu);
+    setActiveSubMenuIndex(index);
+  };
+
   return (
     <header ref={headerRef} className={hideNav ? 'hide-nav' : ''}>
       <div className="top_header">
@@ -123,6 +141,13 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
                 <rect y="12" width="20" height="3" fill="white" />
               </svg>
             </button>
+          </div>
+          <div className="main_logo ">
+            <a href="/" className="flex align_center">
+              <img src={logo} alt="" />
+            </a>
+          </div>
+          <div className={`navigation ${menu ? 'active' : ''}`}>
             <button
               className={`menu_btn cross ${menu ? 'active' : ''}`}
               onClick={() => setMenu(!menu)}
@@ -141,30 +166,23 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
                 />
               </svg>
             </button>
-          </div>
-          <div className="main_logo ">
-            <a href="/" className="flex align_center">
-              <img src={logo} alt="" />
-            </a>
-          </div>
-          <div className={`navigation ${menu ? 'active' : ''}`}>
             <nav>
               <div className="main_menu">
                 <ul className="flex align_center">
                   {(header?.items || []).map((item) => {
+                    const isSubMenuOpen =
+                      subMenu && item.id === activeSubMenuIndex;
+
                     return (
-                      <li key={item.id}>
-                        <Link
-                          to={item.to}
-                          target={item.target}
-                          onClick={() => {
-                            handleMenu(item.title);
-                          }}
-                        >
+                      <li
+                        key={item.id}
+                        className={isSubMenuOpen ? 'active-submenu' : ''}
+                      >
+                        <Link to={item.to} target={item.target}>
                           {item.title}
                         </Link>
                         {item.items != 0 && (
-                          <span onClick={() => setSubMenu(!subMenu)}>
+                          <span onClick={() => handleMenu(item.id)}>
                             <svg
                               aria-hidden="true"
                               focusable="false"
@@ -182,7 +200,7 @@ function Header({header, menu, setMenu, miniCart, setMiniCart}) {
                           </span>
                         )}
 
-                        {subMenu &&
+                        {isSubMenuOpen &&
                           item.items?.map((menuItem) => (
                             <div className="hdr_sub_menu" key={menuItem.id}>
                               <a href={menuItem.to}>{menuItem.title}</a>

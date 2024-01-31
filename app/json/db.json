@@ -25,7 +25,7 @@
           "type": "slide",
           "settings": {
             "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/slider-3-2_ff5f8456-752f-4a30-8855-faf90244a1b7.jpg",
-            "heading": "Mpress Them With Your Outfit",
+            "heading": "Impress Them With Your Outfit",
             "heading_size": "h1",
             "subheading": "",
             "button_label": "Shop Now",
@@ -278,8 +278,7 @@
         },
         "email_form_cbjHnq": {
           "type": "email_form",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [

@@ -22,9 +22,9 @@ import swiper from 'swiper/css';
 import {seoPayload} from '~/lib/seo.server';
 import invariant from 'tiny-invariant';
 import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
+import {GenericError, NotFound} from '~/components';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
-  
   if (formMethod && formMethod !== 'GET') {
     return true;
   }
@@ -56,12 +56,10 @@ export function links() {
   ];
 }
 
-
 export const useRootLoaderData = () => {
   const [root] = useMatches();
   return root?.data;
 };
-
 
 export async function loader({request, context}) {
   const {session, storefront, cart} = context;
@@ -90,7 +88,7 @@ export default function App() {
   const data = useLoaderData();
   const [menu, setMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
-
+  const [search, setSearch] = useState(false);
 
   return (
     <html lang="en">
@@ -105,13 +103,15 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className={menu || miniCart ? 'active' : ''}>
+      <body className={menu || miniCart || search ? 'active' : ''}>
         <Layout
           layout={data.layout}
           menu={menu}
           setMenu={setMenu}
           miniCart={miniCart}
           setMiniCart={setMiniCart}
+          search={search}
+          setSearch={setSearch}
         >
           <Outlet />
         </Layout>
@@ -123,48 +123,53 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
-  const rootData = useRootLoaderData();
-  const nonce = useNonce();
-  let errorMessage = 'Unknown error';
-  let errorStatus = 500;
+export function ErrorBoundary({error}) {
+  const [root] = useMatches();
+  const locale = root?.data?.selectedLocale ?? DEFAULT_LOCALE;
+  const routeError = useRouteError();
+  const isRouteError = isRouteErrorResponse(routeError);
 
-  if (isRouteErrorResponse(error)) {
-    errorMessage = error?.data?.message ?? error.data;
-    errorStatus = error.status;
-  } else if (error instanceof Error) {
-    errorMessage = error.message;
+  let title = 'Error';
+  let pageType = 'page';
+
+  if (isRouteError) {
+    title = 'Not found';
+    if (routeError.status === 404) pageType = routeError.data || pageType;
   }
 
   return (
-    <html lang="en">
+    <html lang={locale.language}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>{title}</title>
         <Meta />
         <Links />
       </head>
       <body>
-        <Layout {...rootData}>
-          <div className="route-error">
-            <h1>Oops</h1>
-            <h2>{errorStatus}</h2>
-            {errorMessage && (
-              <fieldset>
-                <pre>{errorMessage}</pre>
-              </fieldset>
-            )}
-          </div>
+        <Layout
+          layout={root?.data?.layout}
+          key={`${locale.language}-${locale.country}`}
+        >
+          {isRouteError ? (
+            <>
+              {routeError.status === 404 ? (
+                <NotFound type={pageType} />
+              ) : (
+                <GenericError
+                  error={{message: `${routeError.status} ${routeError.data}`}}
+                />
+              )}
+            </>
+          ) : (
+            <GenericError error={error instanceof Error ? error : undefined} />
+          )}
         </Layout>
-        <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
-        <LiveReload nonce={nonce} />
+        <Scripts />
       </body>
     </html>
   );
 }
-
 
 async function validateCustomerAccessToken(session, customerAccessToken) {
   let isLoggedIn = false;

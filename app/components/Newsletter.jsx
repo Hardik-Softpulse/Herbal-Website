@@ -1,7 +1,7 @@
 import Discount from '../image/discount.png';
 
 export function Newsletter({data}) {
-  const {heading_3xJ7Q3, paragraph_yV7tRm} = data.blocks;
+  const {heading_3xJ7Q3, paragraph_yV7tRm} = data?.blocks;
   return (
     <section className="dis_banner">
       <div className="container">
