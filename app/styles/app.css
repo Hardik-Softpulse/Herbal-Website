@@ -1,3 +1,4 @@
+
 /* @import url(custome-font.css); */
 
 * {
@@ -3528,8 +3529,33 @@ p.text-red-500,
 body #ts-quickshop-modal{
   position: absolute;
   top: 0;
-  left: 0;
+  left: -200px;
   width: 1200px;
+  z-index: 99;
+  box-shadow: 0 4px 28px -2px #00000014;
+  margin: 10px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+#ts-quickshop-modal .right_product_detail  .pro_detail_fast_vector,
+#ts-quickshop-modal .right_product_detail  .pro_detail_star {
+  display: none !important;
+}
+#ts-quickshop-modal .close_cart{
+  height: 25px;
+  width: 25px;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+#ts-quickshop-modal .close_cart img{
+  width: 25px;
+  height: 25px;
+  background-color: var(--themeColor);
+  padding: 5px;
 }
 .main_search_form .searchForm button.close_cart {
   display: none;
@@ -3546,6 +3572,7 @@ button.menu_btn.cross.active {
 button.menu_btn.cross {
   display: none;
 }
+
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {
@@ -4698,6 +4725,10 @@ button.menu_btn.cross {
   .main_clean .clean {
     max-width: calc(30% - 20px);
   }
+
+  .acccount-orders fieldset{
+    max-width: calc(50% - 20px);
+  }
 }
 @media screen and (max-width: 600px) {
   .banner_news {
@@ -5096,6 +5127,9 @@ button.menu_btn.cross {
     max-width: 100%;
   }
   
+  .acccount-orders fieldset {
+    max-width: 100%;
+}
 }
 @media screen and (max-width: 337px) {
   .foot2 {

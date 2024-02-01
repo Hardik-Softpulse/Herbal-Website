@@ -10,11 +10,10 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation, Thumbs} from 'swiper/modules';
 import Truck from '../image/truck.svg';
 import Star1 from '../image/1star.png';
-import { AddToCartButton } from './AddToCartButton';
+import {AddToCartButton} from './AddToCartButton';
 // import AddToCartButton from './AddToCartButton'
 
 export default function QuickView({product}) {
- 
   return (
     <div className="main_product_detail flex align_center">
       <ProductImage image={product.media} />
@@ -128,6 +127,7 @@ function ProductForm({variants, products}) {
   );
 
   const {title, description} = products;
+  console.log('products', products);
   const {
     id,
     product,
@@ -136,6 +136,7 @@ function ProductForm({variants, products}) {
     availableForSale,
     compareAtPrice,
   } = productFirstVariant;
+  console.log('product', product);
 
   let firstVariant = productFirstVariant;
   if (!firstVariant) return null;
@@ -182,7 +183,7 @@ function ProductForm({variants, products}) {
       <div className="pro_detail_P">
         <p>{description}</p>
       </div>
-      <VariantSelector handle={product.handle} options={product.options}>
+      <VariantSelector handle={products.handle} options={product.options}>
         {({option}) => (
           <div className="pro_detail_size flex align_center">
             <h5>{option.name}:</h5>

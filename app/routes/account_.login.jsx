@@ -83,7 +83,7 @@ export default function Login() {
             <div className="register_frm">
               <div className="right_contact_form">
                 <Form method="post" noValidate>
-                  {error && <p>{error}</p>}
+                  {error && <p className="text-red-500 text-xs">{error}</p>}
                   <div className="contact_email">
                     <label htmlFor="">E-mail Address </label>
                     <br />
