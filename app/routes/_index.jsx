@@ -101,7 +101,7 @@ export default function Homepage() {
     featured_collection_3ATADh,
     featured_blog_F9yDUi,
   } = jsonData.sections;
-  console.log('jsonData', jsonData);
+ ;
 
   return (
     <main>
@@ -122,7 +122,7 @@ export default function Homepage() {
                 <Suspense>
                   <Await resolve={collection}>
                     {({collection}) => {
-                      console.log('collection', collection)
+                 
                       return (
                         <NewArrival
                           key={index}

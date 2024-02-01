@@ -7,7 +7,7 @@ export function OurCollection({collection, data}) {
       <div className="container">
         <div className="spacer">
           <div className="section_title">
-            <h2>Shop By Interest</h2>
+            <h2>Shop By Category</h2>
           </div>
           <div id="interest">
             <Swiper
@@ -62,7 +62,10 @@ export function OurCollection({collection, data}) {
                     <div className="interest_content">
                       <div className="interest_img">
                         <a href={`/collections/${catagory.handle}`}>
-                          <img src={catagory.image?.url} alt="Collection-Image" />
+                          <img
+                            src={catagory.image?.url}
+                            alt="Collection-Image"
+                          />
                         </a>
                       </div>
                       <a href={`/collections/${catagory.handle}`}>

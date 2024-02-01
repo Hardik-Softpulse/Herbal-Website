@@ -272,8 +272,8 @@ function Footer({footer, seo}) {
               </a>
             </div>
             <div className="foot1_content">
-              <p>{seo.title}</p>
-              <p>{seo.description}</p>
+              {/* <p>{seo.title}</p>
+              <p>{seo.description}</p> */}
              
             </div>
             <div className="foot1_social">

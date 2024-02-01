@@ -3,21 +3,19 @@ import {Link} from '@remix-run/react';
 import cross from '../image/cross.png';
 
 export function CartMain({layout, cart, miniCart, setMiniCart}) {
-  console.log('cart', cart);
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
-
-  console.log('lin', linesCount);
   const cartHasItems = !!cart && cart.totalQuantity > 0;
+
   return (
-    <div class="mini_cart">
-      <div class="cart_heading">
-        <div class="cart_title flex justify_between">
+    <div className="mini_cart">
+      <div className="cart_heading">
+        <div className="cart_title flex justify_between">
           <h3>Cart ({cart?.lines?.edges?.length})</h3>
-          <button class="close_cart" onClick={() => setMiniCart(!miniCart)}>
+          <button className="close_cart" onClick={() => setMiniCart(!miniCart)}>
             <img src={cross} alt="" />
           </button>
         </div>
-        <div class="cart_head">
+        <div className="cart_head">
           <p>Your cart is reserved for 15.00 minutes</p>
         </div>
       </div>
@@ -39,7 +37,7 @@ export function CartMain({layout, cart, miniCart, setMiniCart}) {
  */
 function CartDetails({layout, cart}) {
   return (
-    <div class="cart_scroll">
+    <div className="cart_scroll">
       <CartLines lines={cart?.lines} layout={layout} />
     </div>
   );
@@ -49,7 +47,7 @@ function CartLines({lines, layout}) {
   if (!lines) return null;
 
   return (
-    <div class="main_cart_product">
+    <div className="main_cart_product">
       {lines.edges?.map((line) => (
         <CartLineItem key={line.id} line={line} layout={layout} />
       ))}
@@ -58,7 +56,6 @@ function CartLines({lines, layout}) {
 }
 
 function CartLineItem({layout, line}) {
-  console.log('line', line);
   const {id, merchandise} = line.node;
   const {image, product, title, price, compareAtPrice, availableForSale} =
     merchandise;
@@ -87,18 +84,18 @@ function CartLineItem({layout, line}) {
   );
 
   return (
-    <div class="cart_product flex">
-      <div class="cart_product_img">
+    <div className="cart_product flex">
+      <div className="cart_product_img">
         {image && (
           <Link to={`/products/${product.handle}`}>
             <Image alt={image.url} data={image} />
           </Link>
         )}
       </div>
-      <div class="cart_product_content flex justify_between">
-        <div class="cart_product_info">
+      <div className="cart_product_content flex justify_between">
+        <div className="cart_product_info">
           <p>{product.title}</p>
-          <div class="cart_product_price flex">
+          <div className="cart_product_price flex">
             <h5>
               <Money withoutTrailingZeros data={price} />
             </h5>
@@ -111,12 +108,12 @@ function CartLineItem({layout, line}) {
                   <span>{`${percentageDifferenceResult}%  off`}</span>
                 )}
           </div>
-          <div class="cart_product_count">
-            <div class="num-block skin-2">
-              <div class="num-in">
-                <span class="minus dis"></span>
-                <input type="text" class="in-num" value="1" readonly="" />
-                <span class="plus"></span>
+          <div className="cart_product_count">
+            <div className="num-block skin-2">
+              <div className="num-in">
+                <span className="minus dis"></span>
+                <input type="text" className="in-num" value="1" readonly="" />
+                <span className="plus"></span>
               </div>
             </div>
           </div>
@@ -131,7 +128,7 @@ function CartCheckoutActions({checkoutUrl}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div class="cart_checkout_btn">
+    <div className="cart_checkout_btn">
       <a href={checkoutUrl} target="_self">
         <button>Checkout</button>
       </a>
@@ -151,16 +148,16 @@ export function CartSummary({cost, layout, checkoutUrl}) {
   };
 
   return (
-    <div class="cart_check_out">
-      <div class="cart_discount flex justify_between">
+    <div className="cart_check_out">
+      <div className="cart_discount flex justify_between">
         <p>Discount</p>
         <p>
           <Money data={discountPrice} />
         </p>
       </div>
-      <div class="cart_total flex justify_between">
+      <div className="cart_total flex justify_between">
         <p>Subtotal</p>
-        <div class="total_price">
+        <div className="total_price">
           <s>
             {cost?.subtotalAmount?.amount ? (
               <Money data={cost?.subtotalAmount} />
@@ -180,7 +177,7 @@ export function CartSummary({cost, layout, checkoutUrl}) {
       <div className="product_cross_img">
         <CartCheckoutActions checkoutUrl={checkoutUrl} />
       </div>
-      <p class="cart_p">
+      <p className="cart_p">
         Shipping cost and coupon code apply on checkout page*
       </p>
     </div>

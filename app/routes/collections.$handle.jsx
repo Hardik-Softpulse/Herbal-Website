@@ -119,7 +119,7 @@ export async function loader({request, params, context}) {
 export default function Collection() {
   const {collection, appliedFilters, collections} = useLoaderData();
   const {products, image, handle, title} = collection;
-  console.log('collection', collection);
+
   const items = [
     {label: 'Featured', key: 'featured'},
     {
@@ -221,9 +221,11 @@ export default function Collection() {
                             <button className="btn">Previous</button>
                           </PreviousLink>
 
-                          <NextLink>
-                            <button className="btn">Load More</button>
-                          </NextLink>
+                          <div className='product_more_btn'>
+                            <NextLink>
+                              <button className="btn">Load More</button>
+                            </NextLink>
+                          </div>
                         </>
                       )}
                     </>

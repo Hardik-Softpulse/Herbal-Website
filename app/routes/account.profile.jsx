@@ -112,7 +112,9 @@ export default function AccountProfile() {
 
   return (
     <div className="account-profile">
-      <h2>My profile</h2>
+      <div className="section_title">
+        <h2>My profile</h2>
+      </div>
       <br />
       <Form method="PUT">
         <legend>Personal information</legend>
@@ -207,7 +209,7 @@ export default function AccountProfile() {
             aria-label="New password confirm"
             minLength={8}
           />
-          <small>Passwords must be at least 8 characters.</small>
+          <small className='text-red-500'>Passwords must be at least 8 characters.</small>
         </fieldset>
         {action?.error ? (
           <p>
@@ -218,7 +220,7 @@ export default function AccountProfile() {
         ) : (
           <br />
         )}
-        <button type="submit" disabled={state !== 'idle'}>
+        <button className='btn' type="submit" disabled={state !== 'idle'}>
           {state !== 'idle' ? 'Updating' : 'Update'}
         </button>
       </Form>

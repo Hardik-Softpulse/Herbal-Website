@@ -30,14 +30,18 @@ export default function Collections() {
             </div>
             <Pagination connection={collections}>
               {({nodes, isLoading, PreviousLink, NextLink}) => (
-                <div>
-                  <PreviousLink>
-                    {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-                  </PreviousLink>
+                <div className="collection_content">
+                  <div className="product_more_btn">
+                    <PreviousLink>
+                      {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
+                    </PreviousLink>
+                  </div>
                   <CollectionsGrid collections={nodes} />
-                  <NextLink>
-                    {isLoading ? 'Loading...' : <span>Load more ↓</span>}
-                  </NextLink>
+                  <div className="product_more_btn">
+                    <NextLink>
+                      {isLoading ? 'Loading...' : <span>Load more ↓</span>}
+                    </NextLink>
+                  </div>
                 </div>
               )}
             </Pagination>

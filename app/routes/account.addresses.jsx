@@ -212,26 +212,30 @@ export default function Addresses() {
 
   return (
     <div className="account-addresses">
+    <div className="section_title">
       <h2>Addresses</h2>
-      <br />
-      {!addresses.nodes.length ? (
-        <p>You have no addresses saved.</p>
-      ) : (
-        <div>
-          <div>
-            <legend>Create address</legend>
-            <NewAddressForm />
-          </div>
-          <br />
-          <hr />
-          <br />
+    </div>
+    <br />
+    {!addresses.nodes.length ? (
+      <p>You have no addresses saved.</p>
+    ) : (
+      <div className='address_accounnt_order'>
+        <div className='address_account_wrap'>
+          <legend>Create address</legend>
+          <NewAddressForm />
+        </div>
+        <br />
+        {/* <hr /> */}
+        <br />
+        <div className='address_account_wrap'>
           <ExistingAddresses
             addresses={addresses}
             defaultAddress={defaultAddress}
           />
         </div>
-      )}
-    </div>
+      </div>
+    )}
+  </div>
   );
 }
 

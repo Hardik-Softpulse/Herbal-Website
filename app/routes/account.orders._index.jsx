@@ -113,14 +113,14 @@ function OrderItem({order}) {
   return (
     <>
       <fieldset>
-        <Link to={`/account/orders/${order.id}`}>
+        <Link className='order_id' to={`/account/orders/${order.id}`}>
           <strong>#{order.orderNumber}</strong>
         </Link>
         <p>{new Date(order.processedAt).toDateString()}</p>
         <p>{order.financialStatus}</p>
         <p>{order.fulfillmentStatus}</p>
-        <Money data={order.currentTotalPrice} />
-        <Link to={`/account/orders/${btoa(order.id)}`}>View Order →</Link>
+        <Money className='order_price' data={order.currentTotalPrice} />
+        <Link  className='btn' to={`/account/orders/${btoa(order.id)}`}>View Order →</Link>
       </fieldset>
       <br />
     </>

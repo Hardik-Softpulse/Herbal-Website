@@ -82,9 +82,11 @@ function SearchResultsProductsGrid({products}) {
                 <button className="btn">Previous</button>
               </PreviousLink>
 
-              <NextLink>
-                <button className="btn">Load More</button>
-              </NextLink>
+              <div className='product_more_btn'>
+                <NextLink>
+                  <button className="btn">Load More</button>
+                </NextLink>
+              </div>
             </>
           )}
         </>

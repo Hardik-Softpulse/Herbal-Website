@@ -28,7 +28,6 @@ export async function loader({request, context}) {
         },
       });
     } else {
-      // public subroute such as /account/login...
       return json({
         isLoggedIn: false,
         isAccountHome,
@@ -37,7 +36,6 @@ export async function loader({request, context}) {
       });
     }
   } else {
-    // loggedIn, default redirect to the orders page
     if (isAccountHome) {
       return redirect('/account/orders');
     }
@@ -78,28 +76,23 @@ export async function loader({request, context}) {
 }
 
 export default function Acccount() {
-  /** @type {LoaderReturnData} */
   const {customer, isPrivateRoute, isAccountHome} = useLoaderData();
-
+  console.log('customer', customer);
   if (!isPrivateRoute && !isAccountHome) {
     return <Outlet context={{customer}} />;
   }
 
   return (
-    <AccountLayout customer={customer}>
-      <br />
-      <br />
-      <Outlet context={{customer}} />
-    </AccountLayout>
+    <main className="abt_sec">
+      <AccountLayout customer={customer}>
+        <br />
+        <br />
+        <Outlet context={{customer}} />
+      </AccountLayout>
+    </main>
   );
 }
 
-/**
- * @param {{
- *   customer: CustomerFragment;
- *   children: React.ReactNode;
- * }}
- */
 function AccountLayout({customer, children}) {
   const heading = customer
     ? customer.firstName
@@ -108,12 +101,19 @@ function AccountLayout({customer, children}) {
     : 'Account Details';
 
   return (
-    <div className="account">
-      <h1>{heading}</h1>
-      <br />
-      <AccountMenu />
-      {children}
+    <div className="container">
+    <div className="spacer">
+      <div className="account">
+        <div className="section_title">
+          <h2>{heading}</h2>
+        </div>
+        <br />
+        <AccountMenu />
+        {children}
+      </div>
     </div>
+  </div>
+
   );
 }
 
@@ -126,7 +126,7 @@ function AccountMenu() {
   }
 
   return (
-    <nav role="navigation">
+    <nav  className='order_nav' role="navigation">
       <NavLink to="/account/orders" style={isActiveStyle}>
         Orders &nbsp;
       </NavLink>
@@ -147,7 +147,10 @@ function AccountMenu() {
 function Logout() {
   return (
     <Form className="account-logout" method="POST" action="/account/logout">
-      &nbsp;<button type="submit">Sign out</button>
+      &nbsp;
+      <button type="submit" className="btn">
+        Sign out
+      </button>
     </Form>
   );
 }

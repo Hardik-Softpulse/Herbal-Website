@@ -5,15 +5,14 @@ export function GenericError({error}) {
   const heading = `Something’s wrong here.`;
   let description = `We found an error while loading this page.`;
 
-  // TODO hide error in prod?
+  
   if (error) {
     description += `\n${error.message}`;
-    // eslint-disable-next-line no-console
     console.error(error);
   }
 
   return (
-    <>
+    <main className="abt_sec">
       <div heading={heading}>
         <h3 width="narrow" as="p">
           {description}
@@ -37,7 +36,7 @@ export function GenericError({error}) {
         </button>
       </div>
       <FeaturedSection />
-    </>
+    </main>
   );
 }
 

@@ -30,7 +30,7 @@ export function FeaturedProducts({
   }, [load, productsApiPath]);
 
   return (
-    <div class="right_blog_detail">
+    <div className="right_blog_detail">
       <h3>{heading}</h3>
         <FeatureProductsContent
           count={count}

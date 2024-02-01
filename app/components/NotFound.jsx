@@ -5,7 +5,7 @@ export function NotFound({type = 'page'}) {
   const description = `We couldn’t find the ${type} you’re looking for. Try checking the URL or heading back to the home page.`;
 
   return (
-    <>
+    <main className="abt_sec">
       <div heading={heading}>
         <h3 width="narrow" as="p">
           {description}
@@ -15,6 +15,6 @@ export function NotFound({type = 'page'}) {
         </button>
       </div>
       <FeaturedSection />
-    </>
+    </main>
   );
 }

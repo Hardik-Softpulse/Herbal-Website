@@ -1,9 +1,8 @@
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form, Link, useActionData} from '@remix-run/react';
+import {getInputStyleClasses} from '~/lib/utils';
+import {useState} from 'react';
 
-/**
- * @param {LoaderFunctionArgs}
- */
 export async function loader({context}) {
   const customerAccessToken = await context.session.get('customerAccessToken');
   if (customerAccessToken) {
@@ -13,9 +12,6 @@ export async function loader({context}) {
   return json({});
 }
 
-/**
- * @param {ActionFunctionArgs}
- */
 export async function action({request, context}) {
   if (request.method !== 'POST') {
     return json({error: 'Method not allowed'}, {status: 405});
@@ -23,6 +19,9 @@ export async function action({request, context}) {
 
   const {storefront, session} = context;
   const form = await request.formData();
+  const firstName = String(form.has('firstName') ? form.get('firstName') : '');
+  const lastName = String(form.has('lastName') ? form.get('lastName') : '');
+  const phoneno = String(form.has('phoneno') ? form.get('phoneno') : '');
   const email = String(form.has('email') ? form.get('email') : '');
   const password = form.has('password') ? String(form.get('password')) : null;
   const passwordConfirm = form.has('passwordConfirm')
@@ -44,7 +43,7 @@ export async function action({request, context}) {
 
     const {customerCreate} = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
       variables: {
-        input: {email, password},
+        input: {email, password, firstName, lastName, phoneno},
       },
     });
 
@@ -65,6 +64,9 @@ export async function action({request, context}) {
           input: {
             email,
             password,
+            firstName,
+            lastName,
+            phoneno,
           },
         },
       },
@@ -97,9 +99,12 @@ export async function action({request, context}) {
 }
 
 export default function Register() {
-  /** @type {ActionReturnData} */
   const data = useActionData();
+  console.log('data', data);
   const error = data?.error || null;
+  const [nativeEmailError, setNativeEmailError] = useState(null);
+  const [nativePasswordError, setNativePasswordError] = useState(null);
+
   return (
     <main class="abt_sec">
       <section>
@@ -110,49 +115,126 @@ export default function Register() {
             </div>
             <div className="register_frm">
               <div className="right_contact_form">
-                <form action="">
+                <Form method="post" noValidate>
+                  {error && (
+                    <div className="flex items-center justify-center mb-6 bg-zinc-500">
+                      <p className="m-4 text-s text-contrast">{error}</p>
+                    </div>
+                  )}
                   <div className="contact_name flex">
                     <div className="first_name">
                       <label for="">First Name</label>
                       <br />
-                      <input type="text" />
+                      <input
+                        id="firstName"
+                        name="firstName"
+                        type="text"
+                        autoComplete="email"
+                        placeholder="Enter your First name"
+                        required
+                        className={` ${getInputStyleClasses(nativeEmailError)}`}
+                      />
+                      {nativeEmailError && <p className='text-red-500'>{nativeEmailError} &nbsp;</p>}
                     </div>
                     <div className="last_name">
                       <label for="">Last Name</label>
                       <br />
-                      <input type="text" />
+                      <input
+                        type="text"
+                        input
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Enter your last name"
+                        required
+                        className={`${getInputStyleClasses(nativeEmailError)}`}
+                      />
+                      {nativeEmailError && <p className='text-red-500'>{nativeEmailError} &nbsp;</p>}
                     </div>
                   </div>
                   <div className="contact_email">
                     <label for="">E-mail Address </label>
                     <br />
-                    <input type="email" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email address..."
+                      className={`${getInputStyleClasses(nativeEmailError)}`}
+                      autoComplete="email"
+                      required
+                      autoFocus
+                      onBlur={(event) => {
+                        setNativeEmailError(
+                          event.currentTarget.value.length &&
+                            !event.currentTarget.validity.valid
+                            ? 'Invalid email address'
+                            : null,
+                        );
+                      }}
+                    />
+                    {nativeEmailError && <p className='text-red-500'>{nativeEmailError} &nbsp;</p>}
                   </div>
                   <div className="contact_email">
                     <label for="">Mobile Number </label>
                     <br />
-                    <input type="tel" />
+                    <input
+                      id="phoneno"
+                      name='phoneno'
+                      type="tel"
+                      required
+                      placeholder="Enter your phoneno."
+                    />
                   </div>
                   <div className="contact_email">
                     <label for="">Password </label>
                     <br />
-                    <input type="password" />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Enter your password"
+                      className={`${getInputStyleClasses(nativePasswordError)}`}
+                      minLength={8}
+                      required
+                      autoFocus
+                      onBlur={(event) => {
+                        if (
+                          event.currentTarget.validity.valid ||
+                          !event.currentTarget.value.length
+                        ) {
+                          setNativePasswordError(null);
+                        } else {
+                          setNativePasswordError(
+                            event.currentTarget.validity.valueMissing
+                              ? 'Please enter a password'
+                              : 'Passwords must be at least 8 characters',
+                          );
+                        }
+                      }}
+                    />
+                    {nativePasswordError && <p className='text-red-500'>{nativePasswordError} &nbsp;</p>}
                   </div>
                   <div className="contact_email">
                     <label for="">Re-enter Password</label>
                     <br />
-                    <input type="password" />
+                    <input
+                      type="password"
+                      name="passwordConfirm"
+                      placeholder="Enter your Conform password"
+                    />
                   </div>
                   <div className="register_btn">
-                    <a href="" className="btn">
+                    <button
+                      className="btn"
+                      // value="Register"
+                      disabled={!!(nativePasswordError || nativeEmailError)}
+                    >
                       Sign Up
-                    </a>
+                    </button>
                   </div>
                   <span>
-                    Already registered? <Link to="/account/login"> Login </Link>{' '}
+                    Already registered? <Link to="/account/login"> Login </Link>
                     here
                   </span>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

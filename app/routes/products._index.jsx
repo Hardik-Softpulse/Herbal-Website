@@ -50,8 +50,6 @@ export async function loader({request, context: {storefront}}) {
 
 export default function AllProducts() {
   const {products, seo} = useLoaderData();
-  console.log('products', products);
-
   return (
     <main className="abt_sec">
       <section>

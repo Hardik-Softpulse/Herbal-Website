@@ -140,8 +140,6 @@ export default function Product() {
   const {product, variants} = useLoaderData();
   const {selectedVariant} = product;
   const [productsData, setProductsData] = useState(data);
-  console.log('productsData', productsData);
-
 
   return (
     <main className="abt_sec">
@@ -239,12 +237,6 @@ function ProductImage({image, selectedVariant}) {
           {image.nodes?.map((img) => (
             <SwiperSlide key={img.id}>
               <div className="pro_thumb_detail_img">
-                {/* <Image
-                  src={img.image.url}
-                  alt="pro-detail"
-                  height="120px"
-                  width="120px"
-                /> */}
                 {img?.mediaContentType === 'VIDEO' ? (
                   <video controls height="100px" width="100px">
                     <source
@@ -256,8 +248,6 @@ function ProductImage({image, selectedVariant}) {
                   <Image
                     src={selectedVariant?.image?.url ?? img.image?.url}
                     alt="pro-detail"
-                    // height="120px"
-                    // width="120px"
                   />
                 )}
               </div>
@@ -280,12 +270,6 @@ function ProductImage({image, selectedVariant}) {
         {image.nodes?.map((img) => (
           <SwiperSlide key={img.id}>
             <div className="pro_detail_img">
-              {/* <Image
-                src={img.image?.url}
-                alt="pro-detail"
-                height="120px"
-                width="120px"
-              /> */}
               {img?.mediaContentType === 'VIDEO' ? (
                 <video controls>
                   <source
@@ -297,8 +281,6 @@ function ProductImage({image, selectedVariant}) {
                 <Image
                   src={selectedVariant.image?.url ?? img.image?.url}
                   alt="pro-detail"
-                  // height="120px"
-                  // width="120px"
                 />
               )}
             </div>
@@ -499,8 +481,6 @@ function ProductForm({variants}) {
 
 function MultiColumn({data}) {
   const {block_order, blocks,settings} = data;
-
-  console.log('data', data)
   return (
     <section>
       <div class="container">
@@ -582,6 +562,8 @@ function MultiRow({data}) {
 
 function RelatedProducts() {
   const {data} = useLoaderData();
+
+  console.log('data', data)
 
   return (
     <Suspense>

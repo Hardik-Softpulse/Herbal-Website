@@ -21,7 +21,7 @@ function Filter({filters, appliedFilters = []}) {
     const isFilterApplied = appliedFilters.some(
       (obj) => obj.label === filter.label,
     );
-    console.log('sFilterApplied', isFilterApplied);
+    
     if (isFilterApplied) {
       // Filter is applied, remove it
       const newFilters = appliedFilters.filter(
