@@ -4,44 +4,38 @@ import {Form, Link, useActionData} from '@remix-run/react';
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({context}) {
+export async function loader({context, params}) {
   const customerAccessToken = await context.session.get('customerAccessToken');
   if (customerAccessToken) {
-    return redirect('/account');
+    return redirect(params.locale ? `${params.locale}/account` : '/account');
   }
-
-  return json({});
+  return new Response(null);
 }
 
-/**
- * @param {ActionFunctionArgs}
- */
-export async function action({request, context}) {
-  const {storefront} = context;
-  const form = await request.formData();
-  const email = form.has('email') ? String(form.get('email')) : null;
+const badRequest = (data) => json(data, {status: 400});
 
-  if (request.method !== 'POST') {
-    return json({error: 'Method not allowed'}, {status: 405});
+export const action = async ({request, context}) => {
+  const formData = await request.formData();
+  const email = formData.get('email');
+
+  if (!email || typeof email !== 'string') {
+    return badRequest({
+      formError: 'Please provide an email.',
+    });
   }
 
   try {
-    if (!email) {
-      throw new Error('Please provide an email.');
-    }
-    await storefront.mutate(CUSTOMER_RECOVER_MUTATION, {
+    await context.storefront.mutate(CUSTOMER_RECOVER_MUTATION, {
       variables: {email},
     });
 
     return json({resetRequested: true});
   } catch (error) {
-    const resetRequested = false;
-    if (error instanceof Error) {
-      return json({error: error.message, resetRequested}, {status: 400});
-    }
-    return json({error, resetRequested}, {status: 400});
+    return badRequest({
+      formError: 'Something went wrong. Please try again later.',
+    });
   }
-}
+};
 
 export default function Recover() {
   /** @type {ActionReturnData} */
@@ -49,33 +43,36 @@ export default function Recover() {
 
   return (
     <main className="abt_sec">
-      <section>
-        <div className="container">
-          <div className="spacer">
-            <div className="account-recover">
-              <div>
-                {action?.resetRequested ? (
-                 <>
+    <section>
+      <div className="container">
+        <div className="spacer">
+          <div className="account-recover">
+            <div>
+              {action?.resetRequested ? (
+                <>
 
-                 <div class="section_title">
-                   <h2>Request Sent.</h2>
-                 </div>
-                 <div className="main_forgot_pass">
-                   <p>
-                     If that email address is in our system, you will receive an email
-                     with instructions about how to reset your password in a few
-                     minutes.
-                   </p>
-                   <br />
-                   <p><Link className='btn' to="/account/login">Return to Login</Link></p>
-                 </div>
-               </>
-                ) : (
-                  <>
-                    <h1>Forgot Password.</h1>
+                  <div class="section_title">
+                    <h2>Request Sent.</h2>
+                  </div>
+                  <div className="main_forgot_pass">
                     <p>
-                      Enter the email address associated with your account to
-                      receive a link to reset your password.
+                      If that email address is in our system, you will receive an email
+                      with instructions about how to reset your password in a few
+                      minutes.
+                    </p>
+                    <br />
+                    <p><Link className='btn' to="/account/login">Return to Login</Link></p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div class="section_title">
+                    <h2>Forgot Password.</h2>
+                  </div>
+                  <div className="main_forgot_pass">
+                    <p>
+                      Enter the email address associated with your account to receive a
+                      link to reset your password.
                     </p>
                     <br />
                     <Form method="POST">
@@ -94,7 +91,7 @@ export default function Recover() {
                         />
                       </fieldset>
                       {action?.error ? (
-                        <p>
+                        <p className='text-red-500'>
                           <mark>
                             <small>{action.error}</small>
                           </mark>
@@ -110,14 +107,15 @@ export default function Recover() {
                         <Link className='btn' to="/account/login">Login →</Link>
                       </p>
                     </div>
-                  </>
-                )}
-              </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
   );
 }
 
