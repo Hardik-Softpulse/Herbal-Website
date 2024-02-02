@@ -183,7 +183,7 @@ function ProductForm({variants, products}) {
       <div className="pro_detail_P">
         <p>{description}</p>
       </div>
-      <VariantSelector handle={products.handle} options={product.options}>
+      <VariantSelector handle={products.handle} options={products.options}>
         {({option}) => (
           <div className="pro_detail_size flex align_center">
             <h5>{option.name}:</h5>

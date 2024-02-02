@@ -21,7 +21,6 @@ export async function action({request, context}) {
   const form = await request.formData();
   const firstName = String(form.has('firstName') ? form.get('firstName') : '');
   const lastName = String(form.has('lastName') ? form.get('lastName') : '');
-  const phoneno = String(form.has('phoneno') ? form.get('phoneno') : '');
   const email = String(form.has('email') ? form.get('email') : '');
   const password = form.has('password') ? String(form.get('password')) : null;
   const passwordConfirm = form.has('passwordConfirm')
@@ -43,7 +42,7 @@ export async function action({request, context}) {
 
     const {customerCreate} = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
       variables: {
-        input: {email, password, firstName, lastName, phoneno},
+        input: {email, password, firstName, lastName},
       },
     });
 
@@ -66,7 +65,7 @@ export async function action({request, context}) {
             password,
             firstName,
             lastName,
-            phoneno,
+           
           },
         },
       },
