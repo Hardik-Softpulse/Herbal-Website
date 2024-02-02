@@ -12,6 +12,7 @@ export function NewArrival({product, title, collectionHandle}) {
           <div className="section_title">
             <h2>{title}</h2>
           </div>
+      
           <div className="stamp">
             <div className="stamp_wrap">
               <img src={Stamp} alt="" />

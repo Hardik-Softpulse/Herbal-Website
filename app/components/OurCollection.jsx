@@ -9,6 +9,7 @@ export function OurCollection({collection, data}) {
           <div className="section_title">
             <h2>Shop By Category</h2>
           </div>
+        
           <div id="interest">
             <Swiper
               loop={true}
