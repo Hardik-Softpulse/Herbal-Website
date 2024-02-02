@@ -65,7 +65,6 @@ export async function action({request, context}) {
             password,
             firstName,
             lastName,
-           
           },
         },
       },
@@ -117,7 +116,9 @@ export default function Register() {
                 <Form method="post" noValidate>
                   {error && (
                     <div className="flex items-center justify-center mb-6 bg-zinc-500">
-                      <p className="m-4 text-s text-contrast">{error}</p>
+                      <p className="m-4 text-s text-contrast text-red-500">
+                        {error}
+                      </p>
                     </div>
                   )}
                   <div className="contact_name flex">
@@ -133,7 +134,11 @@ export default function Register() {
                         required
                         className={` ${getInputStyleClasses(nativeEmailError)}`}
                       />
-                      {nativeEmailError && <p className='text-red-500'>{nativeEmailError} &nbsp;</p>}
+                      {nativeEmailError && (
+                        <p className="text-red-500">
+                          {nativeEmailError} &nbsp;
+                        </p>
+                      )}
                     </div>
                     <div className="last_name">
                       <label for="">Last Name</label>
@@ -147,7 +152,11 @@ export default function Register() {
                         required
                         className={`${getInputStyleClasses(nativeEmailError)}`}
                       />
-                      {nativeEmailError && <p className='text-red-500'>{nativeEmailError} &nbsp;</p>}
+                      {nativeEmailError && (
+                        <p className="text-red-500">
+                          {nativeEmailError} &nbsp;
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="contact_email">
@@ -170,14 +179,16 @@ export default function Register() {
                         );
                       }}
                     />
-                    {nativeEmailError && <p className='text-red-500'>{nativeEmailError} &nbsp;</p>}
+                    {nativeEmailError && (
+                      <p className="text-red-500">{nativeEmailError} &nbsp;</p>
+                    )}
                   </div>
                   <div className="contact_email">
                     <label for="">Mobile Number </label>
                     <br />
                     <input
                       id="phoneno"
-                      name='phoneno'
+                      name="phoneno"
                       type="tel"
                       required
                       placeholder="Enter your phoneno."
@@ -209,7 +220,11 @@ export default function Register() {
                         }
                       }}
                     />
-                    {nativePasswordError && <p className='text-red-500'>{nativePasswordError} &nbsp;</p>}
+                    {nativePasswordError && (
+                      <p className="text-red-500">
+                        {nativePasswordError} &nbsp;
+                      </p>
+                    )}
                   </div>
                   <div className="contact_email">
                     <label for="">Re-enter Password</label>

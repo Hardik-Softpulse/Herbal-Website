@@ -14,6 +14,8 @@ import {AddToCartButton} from './AddToCartButton';
 // import AddToCartButton from './AddToCartButton'
 
 export default function QuickView({product}) {
+  console.log('produc', product);
+
   return (
     <div className="main_product_detail flex align_center">
       <ProductImage image={product.media} />
@@ -126,8 +128,7 @@ function ProductForm({variants, products}) {
     flattenConnection(cardProduct.variants)[0],
   );
 
-  const {title, description} = products;
-  console.log('products', products);
+  const {vendor, title, description} = products;
   const {
     id,
     product,
@@ -136,17 +137,16 @@ function ProductForm({variants, products}) {
     availableForSale,
     compareAtPrice,
   } = productFirstVariant;
-  console.log('product', product);
 
   let firstVariant = productFirstVariant;
   if (!firstVariant) return null;
 
   const productAnalytics = {
-    productGid: products.id,
+    productGid:  products.id,
     variantGid: firstVariant.id,
-    name: products.title,
+    name: title,
     variantName: firstVariant.title,
-    brand: products.vendor,
+    brand: vendor,
     price: firstVariant.price.amount,
     quantity: productQuantity,
   };
@@ -162,7 +162,7 @@ function ProductForm({variants, products}) {
 
   return (
     <div className="right_product_detail">
-      <h6>{products.vendor}</h6>
+      <h6>{vendor}</h6>
       <h2>{title}</h2>
       <div className="pro_detail_star flex align_center">
         <img src={Star1} alt="" />
@@ -190,46 +190,28 @@ function ProductForm({variants, products}) {
             {option.values.length > 7
               ? option.values.map(({value, to}) => {
                   return (
-                    <Link
+                    <h4
                       key={option.name + value}
-                      to={to}
-                      preventScrollReset
-                      prefetch="intent"
-                      replace
                       onClick={() => handleSelectVariant(value)}
+                      className={
+                        productselectedVariant?.includes(value) ? 'active' : ''
+                      }
                     >
-                      <h4
-                        className={
-                          productselectedVariant?.includes(value)
-                            ? 'active'
-                            : ''
-                        }
-                      >
-                        {value}
-                      </h4>
-                    </Link>
+                      {value}
+                    </h4>
                   );
                 })
               : option.values.map(({value, to}) => {
                   return (
-                    <Link
+                    <h4
                       key={option.name + value}
-                      to={to}
-                      preventScrollReset
-                      prefetch="intent"
-                      replace
+                      className={
+                        productselectedVariant?.includes(value) ? 'active' : ''
+                      }
                       onClick={() => handleSelectVariant(value)}
                     >
-                      <h4
-                        className={
-                          productselectedVariant?.includes(value)
-                            ? 'active'
-                            : ''
-                        }
-                      >
-                        {value}
-                      </h4>
-                    </Link>
+                      {value}
+                    </h4>
                   );
                 })}
           </div>

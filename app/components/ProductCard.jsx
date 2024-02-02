@@ -4,6 +4,7 @@ import {getProductPlaceholder} from '~/lib/placeholders';
 import {Link} from '@remix-run/react';
 import {useState} from 'react';
 import QuickView from './QuickView';
+import cross from '../image/cross.svg';
 
 export function ProductCard({product, label}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,7 +68,7 @@ export function ProductCard({product, label}) {
           <div className="product_quick_hvr">
             <button
               className="quick-view-btn normal-case"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsModalOpen(!isModalOpen)}
             >
               Quick Views
               <svg
@@ -83,6 +84,20 @@ export function ProductCard({product, label}) {
               </svg>
             </button>
           </div>
+
+          {isModalOpen && (
+            <div id="ts-quickshop-modal" className="ts-popup-modal">
+           
+              <button
+                class="close_cart"
+                onClick={() => setIsModalOpen(!isModalOpen)}
+              >
+                <img src={cross} alt="" />
+              </button>
+              {console.log('product s', product)}
+              <QuickView product={product} />
+            </div>
+          )}
         </div>
       </div>
 
@@ -105,13 +120,6 @@ export function ProductCard({product, label}) {
               )}
         </div>
       </div>
-      {isModalOpen && (
-        <QuickView
-          product={product}
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-        />
-      )}
     </div>
   );
 }

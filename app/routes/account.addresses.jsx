@@ -4,7 +4,9 @@ import {
   useActionData,
   useNavigation,
   useOutletContext,
+  useParams,
 } from '@remix-run/react';
+import {useState} from 'react';
 
 /**
  * @type {MetaFunction}
@@ -212,30 +214,30 @@ export default function Addresses() {
 
   return (
     <div className="account-addresses">
-    <div className="section_title">
-      <h2>Addresses</h2>
-    </div>
-    <br />
-    {!addresses.nodes.length ? (
-      <p>You have no addresses saved.</p>
-    ) : (
-      <div className='address_accounnt_order'>
-        <div className='address_account_wrap'>
-          <legend>Create address</legend>
-          <NewAddressForm />
-        </div>
-        <br />
-        {/* <hr /> */}
-        <br />
-        <div className='address_account_wrap'>
-          <ExistingAddresses
-            addresses={addresses}
-            defaultAddress={defaultAddress}
-          />
-        </div>
+      <div className="section_title">
+        <h2>Addresses</h2>
       </div>
-    )}
-  </div>
+      <br />
+      {!addresses.nodes.length ? (
+        <p>You have no addresses saved.</p>
+      ) : (
+        <div className="address_accounnt_order">
+          <div className="address_account_wrap">
+            <legend>Create address</legend>
+            <NewAddressForm />
+          </div>
+          <br />
+          {/* <hr /> */}
+          <br />
+          <div className="address_account_wrap">
+            <ExistingAddresses
+              addresses={addresses}
+              defaultAddress={defaultAddress}
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -262,6 +264,7 @@ function NewAddressForm() {
             disabled={stateForMethod('POST') !== 'idle'}
             formMethod="POST"
             type="submit"
+            className="btn"
           >
             {stateForMethod('POST') !== 'idle' ? 'Creating' : 'Create'}
           </button>
@@ -271,56 +274,76 @@ function NewAddressForm() {
   );
 }
 
-/**
- * @param {Pick<CustomerFragment, 'addresses' | 'defaultAddress'>}
- */
 function ExistingAddresses({addresses, defaultAddress}) {
+  const [FormModal, setFormModal] = useState(false);
+  const [formModalAddressId, setFormModalAddressId] = useState(null);
   return (
     <div>
       <legend>Existing addresses</legend>
-      {addresses.nodes.map((address) => (
-        <AddressForm
-          key={address.id}
-          address={address}
-          defaultAddress={defaultAddress}
-        >
-          {({stateForMethod}) => (
-            <div>
+
+      {addresses.nodes.map((address) => {
+        console.log('address', address);
+        return (
+          <div className="address-book" key={address.id}>
+            <h3>
+              {(address.firstName || address.lastName) && (
+                <span>
+                  {'' +
+                    (address.firstName && address.firstName + ' ') +
+                    address?.lastName}
+                </span>
+              )}
+              {defaultAddress && <span>(Default)</span>}
+            </h3>
+            <div className="divider"></div>
+            <p>
+              {address.company}
+              <br /> {address.address1}, {address.address2}
+              <br /> {address.city}
+              <br /> {address.province}
+              <br /> {address.zip}
+              <br /> {address.country}
+              <br /> {address.phone}
+            </p>
+            <p className="action-link">
               <button
-                disabled={stateForMethod('PUT') !== 'idle'}
-                formMethod="PUT"
-                type="submit"
+                className="btn"
+                onClick={() => {
+                  setFormModalAddressId(address.id), setFormModal(!FormModal);
+                }}
               >
-                {stateForMethod('PUT') !== 'idle' ? 'Saving' : 'Save'}
+                Edit
               </button>
-              <button
-                disabled={stateForMethod('DELETE') !== 'idle'}
-                formMethod="DELETE"
-                type="submit"
-              >
-                {stateForMethod('DELETE') !== 'idle' ? 'Deleting' : 'Delete'}
-              </button>
-            </div>
-          )}
-        </AddressForm>
-      ))}
+              {FormModal ||
+                (formModalAddressId === address.id && (
+                  <AddressForm
+                    address={address}
+                    defaultAddress={defaultAddress}
+                  />
+                ))}
+
+              <Form action="/account/addresses" method="delete">
+                <input type="hidden" name="addressId" value={address.id} />
+                <button className="btn">Remove</button>
+              </Form>
+            </p>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-/**
- * @param {Class<useNavigation>['state']>}
- */
 export function AddressForm({address, defaultAddress, children}) {
   const {state, formMethod} = useNavigation();
-  /** @type {ActionReturnData} */
+  const {id: addressId} = useParams();
   const action = useActionData();
   const error = action?.error?.[address.id];
   const isDefaultAddress = defaultAddress?.id === address.id;
   return (
-    <Form id={address.id}>
+    <Form method="post" id={address.id}>
+      <input type="hidden" name="addressId" value={address?.id ?? addressId} />
       <fieldset>
-        <input type="hidden" name="addressId" defaultValue={address.id} />
         <label htmlFor="firstName">First name*</label>
         <input
           aria-label="First name"
@@ -447,9 +470,14 @@ export function AddressForm({address, defaultAddress, children}) {
         ) : (
           <br />
         )}
-        {children({
-          stateForMethod: (method) => (formMethod === method ? state : 'idle'),
-        })}
+        <input
+          type="submit"
+          className={`btn address_btn lp-05 ${
+            state !== 'idle' ? 'disabled' : ''
+          }`}
+          value={state !== 'idle' ? 'Saving' : 'Save'}
+          disabled={state !== 'idle'}
+        />
       </fieldset>
     </Form>
   );
