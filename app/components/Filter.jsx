@@ -21,7 +21,7 @@ function Filter({filters, appliedFilters = []}) {
     const isFilterApplied = appliedFilters.some(
       (obj) => obj.label === filter.label,
     );
-    
+
     if (isFilterApplied) {
       // Filter is applied, remove it
       const newFilters = appliedFilters.filter(
@@ -42,61 +42,67 @@ function Filter({filters, appliedFilters = []}) {
     <div className="left_filter">
       <h3>Filter</h3>
       <ul>
-        {filters.map((item) => (
-          <li
-            key={item.id}
-            className={`flex justify_between filter_show ${
-              filterOpen[item.id] ? 'active' : ''
-            }`}
-          >
-            {item.label}
-            <button
-              className="filter_down_arrow"
-              onClick={() => toggleFilterDrawer(item.id)}
-            >
-              <img src={DownArrow} alt="" />
-            </button>
-            <div className="filter_product_option">
-              {item.values?.map((items) => {
-                const to = getFilterLink(item, items.input, params, location);
-                return (
-                  <React.Fragment key={items.id}>
-                    <div className="filter_product_type flex">
-                      <input
-                        type="checkbox"
-                        name={items.label}
-                        id={items.id}
-                        onChange={() => {
-                          navigate(to);
-                        }}
-                        checked={
-                          appliedFilters?.some(
-                            (obj) => obj.label === items.label,
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      <div className="left_product_type">
-                        <label
-                          className={`pro_type_button ${
-                            toggleAppliedFilter ? 'active' : ''
-                          }`}
-                          onClick={() =>
-                            toggleAppliedFilter({label: items.label, to})
-                          }
-                          htmlFor={items.id}
-                        >
-                          {items.label}
-                        </label>
-                      </div>
-                    </div>
-                  </React.Fragment>
-                );
-              })}
-            </div>
-          </li>
-        ))}
+        {filters.map(
+          (item) =>
+            item.values.length > 0 &&
+            item.label !== 'Price' && (
+              <li
+                key={item.id}
+                className={`flex justify_between filter_show ${
+                  filterOpen[item.id] ? 'active' : ''
+                }`}
+              >
+                {item.label}
+                <button
+                  className="filter_down_arrow"
+                  onClick={() => toggleFilterDrawer(item.id)}
+                >
+                  <img src={DownArrow} alt="" />
+                </button>
+                <div className="filter_product_option">
+                  {item.values?.map((items) => {
+                    const to = getFilterLink(
+                      item,
+                      items.input,
+                      params,
+                      location,
+                    );
+                    const applied = appliedFilters?.some(
+                      (obj) => obj.label === items.label,
+                    );
+                    return (
+                      <React.Fragment key={items.id}>
+                        <div className="filter_product_type flex">
+                          <input
+                            type="checkbox"
+                            name={items.label}
+                            id={items.id}
+                            onChange={() => {
+                              navigate(to);
+                            }}
+                            checked={applied ? true : false}
+                          />
+                          <div className="left_product_type">
+                            <label
+                              className={`pro_type_button ${
+                                applied ? 'active' : ''
+                              }`}
+                              onClick={() =>
+                                toggleAppliedFilter({label: items.label, to})
+                              }
+                              htmlFor={items.id}
+                            >
+                              {items.label}
+                            </label>
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
+              </li>
+            ),
+        )}
       </ul>
     </div>
   );
