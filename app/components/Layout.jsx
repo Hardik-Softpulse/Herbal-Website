@@ -6,13 +6,22 @@ import Card3 from '../image/card3.png';
 import Card4 from '../image/card4.png';
 import Card5 from '../image/card5.png';
 import Card6 from '../image/card6.png';
-import {Suspense, useEffect, useRef, useState} from 'react';
-import {Await, Link, NavLink, useMatches} from '@remix-run/react';
-import {CartMain} from './Cart.jsx';
+import {Suspense, useEffect, useRef, useState, useMemo} from 'react';
+import {
+  Await,
+  Form,
+  Link,
+  NavLink,
+  useMatches,
+  useParams,
+} from '@remix-run/react';
+// import {CartMain} from './Cart.jsx';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
-import {CartForm} from '@shopify/hydrogen';
 import {CartLoading} from './CartLoading';
-import {SearchForm} from '.';
+import {Drawer, SearchForm, useDrawer} from '.';
+import {Cart} from './Cart';
+import {useIsHomePath} from '~/lib/utils';
+import {useIsHydrated} from '~/hooks/useIsHydrated';
 
 export function Layout({
   layout,
@@ -24,6 +33,7 @@ export function Layout({
   search,
   setSearch,
   seo,
+  isLoggedIn,
 }) {
   const {headerMenu, footerMenu} = layout;
   const [contentLoaded, setContentLoaded] = useState(false);
@@ -46,6 +56,7 @@ export function Layout({
         setMiniCart={setMiniCart}
         search={search}
         setSearch={setSearch}
+        isLoggedIn={isLoggedIn}
       />
       <>{children}</>
       <Footer footer={footerMenu} seo={seo} />
@@ -63,6 +74,68 @@ function Header({
   setMiniCart,
   search,
   setSearch,
+  isLoggedIn,
+}) {
+  const isHome = useIsHomePath();
+
+  const {
+    isOpen: isCartOpen,
+    openDrawer: openCart,
+    closeDrawer: closeCart,
+  } = useDrawer();
+
+  const addToCartFetchers = useCartFetchers('ADD_TO_CART');
+  console.log('addToCartFetchers', addToCartFetchers);
+  console.log('isCartOpen', isCartOpen);
+  useEffect(() => {
+    if (isCartOpen || !addToCartFetchers.length) return;
+    openCart();
+    console.log('isCartOpen', isCartOpen);
+  }, [addToCartFetchers, isCartOpen, openCart]);
+
+  return (
+    <>
+      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+      <DesktopHeader
+        isLoggedIn={isLoggedIn}
+        isHome={isHome}
+        openCart={openCart}
+        header={header}
+        search={search}
+        setSearch={setSearch}
+        menu={menu}
+        setMenu={setMenu}
+      />
+    </>
+  );
+}
+
+function CartDrawer({isOpen, onClose}) {
+  const [root] = useMatches();
+
+  return (
+    <Drawer open={isOpen} onClose={onClose} heading="My Cart" openFrom="right">
+      <div className="main-cart">
+        <Suspense fallback={<CartLoading />}>
+          <Await resolve={root.data?.cart}>
+            {(cart) => <Cart layout="drawer" onClose={onClose} cart={cart} />}
+          </Await>
+        </Suspense>
+      </div>
+    </Drawer>
+  );
+}
+
+function DesktopHeader({
+  isHome,
+  openCart,
+  setModalOpen,
+  isLoggedIn,
+  header,
+  search,
+  setSearch,
+  menu,
+  setMenu,
 }) {
   const [hideNav, setHideNav] = useState(false);
   const [subMenu, setSubMenu] = useState(false);
@@ -219,7 +292,7 @@ function Header({
                 {/* <a
                   href="/"
                   className="flex"
-                 
+
                 > */}
                 <svg
                   onClick={(e) => {
@@ -250,13 +323,150 @@ function Header({
                 {/* </a> */}
                 {search && <SearchForm setSearch={setSearch} search={search} />}
               </li>
-              <AccountLink />
-              <CartCount miniCart={miniCart} setMiniCart={setMiniCart} />
+              <AccountLink isLoggedIn={isLoggedIn} />
+              <CartCount isHome={isHome} openCart={openCart} />
             </ul>
           </div>
         </div>
       </div>
     </header>
+  );
+}
+
+function AccountLink({isLoggedIn}) {
+  return isLoggedIn ? (
+    <Link to="/account" className="flex">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16.6673 17.5V15.8333C16.6673 14.9493 16.3161 14.1014 15.691 13.4763C15.0659 12.8512 14.218 12.5 13.334 12.5H6.66732C5.78326 12.5 4.93542 12.8512 4.31029 13.4763C3.68517 14.1014 3.33398 14.9493 3.33398 15.8333V17.5"
+          stroke="#1C6758"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9.99935 9.16667C11.8403 9.16667 13.3327 7.67428 13.3327 5.83333C13.3327 3.99238 11.8403 2.5 9.99935 2.5C8.1584 2.5 6.66602 3.99238 6.66602 5.83333C6.66602 7.67428 8.1584 9.16667 9.99935 9.16667Z"
+          stroke="#1C6758"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </Link>
+  ) : (
+    <Link to="/account/login" className="flex">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16.6673 17.5V15.8333C16.6673 14.9493 16.3161 14.1014 15.691 13.4763C15.0659 12.8512 14.218 12.5 13.334 12.5H6.66732C5.78326 12.5 4.93542 12.8512 4.31029 13.4763C3.68517 14.1014 3.33398 14.9493 3.33398 15.8333V17.5"
+          stroke="#1C6758"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9.99935 9.16667C11.8403 9.16667 13.3327 7.67428 13.3327 5.83333C13.3327 3.99238 11.8403 2.5 9.99935 2.5C8.1584 2.5 6.66602 3.99238 6.66602 5.83333C6.66602 7.67428 8.1584 9.16667 9.99935 9.16667Z"
+          stroke="#1C6758"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </Link>
+  );
+}
+
+function CartCount({isHome, openCart}) {
+  const [root] = useMatches();
+
+  return (
+    <Suspense fallback={<Badge dark={isHome} openCart={openCart} />}>
+      <Await resolve={root.data?.cart}>
+        {(cart) => (
+          <Badge
+            dark={isHome}
+            openCart={openCart}
+            count={cart?.totalQuantity || 0}
+          />
+        )}
+      </Await>
+    </Suspense>
+  );
+}
+
+function Badge({openCart, dark, count}) {
+  const isHydrated = useIsHydrated();
+
+  const BadgeCounter = useMemo(
+    () => (
+      <>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clipPath="url(#clip0_239_7783)">
+            <path
+              d="M7.49935 18.3333C7.95959 18.3333 8.33268 17.9602 8.33268 17.5C8.33268 17.0398 7.95959 16.6667 7.49935 16.6667C7.03911 16.6667 6.66602 17.0398 6.66602 17.5C6.66602 17.9602 7.03911 18.3333 7.49935 18.3333Z"
+              stroke="#1C6758"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M16.6673 18.3333C17.1276 18.3333 17.5007 17.9602 17.5007 17.5C17.5007 17.0398 17.1276 16.6667 16.6673 16.6667C16.2071 16.6667 15.834 17.0398 15.834 17.5C15.834 17.9602 16.2071 18.3333 16.6673 18.3333Z"
+              stroke="#1C6758"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M0.833984 0.833344H4.16732L6.40065 11.9917C6.47686 12.3753 6.68558 12.72 6.99027 12.9653C7.29497 13.2105 7.67623 13.3408 8.06732 13.3333H16.1673C16.5584 13.3408 16.9397 13.2105 17.2444 12.9653C17.5491 12.72 17.7578 12.3753 17.834 11.9917L19.1673 5.00001H5.00065"
+              stroke="#1C6758"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_239_7783">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <span>{count || 0}</span>
+      </>
+    ),
+    [count, dark],
+  );
+  return isHydrated ? (
+    <li>
+      <button
+        onClick={openCart}
+        // className="add-to-cart-btn st-nav-ic  relative "
+      >
+        {BadgeCounter}
+      </button>
+    </li>
+  ) : (
+    <li>
+      <Link to="/cart" className="flex shop_cart">
+        {BadgeCounter}
+      </Link>
+    </li>
   );
 }
 
@@ -274,7 +484,6 @@ function Footer({footer, seo}) {
             <div className="foot1_content">
               {/* <p>{seo.title}</p>
               <p>{seo.description}</p> */}
-             
             </div>
             <div className="foot1_social">
               <h3>Follow us:</h3>
@@ -447,133 +656,6 @@ function Footer({footer, seo}) {
         </div>
       </div>
     </footer>
-  );
-}
-
-function AccountLink() {
-  return (
-    <Link to="/account/login" className="flex">
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M16.6673 17.5V15.8333C16.6673 14.9493 16.3161 14.1014 15.691 13.4763C15.0659 12.8512 14.218 12.5 13.334 12.5H6.66732C5.78326 12.5 4.93542 12.8512 4.31029 13.4763C3.68517 14.1014 3.33398 14.9493 3.33398 15.8333V17.5"
-          stroke="#1C6758"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9.99935 9.16667C11.8403 9.16667 13.3327 7.67428 13.3327 5.83333C13.3327 3.99238 11.8403 2.5 9.99935 2.5C8.1584 2.5 6.66602 3.99238 6.66602 5.83333C6.66602 7.67428 8.1584 9.16667 9.99935 9.16667Z"
-          stroke="#1C6758"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </Link>
-  );
-}
-
-function CartCount({miniCart, setMiniCart}) {
-  const [root] = useMatches();
-
-  const addToCartFetchers = useCartFetchers(CartForm.ACTIONS.LinesAdd);
-
-  useEffect(() => {
-    if (miniCart || !addToCartFetchers.length) return;
-  }, [addToCartFetchers, miniCart]);
-
-  return (
-    <Suspense fallback={<Badge count={0} miniCart={miniCart} />}>
-      <Await resolve={root.data?.cart}>
-        {(cart) => (
-          <Badge
-            miniCart={miniCart}
-            setMiniCart={setMiniCart}
-            count={cart?.totalQuantity || 0}
-          />
-        )}
-      </Await>
-    </Suspense>
-  );
-}
-
-function Badge({miniCart, setMiniCart, count}) {
-  return (
-    <li>
-      <a
-        href=""
-        className="flex shop_cart"
-        onClick={(e) => {
-          e.preventDefault();
-          setMiniCart(!miniCart);
-        }}
-      >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clipPath="url(#clip0_239_7783)">
-            <path
-              d="M7.49935 18.3333C7.95959 18.3333 8.33268 17.9602 8.33268 17.5C8.33268 17.0398 7.95959 16.6667 7.49935 16.6667C7.03911 16.6667 6.66602 17.0398 6.66602 17.5C6.66602 17.9602 7.03911 18.3333 7.49935 18.3333Z"
-              stroke="#1C6758"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M16.6673 18.3333C17.1276 18.3333 17.5007 17.9602 17.5007 17.5C17.5007 17.0398 17.1276 16.6667 16.6673 16.6667C16.2071 16.6667 15.834 17.0398 15.834 17.5C15.834 17.9602 16.2071 18.3333 16.6673 18.3333Z"
-              stroke="#1C6758"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M0.833984 0.833344H4.16732L6.40065 11.9917C6.47686 12.3753 6.68558 12.72 6.99027 12.9653C7.29497 13.2105 7.67623 13.3408 8.06732 13.3333H16.1673C16.5584 13.3408 16.9397 13.2105 17.2444 12.9653C17.5491 12.72 17.7578 12.3753 17.834 11.9917L19.1673 5.00001H5.00065"
-              stroke="#1C6758"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_239_7783">
-              <rect width="20" height="20" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-        <span>{count || 0}</span>
-      </a>
-      {miniCart && <MiniCart miniCart={miniCart} setMiniCart={setMiniCart} />}
-    </li>
-  );
-}
-
-function MiniCart({miniCart, setMiniCart}) {
-  const [root] = useMatches();
-
-  return (
-    <Suspense fallback={<CartLoading />}>
-      <Await resolve={root.data?.cart}>
-        {(cart) => (
-          <>
-            <CartMain
-              cart={cart}
-              miniCart={miniCart}
-              setMiniCart={setMiniCart}
-            />
-          </>
-        )}
-      </Await>
-    </Suspense>
   );
 }
 

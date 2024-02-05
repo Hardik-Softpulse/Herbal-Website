@@ -19,6 +19,7 @@ import {
 } from '~/components';
 import jsonData from '../json/db.json';
 import {seoPayload} from '~/lib/seo.server';
+import {MEDIA_FRAGMENT} from '~/data/fragments';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -101,8 +102,6 @@ export default function Homepage() {
     featured_collection_3ATADh,
     featured_blog_F9yDUi,
   } = jsonData.sections;
- ;
-
   return (
     <main>
       {jsonData.order.map((section, index) => {
@@ -122,7 +121,6 @@ export default function Homepage() {
                 <Suspense>
                   <Await resolve={collection}>
                     {({collection}) => {
-                 
                       return (
                         <NewArrival
                           key={index}
@@ -288,7 +286,7 @@ collection(handle: $handle) {
   title
   handle
   description
-  products(first: 4) {
+  products(first: 6) {
     nodes {
       id
       title
@@ -296,6 +294,15 @@ collection(handle: $handle) {
       publishedAt
       handle
       vendor
+      options {
+        name
+        values
+      }
+      media(first: 7) {
+        nodes {
+          ...Media
+        }
+      }
       variants(first: 1) {
         nodes {
           id
@@ -328,6 +335,7 @@ collection(handle: $handle) {
   }
 }
 }
+${MEDIA_FRAGMENT}
 `;
 
 const SINGLE_COLLECTION = `#graphql
@@ -337,7 +345,7 @@ id
 title
 handle
 description
-products(first: 4) {
+products(first: 6) {
   nodes {
     id
     title
@@ -345,6 +353,15 @@ products(first: 4) {
     publishedAt
     handle
     vendor
+    options {
+      name
+      values
+    }
+    media(first: 7) {
+      nodes {
+        ...Media
+      }
+    }
     variants(first: 1) {
       nodes {
         id
@@ -376,7 +393,8 @@ products(first: 4) {
   }
 }
 }
-}
+}${MEDIA_FRAGMENT}
+
 `;
 
 const COLLECTIONS_QUERY = `#graphql
@@ -441,7 +459,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   }
   query RecommendedProducts ( $language: LanguageCode)
     @inContext( language: $language) {
-    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 6, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...RecommendedProduct
       }

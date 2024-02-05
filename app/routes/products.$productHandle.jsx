@@ -427,6 +427,7 @@ function ProductForm({variants}) {
           ) : (
             <AddToCartButton
               title="Add to cart"
+              
               lines={[
                 {
                   merchandiseId: selectedVariant?.id,

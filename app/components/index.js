@@ -1,11 +1,11 @@
 // import { ResentlyView } from './ResentlyView';
 export {Layout} from './Layout';
-// export {Drawer, useDrawer} from './Drawer';
+export {Drawer, useDrawer} from './Drawer';
 // export {Input} from './Input';
 // export {ProductGallery} from './ProductGallery';
 export {ProductCard} from './ProductCard';
 export {SearchForm} from './Search';
-export {CartMain} from './Cart';
+// export {CartMain} from './Cart';
 export {CartLoading} from './CartLoading';
 // export {OrderCard} from './OrderCard';
 // export {AccountDetails} from './AccountDetails';
@@ -28,3 +28,4 @@ export {HelthBanner} from './HelthBanner';
 export {ImgBanner} from './ImgBanner';
 export {ReviewSection} from './ReviewSection';
 export {Newsletter} from './Newsletter';
+export {CartPage} from './CartPage';

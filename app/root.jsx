@@ -11,6 +11,8 @@ import {
   useLoaderData,
   ScrollRestoration,
   isRouteErrorResponse,
+  useLocation,
+  useFetcher,
 } from '@remix-run/react';
 import favicon from './image/favicon.png';
 import appStyles from './styles/app.css';
@@ -21,8 +23,9 @@ import swiperNav from 'swiper/css/navigation';
 import swiper from 'swiper/css';
 import {seoPayload} from '~/lib/seo.server';
 import invariant from 'tiny-invariant';
-import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
+import {DEFAULT_LOCALE, getCartId, parseMenu} from './lib/utils';
 import {GenericError, NotFound} from '~/components';
+import {useContextFromLoaders} from './dyapi';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') {
@@ -62,9 +65,9 @@ export const useRootLoaderData = () => {
 };
 
 export async function loader({request, context}) {
-  const {session, storefront, cart} = context;
+  const cartId = getCartId(request);
   const [customerAccessToken, layout] = await Promise.all([
-    session.get('customerAccessToken'),
+    context.session.get('customerAccessToken'),
     getLayoutData(context),
   ]);
 
@@ -73,8 +76,8 @@ export async function loader({request, context}) {
   return defer({
     isLoggedIn: Boolean(customerAccessToken),
     layout,
-    selectedLocale: storefront.i18n,
-    cart: cart.get(),
+    selectedLocale: context.storefront.i18n,
+    cart: cartId ? getCart(context, cartId) : undefined,
     analytics: {
       shopifySalesChannel: ShopifySalesChannel.hydrogen,
       shopId: layout.shop.id,
@@ -86,9 +89,27 @@ export async function loader({request, context}) {
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
+  const locale = data.selectedLocale ?? DEFAULT_LOCALE;
+  const hasUserConsent = true;
+
+  const location = useLocation();
+  const fetcher = useFetcher();
+  const pageContext = useContextFromLoaders();
   const [menu, setMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
   const [search, setSearch] = useState(false);
+  console.log('data.cart', data.cart);
+
+  useEffect(() => {
+    const {hash, pathname, search} = location;
+    var locationPageContext = {
+      ...{location: hash + pathname + search},
+      ...pageContext,
+    };
+    fetcher.submit(locationPageContext, {method: 'post', action: '/api/pv'});
+  }, [location]);
+
+  useAnalytics(hasUserConsent, locale);
 
   return (
     <html lang="en">
@@ -105,6 +126,7 @@ export default function App() {
       </head>
       <body className={menu || miniCart || search ? 'active' : ''}>
         <Layout
+          isLoggedIn={data.isLoggedIn}
           layout={data.layout}
           seo={data.seo}
           menu={menu}
@@ -291,7 +313,131 @@ async function getLayoutData({storefront, env}) {
 
   return {shop: data.shop, headerMenu, footerMenu};
 }
-/** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
-/** @typedef {import('@remix-run/react').ShouldRevalidateFunction} ShouldRevalidateFunction */
-/** @typedef {import('@shopify/hydrogen/storefront-api-types').CustomerAccessToken} CustomerAccessToken */
-/** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
+
+export async function getCart({storefront}, cartId) {
+  invariant(storefront, 'missing storefront client in cart query');
+
+  const {cart} = await storefront.query(CART_QUERY, {
+    variables: {
+      cartId,
+      country: storefront.i18n.country,
+      language: storefront.i18n.language,
+    },
+    cache: storefront.CacheNone(),
+  });
+
+  return cart;
+}
+
+const CART_QUERY = `#graphql
+  query cartQuery($cartId: ID!, $country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    cart(id: $cartId) {
+      ...CartFragment
+    }
+  }
+  fragment CartFragment on Cart {
+    id
+    checkoutUrl
+    totalQuantity
+    buyerIdentity {
+      countryCode
+      customer {
+        id
+        email
+        firstName
+        lastName
+        displayName
+      }
+      email
+      phone
+    }
+    lines(first: 100) {
+      edges {
+        node {
+          id
+          quantity
+          attributes {
+            key
+            value
+          }
+          cost {
+            totalAmount {
+              amount
+              currencyCode
+            }
+            amountPerQuantity {
+              amount
+              currencyCode
+            }
+            compareAtAmountPerQuantity {
+              amount
+              currencyCode
+            }
+          }
+          merchandise {
+            ... on ProductVariant {
+              id
+              availableForSale
+              compareAtPrice {
+                ...MoneyFragment
+              }
+              price {
+                ...MoneyFragment
+              }
+              requiresShipping
+              title
+              image {
+                ...ImageFragment
+              }
+              product {
+                handle
+                title
+                id
+              }
+              selectedOptions {
+                name
+                value
+              }
+            }
+          }
+        }
+      }
+    }
+    cost {
+      subtotalAmount {
+        ...MoneyFragment
+      }
+      totalAmount {
+        ...MoneyFragment
+      }
+      totalDutyAmount {
+        ...MoneyFragment
+      }
+      totalTaxAmount {
+        ...MoneyFragment
+      }
+    }
+    note
+    attributes {
+      key
+      value
+    }
+    discountCodes {
+      code
+    }
+  }
+
+  fragment MoneyFragment on MoneyV2 {
+    currencyCode
+    amount
+  }
+
+  fragment ImageFragment on Image {
+    id
+    url
+    altText
+    width
+    height
+  }
+`;

@@ -89,12 +89,12 @@ export function ProductCard({product, label}) {
             <div id="ts-quickshop-modal" className="ts-popup-modal">
                <div className="overlay" >
               <button
-                class="close_cart"
+                className="close_cart"
                 onClick={() => setIsModalOpen(!isModalOpen)}
               >
                 <img src={cross} alt="" />
               </button>
-              {console.log('product s', product)}
+           
               <QuickView product={product} />
               </div>
             </div>
