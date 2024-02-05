@@ -71,7 +71,7 @@ function CollectionsGrid({collections}) {
 
 function CollectionItem({collection, index}) {
   return (
-    <Link to={`/collections/${collection.handle}`} prefetch="intent">
+    <Link className='collection_img' to={`/collections/${collection.handle}`} prefetch="intent">
       {collection?.image && (
         <Image
           alt={collection.image.altText || collection.title}

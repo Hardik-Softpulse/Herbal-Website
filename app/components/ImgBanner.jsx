@@ -14,9 +14,8 @@ export function ImgBanner({collection, data}) {
               const catagory = collection.find(
                 (data) => data.handle === collectionData.collection,
               );
-
               return (
-                <div className="banner_news">
+                <div className="banner_news" key={blockId}>
                   <div className="news_banner_img1">
                     <div className="news_img_wrap">
                       <Link to={`/collections/${settings.collection}`}>
