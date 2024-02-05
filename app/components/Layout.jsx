@@ -9,13 +9,10 @@ import Card6 from '../image/card6.png';
 import {Suspense, useEffect, useRef, useState, useMemo} from 'react';
 import {
   Await,
-  Form,
   Link,
   NavLink,
   useMatches,
-  useParams,
 } from '@remix-run/react';
-// import {CartMain} from './Cart.jsx';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {CartLoading} from './CartLoading';
 import {Drawer, SearchForm, useDrawer} from '.';
@@ -85,12 +82,10 @@ function Header({
   } = useDrawer();
 
   const addToCartFetchers = useCartFetchers('ADD_TO_CART');
-  console.log('addToCartFetchers', addToCartFetchers);
-  console.log('isCartOpen', isCartOpen);
+  
   useEffect(() => {
     if (isCartOpen || !addToCartFetchers.length) return;
     openCart();
-    console.log('isCartOpen', isCartOpen);
   }, [addToCartFetchers, isCartOpen, openCart]);
 
   return (

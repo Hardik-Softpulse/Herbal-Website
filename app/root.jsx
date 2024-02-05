@@ -11,8 +11,6 @@ import {
   useLoaderData,
   ScrollRestoration,
   isRouteErrorResponse,
-  useLocation,
-  useFetcher,
 } from '@remix-run/react';
 import favicon from './image/favicon.png';
 import appStyles from './styles/app.css';
@@ -25,7 +23,6 @@ import {seoPayload} from '~/lib/seo.server';
 import invariant from 'tiny-invariant';
 import {DEFAULT_LOCALE, getCartId, parseMenu} from './lib/utils';
 import {GenericError, NotFound} from '~/components';
-import {useContextFromLoaders} from './dyapi';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') {
@@ -42,11 +39,9 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 export function links() {
   return [
     {rel: 'stylesheet', href: appStyles},
-    // {rel: 'stylesheet', href: fontCss},
     {rel: 'stylesheet', href: swiperPag},
     {rel: 'stylesheet', href: swiperNav},
     {rel: 'stylesheet', href: swiper},
-    // {rel: 'stylesheet', href: swiperBundle},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -66,8 +61,9 @@ export const useRootLoaderData = () => {
 
 export async function loader({request, context}) {
   const cartId = getCartId(request);
+  const {session, storefront, cart} = context;
   const [customerAccessToken, layout] = await Promise.all([
-    context.session.get('customerAccessToken'),
+    session.get('customerAccessToken'),
     getLayoutData(context),
   ]);
 
@@ -76,7 +72,7 @@ export async function loader({request, context}) {
   return defer({
     isLoggedIn: Boolean(customerAccessToken),
     layout,
-    selectedLocale: context.storefront.i18n,
+    selectedLocale: storefront.i18n,
     cart: cartId ? getCart(context, cartId) : undefined,
     analytics: {
       shopifySalesChannel: ShopifySalesChannel.hydrogen,
@@ -89,27 +85,9 @@ export async function loader({request, context}) {
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
-  const locale = data.selectedLocale ?? DEFAULT_LOCALE;
-  const hasUserConsent = true;
-
-  const location = useLocation();
-  const fetcher = useFetcher();
-  const pageContext = useContextFromLoaders();
   const [menu, setMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
   const [search, setSearch] = useState(false);
-  console.log('data.cart', data.cart);
-
-  useEffect(() => {
-    const {hash, pathname, search} = location;
-    var locationPageContext = {
-      ...{location: hash + pathname + search},
-      ...pageContext,
-    };
-    fetcher.submit(locationPageContext, {method: 'post', action: '/api/pv'});
-  }, [location]);
-
-  useAnalytics(hasUserConsent, locale);
 
   return (
     <html lang="en">
@@ -130,6 +108,7 @@ export default function App() {
           layout={data.layout}
           seo={data.seo}
           menu={menu}
+          cart={data.cart}
           setMenu={setMenu}
           miniCart={miniCart}
           setMiniCart={setMiniCart}
