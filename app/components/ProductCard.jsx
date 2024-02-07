@@ -87,7 +87,7 @@ export function ProductCard({product, label}) {
 
           {isModalOpen && (
             <div id="ts-quickshop-modal" className="ts-popup-modal">
-               <div className="overlay" >
+               <div className="overlays" >
               <button
                 class="close_cart"
                 onClick={() => setIsModalOpen(!isModalOpen)}

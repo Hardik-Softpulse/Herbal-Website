@@ -1,6 +1,5 @@
-
 export function Banner({data}) {
-  const { heading_66hLiQ, text_AYzYTT} = data.blocks;
+  const {heading_66hLiQ, text_AYzYTT} = data.blocks;
 
   return (
     <section id="medicine_banner">
@@ -14,9 +13,9 @@ export function Banner({data}) {
               <div className="section_title">
                 <h2>{heading_66hLiQ.settings?.heading}</h2>
               </div>
-              <p
+              <div
                 dangerouslySetInnerHTML={{__html: text_AYzYTT.settings?.text}}
-              ></p>
+              ></div>
               <a href="/news" className="btn">
                 Know More
               </a>

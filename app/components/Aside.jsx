@@ -21,7 +21,9 @@ export function Aside({children, heading, id = 'aside'}) {
         onClick={() => {
           CloseAside;
           history.go(-1);
+          console.log('history', history)
           window.location.hash = '';
+          console.log('first', window.location);
         }}
       />
       <aside>

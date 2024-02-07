@@ -73,10 +73,11 @@ export default function AllProducts() {
                     <PreviousLink>
                       <button>previous</button>
                     </PreviousLink>
-
+                    <div className="product_more_btn">
                     <NextLink>
                       <button className="btn">Load More</button>
                     </NextLink>
+                    </div>
                   </>
                 )}
               </Pagination>

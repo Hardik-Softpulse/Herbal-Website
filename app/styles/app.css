@@ -1240,7 +1240,7 @@ body.active::before {
 
 .cart_product_count .skin-2 .num-in span:before,
 .cart_product_count .skin-2 .num-in span:after {
-  content: '';
+  /* content: ''; */
   position: absolute;
   background-color: #667780;
   height: 2px;
@@ -3602,7 +3602,7 @@ body #ts-quickshop-modal {
   background-color: var(--themeColor);
   padding: 5px;
 }
-#ts-quickshop-modal .overlay {
+#ts-quickshop-modal .overlays {
   max-width: 1200px;
   width: 100%;
   background: #ffffff;
@@ -4712,7 +4712,7 @@ h4.active {
   }
   .blog_list,
   .main_blog_list .blog_list {
-    max-width: calc(50% - 8px);
+    max-width: calc(50% - 15px);
     margin-bottom: 20px;
   }
 

@@ -52,14 +52,14 @@ export function OurCollection({collection, data}) {
                 },
               }}
             >
-              {data.block_order.map((blockId) => {
+              {data.block_order.map((blockId,i) => {
                 const collectionData = data.blocks[blockId].settings;
                 const catagory = collection.find(
                   (data) => data.handle === collectionData.collection,
                 );
 
                 return (
-                  <SwiperSlide key={catagory.id}>
+                  <SwiperSlide key={i}>
                     <div className="interest_content">
                       <div className="interest_img">
                         <a href={`/collections/${catagory.handle}`}>
