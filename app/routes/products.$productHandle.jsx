@@ -169,8 +169,6 @@ export default function Product() {
   );
 }
 
-
-
 function MainProduct({section, product, selectedVariant, variants}) {
   return (
     <section>
@@ -197,7 +195,6 @@ function MainProduct({section, product, selectedVariant, variants}) {
     </section>
   );
 }
-
 
 function ProductImage({image, selectedVariant}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -426,8 +423,10 @@ function ProductForm({variants}) {
             </button>
           ) : (
             <AddToCartButton
+              onClick={() => {
+                window.location.href = window.location.href + '#cart-aside';
+              }}
               title="Add to cart"
-              
               lines={[
                 {
                   merchandiseId: selectedVariant?.id,
@@ -481,7 +480,7 @@ function ProductForm({variants}) {
 }
 
 function MultiColumn({data}) {
-  const {block_order, blocks,settings} = data;
+  const {block_order, blocks, settings} = data;
   return (
     <section>
       <div class="container">
@@ -564,7 +563,7 @@ function MultiRow({data}) {
 function RelatedProducts() {
   const {data} = useLoaderData();
 
-  console.log('data', data)
+  console.log('data', data);
 
   return (
     <Suspense>

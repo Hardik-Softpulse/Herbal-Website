@@ -14,6 +14,7 @@ import {AddToCartButton} from './AddToCartButton';
 // import AddToCartButton from './AddToCartButton'
 
 export default function QuickView({product}) {
+  console.log('produc', product);
 
   return (
     <div className="main_product_detail flex align_center">
@@ -34,7 +35,7 @@ export default function QuickView({product}) {
 
 function ProductImage({image}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  
+  console.log('image', image);
 
   return (
     <div className="left_product_detail">

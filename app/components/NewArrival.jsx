@@ -4,6 +4,7 @@ import {Pagination} from 'swiper/modules';
 import {ProductCard} from '~/components';
 
 export function NewArrival({product, title, collectionHandle}) {
+  console.log('product', product);
   return (
     <section className="new_product">
       <div className="container">
@@ -11,7 +12,7 @@ export function NewArrival({product, title, collectionHandle}) {
           <div className="section_title">
             <h2>{title}</h2>
           </div>
-
+      
           <div className="stamp">
             <div className="stamp_wrap">
               <img src={Stamp} alt="" />
@@ -43,13 +44,11 @@ export function NewArrival({product, title, collectionHandle}) {
               }}
             >
               <div className="main_product">
-                {product?.map((products) => {
-                  return (
-                    <SwiperSlide key={products.id}>
-                      <ProductCard product={products} />
-                    </SwiperSlide>
-                  );
-                })}
+                {product?.map((products) => (
+                  <SwiperSlide key={products.id}>
+                    <ProductCard product={products} />
+                  </SwiperSlide>
+                ))}
               </div>
             </Swiper>
           </div>

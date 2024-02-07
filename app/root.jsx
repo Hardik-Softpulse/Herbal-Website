@@ -21,7 +21,7 @@ import swiperNav from 'swiper/css/navigation';
 import swiper from 'swiper/css';
 import {seoPayload} from '~/lib/seo.server';
 import invariant from 'tiny-invariant';
-import {DEFAULT_LOCALE, getCartId, parseMenu} from './lib/utils';
+import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 import {GenericError, NotFound} from '~/components';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
@@ -39,9 +39,11 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 export function links() {
   return [
     {rel: 'stylesheet', href: appStyles},
+    // {rel: 'stylesheet', href: fontCss},
     {rel: 'stylesheet', href: swiperPag},
     {rel: 'stylesheet', href: swiperNav},
     {rel: 'stylesheet', href: swiper},
+    // {rel: 'stylesheet', href: swiperBundle},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -60,7 +62,6 @@ export const useRootLoaderData = () => {
 };
 
 export async function loader({request, context}) {
-  const cartId = getCartId(request);
   const {session, storefront, cart} = context;
   const [customerAccessToken, layout] = await Promise.all([
     session.get('customerAccessToken'),
@@ -73,7 +74,7 @@ export async function loader({request, context}) {
     isLoggedIn: Boolean(customerAccessToken),
     layout,
     selectedLocale: storefront.i18n,
-    cart: cartId ? getCart(context, cartId) : undefined,
+    cart: cart.get(),
     analytics: {
       shopifySalesChannel: ShopifySalesChannel.hydrogen,
       shopId: layout.shop.id,
@@ -85,7 +86,7 @@ export async function loader({request, context}) {
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
-  const [menu, setMenu] = useState(false);
+  const [headerMenu, setHeaderMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
   const [search, setSearch] = useState(false);
 
@@ -102,14 +103,12 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className={menu || miniCart || search ? 'active' : ''}>
+      <body className={headerMenu || search ? 'active' : ''}>
         <Layout
-          isLoggedIn={data.isLoggedIn}
-          layout={data.layout}
+          {...data}
           seo={data.seo}
-          menu={menu}
-          cart={data.cart}
-          setMenu={setMenu}
+          headerMenu={headerMenu}
+          setHeaderMenu={setHeaderMenu}
           miniCart={miniCart}
           setMiniCart={setMiniCart}
           search={search}
@@ -292,131 +291,7 @@ async function getLayoutData({storefront, env}) {
 
   return {shop: data.shop, headerMenu, footerMenu};
 }
-
-export async function getCart({storefront}, cartId) {
-  invariant(storefront, 'missing storefront client in cart query');
-
-  const {cart} = await storefront.query(CART_QUERY, {
-    variables: {
-      cartId,
-      country: storefront.i18n.country,
-      language: storefront.i18n.language,
-    },
-    cache: storefront.CacheNone(),
-  });
-
-  return cart;
-}
-
-const CART_QUERY = `#graphql
-  query cartQuery($cartId: ID!, $country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    cart(id: $cartId) {
-      ...CartFragment
-    }
-  }
-  fragment CartFragment on Cart {
-    id
-    checkoutUrl
-    totalQuantity
-    buyerIdentity {
-      countryCode
-      customer {
-        id
-        email
-        firstName
-        lastName
-        displayName
-      }
-      email
-      phone
-    }
-    lines(first: 100) {
-      edges {
-        node {
-          id
-          quantity
-          attributes {
-            key
-            value
-          }
-          cost {
-            totalAmount {
-              amount
-              currencyCode
-            }
-            amountPerQuantity {
-              amount
-              currencyCode
-            }
-            compareAtAmountPerQuantity {
-              amount
-              currencyCode
-            }
-          }
-          merchandise {
-            ... on ProductVariant {
-              id
-              availableForSale
-              compareAtPrice {
-                ...MoneyFragment
-              }
-              price {
-                ...MoneyFragment
-              }
-              requiresShipping
-              title
-              image {
-                ...ImageFragment
-              }
-              product {
-                handle
-                title
-                id
-              }
-              selectedOptions {
-                name
-                value
-              }
-            }
-          }
-        }
-      }
-    }
-    cost {
-      subtotalAmount {
-        ...MoneyFragment
-      }
-      totalAmount {
-        ...MoneyFragment
-      }
-      totalDutyAmount {
-        ...MoneyFragment
-      }
-      totalTaxAmount {
-        ...MoneyFragment
-      }
-    }
-    note
-    attributes {
-      key
-      value
-    }
-    discountCodes {
-      code
-    }
-  }
-
-  fragment MoneyFragment on MoneyV2 {
-    currencyCode
-    amount
-  }
-
-  fragment ImageFragment on Image {
-    id
-    url
-    altText
-    width
-    height
-  }
-`;
+/** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
+/** @typedef {import('@remix-run/react').ShouldRevalidateFunction} ShouldRevalidateFunction */
+/** @typedef {import('@shopify/hydrogen/storefront-api-types').CustomerAccessToken} CustomerAccessToken */
+/** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
