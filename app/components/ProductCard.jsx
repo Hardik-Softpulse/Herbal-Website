@@ -94,7 +94,11 @@ export function ProductCard({product, label}) {
                 >
                   <img src={cross} alt="" />
                 </button>
-                <QuickView product={product} />
+                <QuickView
+                  product={product}
+                  setIsModalOpen={setIsModalOpen}
+                  isModalOpen={isModalOpen}
+                />
               </div>
             </div>
           )}

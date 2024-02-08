@@ -1,4 +1,4 @@
-import {Await, Link, NavLink} from '@remix-run/react';
+import {Await, Link, NavLink, useLocation} from '@remix-run/react';
 import {Suspense, useEffect, useRef, useState} from 'react';
 import {useRootLoaderData} from '~/root';
 import logo from '../image/logo-ethenic.png';
@@ -18,6 +18,7 @@ export function Header({
   const {shop, menu} = header;
   const headerRef = useRef(null);
   const [hideNav, setHideNav] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     let didScroll;
@@ -59,6 +60,18 @@ export function Header({
       clearInterval(scrollInterval);
     };
   }, []);
+
+  useEffect(() => {
+    if (location.hash.includes('cart-aside')) {
+      headerRef.current.style.position = 'static';
+    } else {
+      headerRef.current.style.position = 'fixed';
+    }
+    if (location.hash.includes('#cart-aside')) {
+      history.replaceState(null, '', window.location.pathname);
+    }
+  }, [location.hash]);
+
   return (
     <header ref={headerRef} className={hideNav ? 'hide-nav' : ''}>
       <div className="top_header">
@@ -245,7 +258,7 @@ function HeaderCtas({isLoggedIn, cart, search, setSearch}) {
         <li>
           <Suspense fallback="Sign in">
             <Await resolve={isLoggedIn} errorElement="Sign in">
-              <AccountLink isLoggedIn={isLoggedIn}/>
+              <AccountLink isLoggedIn={isLoggedIn} />
             </Await>
           </Suspense>
         </li>
@@ -355,13 +368,6 @@ function Badge({count}) {
   );
 }
 
-// function CartBadge({count}) {
-//   return <a href="#cart-aside">Cart {count}</a>;
-// }
-
-/**
- * @param {Pick<HeaderProps, 'cart'>}
- */
 function CartToggle({cart}) {
   return (
     <Suspense fallback={<Badge count={0} />}>

@@ -7,6 +7,8 @@ export function AddToCartButton({
   variant = 'primary',
   disabled,
   analytics,
+  isModalOpen,
+  setIsModalOpen,
   ...props
 }) {
   return (

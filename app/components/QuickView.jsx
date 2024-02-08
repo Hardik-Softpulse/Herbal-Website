@@ -11,11 +11,8 @@ import {Navigation, Thumbs} from 'swiper/modules';
 import Truck from '../image/truck.svg';
 import Star1 from '../image/1star.png';
 import {AddToCartButton} from './AddToCartButton';
-// import AddToCartButton from './AddToCartButton'
 
-export default function QuickView({product}) {
-  console.log('produc', product);
-
+export default function QuickView({product, isModalOpen, setIsModalOpen}) {
   return (
     <div className="main_product_detail flex align_center">
       <ProductImage image={product.media} />
@@ -25,6 +22,8 @@ export default function QuickView({product}) {
             <ProductForm
               variants={resp?.product?.variants.nodes || []}
               products={product}
+              setIsModalOpen={setIsModalOpen}
+              isModalOpen={isModalOpen}
             />
           )}
         </Await>
@@ -119,7 +118,7 @@ function ProductImage({image}) {
   );
 }
 
-function ProductForm({variants, products}) {
+function ProductForm({variants, products, isModalOpen, setIsModalOpen}) {
   const cardProduct = products?.variants ? products : getProductPlaceholder();
   if (!cardProduct?.variants?.nodes?.length) return null;
   const [productQuantity, setProductQuantity] = useState(1);
@@ -142,7 +141,7 @@ function ProductForm({variants, products}) {
   if (!firstVariant) return null;
 
   const productAnalytics = {
-    productGid:  products.id,
+    productGid: products.id,
     variantGid: firstVariant.id,
     name: title,
     variantName: firstVariant.title,
@@ -249,7 +248,12 @@ function ProductForm({variants, products}) {
             </button>
           ) : (
             <AddToCartButton
+              setIsModalOpen={setIsModalOpen}
+              isModalOpen={isModalOpen}
               title="Add to cart"
+              onClick={() => {
+                window.location.href = window.location.href + '#cart-aside';
+              }}
               lines={[
                 {
                   merchandiseId: firstVariant.id,

@@ -15,7 +15,7 @@ export function Layout({
   headerMenu,
   setHeaderMenu,
 }) {
-  
+
   return (
     <>
       <CartAside cart={cart} />
@@ -53,3 +53,4 @@ function CartAside({cart}) {
     </Aside>
   );
 }
+
