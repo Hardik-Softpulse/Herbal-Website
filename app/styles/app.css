@@ -1105,7 +1105,7 @@ body.active::before {
 
 .mini_cart {
   background-color: #eef2e6;
-  max-width: 397px;
+  max-width: 400px;
   position: fixed;
   top: 0;
   right: 0px;
@@ -1166,7 +1166,7 @@ body.active::before {
   width: 65%;
 }
 .cart_product_img {
-  padding-bottom: 30%;
+  padding-bottom: 33%;
   position: relative;
   width: 30%;
   height: 100%;
@@ -1232,10 +1232,11 @@ body.active::before {
 
 .cart_product_count .skin-2 .num-in span {
   width: 35%;
-  height: 27px;
+  height: 17px;
   display: flex;
   position: relative;
   cursor: pointer;
+  color: #000;
 }
 
 .cart_product_count .skin-2 .num-in span:before,
@@ -1256,9 +1257,13 @@ body.active::before {
 }
 .cart_product_count .skin-2 .num-in .minus {
   border-right: 1px solid #1c6758;
+  padding: 5px 10px;
+  text-align: center;
 }
 .cart_product_count .skin-2 .num-in .plus {
   border-left: 1px solid #1c6758;
+  padding: 5px 10px;
+  text-align: center;
 }
 .cart_product_count .skin-2 .num-in input {
   display: flex;
@@ -3387,15 +3392,14 @@ p.text-red-500,
   gap: 15px;
 }
 .account-addresses .address_account_wrap {
-  width: 100%;
+  width: 48%;
 }
 .account-addresses .address_account_wrap .address-book {
   border-radius: 10px;
   padding: 20px;
-  max-width: calc(33.33% - 20px);
+  max-width: calc(100% - 54%);
   width: 100%;
   box-shadow: 0 4px 28px -2px #00000014;
-  margin: 10px;
 }
 .account-addresses .address_account_wrap .address_book_wrap {
   display: flex;
@@ -3681,7 +3685,7 @@ h4.active {
 }
 .address_account_wrap input,
 .address_account_wrap label {
-  max-width: 50%;
+  max-width: 97%;
   width: 100%;
 }
 .address_edit_form fieldset {
@@ -3706,6 +3710,13 @@ h4.active {
   align-items: center;
   max-width: 100%;
 }
+
+.address-details {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {
   .main_banner_contant .banner_contant h1 {
@@ -4879,6 +4890,9 @@ h4.active {
   .acccount-orders fieldset {
     max-width: calc(50% - 20px);
   }
+  .account-addresses .address_account_wrap {
+    width: 100%;
+  }
 }
 @media screen and (max-width: 600px) {
   .banner_news {
@@ -5375,7 +5389,7 @@ h4.active {
 }
 
 .overlay .close-outside {
-  background: transparent;
+  background: #1c67583d;
   border: none;
   color: transparent;
   height: 100%;
@@ -5414,7 +5428,10 @@ aside {
   right: 0;
   top: 0;
   transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
 }
+
 aside main {
   margin: 1rem;
 }
@@ -5429,4 +5446,35 @@ aside main {
   height: 100%;
   display: block;
   margin-right: 0.75rem;
+}
+.cart-summary-aside {
+  background: white;
+  border-top: 1px solid #000;
+  border-top: 1px solid var(--color-dark);
+  bottom: 0;
+  padding-top: 0.75rem;
+  position: absolute;
+  width: 360px;
+  width: calc(var(--aside-width) - 40px);
+}
+
+.cartPage .mini_cart {
+  width: 100%;
+}
+.cart-summary-page {
+  position: relative;
+  background: #d6cda4;
+  padding: 30px;
+  border-radius: 10px;
+}
+.cartdetail {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 45px;
+}
+.cartproduct {
+  display: flex;
+}
+.empty-cart{
+  text-align: center;
 }

@@ -263,5 +263,3 @@ const CART_QUERY_FRAGMENT = `#graphql
   }
 `;
 
-/** @typedef {import('@shopify/remix-oxygen').SessionStorage} SessionStorage */
-/** @typedef {import('@shopify/remix-oxygen').Session} Session */

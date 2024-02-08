@@ -23,6 +23,7 @@ import {seoPayload} from '~/lib/seo.server';
 import invariant from 'tiny-invariant';
 import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 import {GenericError, NotFound} from '~/components';
+import SwiperZoom from 'swiper/css/zoom';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') {
@@ -39,7 +40,7 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 export function links() {
   return [
     {rel: 'stylesheet', href: appStyles},
-    // {rel: 'stylesheet', href: fontCss},
+    {rel: 'stylesheet', href: SwiperZoom},
     {rel: 'stylesheet', href: swiperPag},
     {rel: 'stylesheet', href: swiperNav},
     {rel: 'stylesheet', href: swiper},

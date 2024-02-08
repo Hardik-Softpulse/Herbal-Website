@@ -12,7 +12,7 @@ import {
 } from '@shopify/hydrogen';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Navigation, Thumbs} from 'swiper/modules';
+import {Navigation, Thumbs, Zoom} from 'swiper/modules';
 import Star1 from '../image/1star.png';
 import Truck from '../image/truck.svg';
 import {routeHeaders} from '~/data/cache';
@@ -203,7 +203,6 @@ function ProductImage({image, selectedVariant}) {
     <div className="left_product_detail">
       <div className="left_pro_detail_slider">
         <Swiper
-          // thumbsSlider=""
           id="product_detail_thumb"
           modules={[Navigation, Thumbs]}
           navigation={true}
@@ -255,7 +254,8 @@ function ProductImage({image, selectedVariant}) {
 
       <Swiper
         id="product_detail"
-        modules={[Thumbs]}
+        modules={[Thumbs, Zoom]}
+        zoom={true}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
         }}
@@ -275,10 +275,12 @@ function ProductImage({image, selectedVariant}) {
                   />
                 </video>
               ) : (
-                <Image
-                  src={selectedVariant.image?.url ?? img.image?.url}
-                  alt="pro-detail"
-                />
+                <div className="swiper-zoom-container">
+                  <Image
+                    src={selectedVariant.image?.url ?? img.image?.url}
+                    alt="pro-detail"
+                  />{' '}
+                </div>
               )}
             </div>
           </SwiperSlide>
@@ -332,6 +334,8 @@ function ProductForm({variants}) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
+  useEffect(() => {}, [product.options]);
+
   return (
     <div className="right_product_detail">
       <h6>{product.vendor}</h6>

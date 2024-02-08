@@ -23,9 +23,9 @@ export function Hero({data}) {
             modules={[Navigation, Pagination]}
             pagination={{clickable: true}}
             navigation={{clickable: true}}
-            loadMinimal={true}
-            loadMinimalSize={1}
-            loadMinimalLoader={() => <span className="loader"></span>}
+            // loadMinimal={true}
+            // loadMinimalSize={1}
+            // loadMinimalLoader={() => <span className="loader"></span>}
             id="banner_slider"
           >
             {block_order.map((blockId) => {

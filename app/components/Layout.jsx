@@ -15,7 +15,7 @@ export function Layout({
   headerMenu,
   setHeaderMenu,
 }) {
-  const {footerMenu} = layout;
+  
   return (
     <>
       <CartAside cart={cart} />
@@ -32,7 +32,7 @@ export function Layout({
       )}
       <>{children}</>
       <Suspense>
-        <Await resolve={footerMenu}>
+        <Await resolve={layout.footerMenu}>
           {(footer) => <Footer footer={footer} />}
         </Await>
       </Suspense>
@@ -53,4 +53,3 @@ function CartAside({cart}) {
     </Aside>
   );
 }
-

@@ -28,3 +28,4 @@ export {HelthBanner} from './HelthBanner';
 export {ImgBanner} from './ImgBanner';
 export {ReviewSection} from './ReviewSection';
 export {Newsletter} from './Newsletter';
+// export {QuickView} from './QuickView'

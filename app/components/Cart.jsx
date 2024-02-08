@@ -1,37 +1,48 @@
 import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
 import cross from '../image/croos2.png';
+import {useVariantUrl} from '~/lib/variants';
 
 export function CartMain({layout, cart}) {
-  console.log('cart', cart);
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
   const withDiscount =
     cart &&
     Boolean(cart.discountCodes?.filter((code) => code.applicable).length);
   const className = ` mini_cart  ${withDiscount ? 'with-discount' : ''}`;
   const cartHasItems = !!cart && cart.totalQuantity > 0;
+
   return (
-    <div className={className}>
+    <div className={layout == 'page' ? 'cartmain' : className}>
       <div className="cart_heading">
-        <div className="cart_title flex justify_between">
-          <h3>Cart (2)</h3>
-          <button className="close_cart">
-            <img src={cross} alt="" />
-          </button>
-        </div>
-        <div className="cart_head">
-          <p>Your cart is reserved for 15.00 minutes</p>
-        </div>
+        {layout == 'page' ? (
+          <div className="section_title">
+            <h2>Cart({cart?.lines?.edges?.length})</h2>
+          </div>
+        ) : (
+          <>
+            <div className="cart_title flex justify_between">
+              <h3>Cart ({cart?.lines?.edges?.length})</h3>
+              <button className="close_cart">
+                <img src={cross} alt="" />
+              </button>
+            </div>
+            <div className="cart_head">
+              <p>Your cart is reserved for 15.00 minutes</p>
+            </div>
+          </>
+        )}
       </div>
       <CartEmpty hidden={linesCount} layout={layout} />
-      <CartDetails cart={cart} layout={layout} />
-      {cartHasItems && (
-        <CartSummary
-          cost={cart.cost}
-          layout={layout}
-          checkoutUrl={cart.checkoutUrl}
-        />
-      )}
+      <div className={layout == 'page' ? 'cartdetail' : ''}>
+        <CartDetails cart={cart} layout={layout} />
+        {cartHasItems && (
+          <CartSummary
+            cost={cart.cost}
+            layout={layout}
+            checkoutUrl={cart.checkoutUrl}
+          />
+        )}
+      </div>
     </div>
   );
 }
@@ -46,12 +57,19 @@ function CartDetails({layout, cart}) {
 
 function CartLines({lines, layout}) {
   if (!lines) return null;
-
   return (
     <div className="main_cart_product">
-      {lines.edges?.map((line) => (
-        <CartLineItem key={line.id} line={line} layout={layout} />
-      ))}
+      {lines.edges.map((line) => {
+        const cartLineItem = line.node;
+
+        return (
+          <CartLineItem
+            key={cartLineItem.id}
+            line={cartLineItem}
+            layout={layout}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -60,6 +78,15 @@ function CartLineItem({layout, line}) {
   const {id, merchandise} = line;
   if (!line || typeof line?.quantity === 'undefined') return null;
 
+  const {
+    image,
+    product,
+    price,
+    compareAtPrice,
+    availableForSale,
+    title,
+    selectedOptions,
+  } = merchandise;
   const calculatePercentageDifference = (defcompareAtPrice, defprice) => {
     if (
       defcompareAtPrice !== null &&
@@ -75,37 +102,57 @@ function CartLineItem({layout, line}) {
     }
   };
 
-  const defcompareAtPrice = merchandise.compareAtPrice?.amount;
-  const defprice = merchandise.price?.amount;
+  const defcompareAtPrice = compareAtPrice?.amount;
+  const defprice = price.amount;
 
   const percentageDifferenceResult = calculatePercentageDifference(
     defcompareAtPrice,
     defprice,
   );
+  const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
 
   return (
-    <div className="cart_product flex" key={id}>
+    <div
+      className={layout == 'page' ? 'cartproduct' : 'cart_product flex'}
+      key={id}
+    >
       <div className="cart_product_img">
         {merchandise.image && (
-          <Link to={`/products/${merchandise.product?.handle}`}>
-            <Image alt={merchandise.image?.url} data={merchandise.image} />
+          <Link to={`/products/${product?.handle}`}>
+            <Image alt={image?.url} data={merchandise.image} />
           </Link>
         )}
       </div>
       <div className="cart_product_content flex justify_between">
         <div className="cart_product_info">
-          <p>{merchandise.product?.title}</p>
-          <span>{merchandise.title}</span>
+          <Link
+            prefetch="intent"
+            to={lineItemUrl}
+            onClick={() => {
+              if (layout === 'aside') {
+                // close the drawer
+                window.location.href = lineItemUrl;
+              }
+            }}
+          >
+            <p>{product.title}</p>
+          </Link>
+          <span>{title}</span>
           <div className="cart_product_price flex">
             <h5>
               <Money withoutTrailingZeros data={price} />
             </h5>
-            <s>
-              <Money withoutTrailingZeros data={merchandise.compareAtPrice} />
-            </s>
-            {merchandise.compareAtPrice === null
+            {compareAtPrice === null ? (
+              ''
+            ) : (
+              <s>
+                <Money withoutTrailingZeros data={compareAtPrice} />
+              </s>
+            )}
+
+            {compareAtPrice === null
               ? ''
-              : merchandise.availableForSale == true && (
+              : availableForSale == true && (
                   <span>{`${percentageDifferenceResult}%  off`}</span>
                 )}
           </div>
@@ -118,7 +165,6 @@ function CartLineItem({layout, line}) {
 }
 
 function CartCheckoutActions({checkoutUrl}) {
-  console.log('checkoutUrl', checkoutUrl);
   if (!checkoutUrl) return null;
 
   return (
@@ -142,11 +188,11 @@ export function CartSummary({cost, layout, children = null, checkoutUrl}) {
   const discountAmountNumber = parseFloat(discountAmount);
   const discountPrice = {
     amount: discountAmountNumber.toString(),
-    currencyCode: 'USD',
+    currencyCode: 'INR',
   };
 
   return (
-    <div className={className}>
+    <div aria-labelledby="cart-summary" className={className}>
       <div className="cart_discount flex justify_between">
         <p>Discount</p>
         <p>
@@ -163,6 +209,11 @@ export function CartSummary({cost, layout, children = null, checkoutUrl}) {
               '-'
             )}
           </s>
+        </div>
+      </div>
+      <div className="cart_total flex justify_between">
+        <p>Total</p>
+        <div className="total_price">
           <span>
             {cost?.totalAmount?.amount ? (
               <Money data={cost?.totalAmount} />
@@ -217,7 +268,7 @@ function CartLineQuantity({line}) {
               <span>&#8722; </span>
             </button>
           </CartLineUpdateButton>
-          <input type="text" className="in-num" value={quantity} readOnly="" />
+          <input type="text" className="in-num" value={quantity} readOnly />
           <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
             <button
               aria-label="Increase quantity"
@@ -236,7 +287,7 @@ function CartLineQuantity({line}) {
 
 export function CartEmpty({hidden = false, layout = 'aside'}) {
   return (
-    <div hidden={hidden}>
+    <div hidden={hidden} className="empty-cart">
       <br />
       <p>
         Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
@@ -250,6 +301,7 @@ export function CartEmpty({hidden = false, layout = 'aside'}) {
             window.location.href = '/collections';
           }
         }}
+        className="btn"
       >
         Continue shopping →
       </Link>

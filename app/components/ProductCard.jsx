@@ -3,8 +3,8 @@ import {isDiscounted, isNewArrival} from '~/lib/utils';
 import {getProductPlaceholder} from '~/lib/placeholders';
 import {Link} from '@remix-run/react';
 import {useState} from 'react';
-import QuickView from './QuickView';
 import cross from '../image/cross.svg';
+import QuickView from './QuickView';
 
 export function ProductCard({product, label}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,15 +87,14 @@ export function ProductCard({product, label}) {
 
           {isModalOpen && (
             <div id="ts-quickshop-modal" className="ts-popup-modal">
-               <div className="overlays" >
-              <button
-                class="close_cart"
-                onClick={() => setIsModalOpen(!isModalOpen)}
-              >
-                <img src={cross} alt="" />
-              </button>
-              {console.log('product s', product)}
-              <QuickView product={product} />
+              <div className="overlays">
+                <button
+                  className="close_cart"
+                  onClick={() => setIsModalOpen(!isModalOpen)}
+                >
+                  <img src={cross} alt="" />
+                </button>
+                <QuickView product={product} />
               </div>
             </div>
           )}

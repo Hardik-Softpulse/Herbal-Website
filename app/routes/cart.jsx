@@ -1,6 +1,7 @@
 import {Await, useMatches} from '@remix-run/react';
 import {CartForm} from '@shopify/hydrogen';
 import {json} from '@shopify/remix-oxygen';
+import {Suspense} from 'react';
 import invariant from 'tiny-invariant';
 import {CartMain} from '~/components/Cart';
 
@@ -90,10 +91,20 @@ export default function CartRoute() {
   const [root] = useMatches();
 
   return (
-    <div>
-      <Await resolve={root.data?.cart}>
-        {(cart) => <CartMain layout="page" cart={cart} />}
-      </Await>
-    </div>
+    <main className="abt_sec">
+      <section>
+        <div className="container">
+          <div className="spacer">
+            <div className="cartPage">
+              <Suspense fallback={<p>Loading cart ...</p>}>
+                <Await resolve={root.data?.cart}>
+                  {(cart) => <CartMain layout="page" cart={cart} />}
+                </Await>
+              </Suspense>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

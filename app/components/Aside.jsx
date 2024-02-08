@@ -13,7 +13,7 @@
  *   id?: string;
  * }}
  */
-export function Aside({children, heading, id = 'aside'}) {
+export function Aside({children, id = 'aside'}) {
   return (
     <div aria-modal className="overlay" id={id} role="dialog">
       <button
@@ -21,9 +21,8 @@ export function Aside({children, heading, id = 'aside'}) {
         onClick={() => {
           CloseAside;
           history.go(-1);
-          console.log('history', history)
+
           window.location.hash = '';
-          console.log('first', window.location);
         }}
       />
       <aside>
