@@ -67,9 +67,7 @@ export function Header({
     } else {
       headerRef.current.style.position = 'fixed';
     }
-    if (location.hash.includes('#cart-aside')) {
-      history.replaceState(null, '', window.location.pathname);
-    }
+   
   }, [location.hash]);
 
   return (

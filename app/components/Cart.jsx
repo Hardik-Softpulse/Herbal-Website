@@ -4,7 +4,7 @@ import cross from '../image/croos2.png';
 import {useVariantUrl} from '~/lib/variants';
 
 export function CartMain({layout, cart}) {
-  console.log('cart', cart)
+
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
   const withDiscount =
     cart &&
@@ -23,7 +23,15 @@ export function CartMain({layout, cart}) {
           <>
             <div className="cart_title flex justify_between">
               <h3>Cart ({cart?.lines?.edges?.length})</h3>
-              <button className="close_cart">
+              <button
+                className="close_cart"
+                onClick={() => {
+                 
+                  history.go(-1);
+
+                  window.location.hash = '';
+                }}
+              >
                 <img src={cross} alt="" />
               </button>
             </div>
