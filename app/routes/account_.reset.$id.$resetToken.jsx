@@ -121,9 +121,8 @@ const CUSTOMER_RESET_MUTATION = `#graphql
   mutation customerReset(
     $id: ID!,
     $input: CustomerResetInput!
-    $country: CountryCode
     $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext(language: $language) {
     customerReset(id: $id, input: $input) {
       customerAccessToken {
         accessToken

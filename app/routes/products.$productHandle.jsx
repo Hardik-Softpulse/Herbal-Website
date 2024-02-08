@@ -38,7 +38,6 @@ export async function loader({params, request, context}) {
     variables: {
       handle: productHandle,
       selectedOptions,
-      country: context.storefront.i18n.country,
       language: context.storefront.i18n.language,
     },
   });
@@ -724,10 +723,9 @@ const PRODUCT_QUERY = `#graphql
 
 const VARIANTS_QUERY = `#graphql
   query variants(
-    $country: CountryCode
     $language: LanguageCode
     $handle: String!
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     product(handle: $handle) {
       variants(first: 250) {
         nodes {

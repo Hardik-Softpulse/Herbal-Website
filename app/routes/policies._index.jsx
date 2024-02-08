@@ -42,8 +42,8 @@ const POLICIES_QUERY = `#graphql
     title
     handle
   }
-  query Policies ($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
+  query Policies ( $language: LanguageCode)
+    @inContext(language: $language) {
     shop {
       privacyPolicy {
         ...PolicyItem

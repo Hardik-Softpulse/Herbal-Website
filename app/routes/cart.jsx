@@ -11,6 +11,7 @@ export const meta = () => {
 
 export async function action({request, context}) {
   const {session, cart} = context;
+  console.log('cart 2', cart)
 
   const [formData, customerAccessToken] = await Promise.all([
     request.formData(),

@@ -3186,6 +3186,7 @@ div#product_detail_thumb {
 
 label.pro_type_button.active {
   color: #000 !important;
+  border-bottom: 2px solid #3d8361;
 }
 /* ul li span {
   color: #1c6758;

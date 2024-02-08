@@ -45,7 +45,6 @@ export async function loader({request, context}) {
     const {customer} = await storefront.query(CUSTOMER_QUERY, {
       variables: {
         customerAccessToken: customerAccessToken.accessToken,
-        country: storefront.i18n.country,
         language: storefront.i18n.language,
       },
       cache: storefront.CacheNone(),
@@ -192,9 +191,8 @@ export const CUSTOMER_FRAGMENT = `#graphql
 const CUSTOMER_QUERY = `#graphql
   query Customer(
     $customerAccessToken: String!
-    $country: CountryCode
     $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     customer(customerAccessToken: $customerAccessToken) {
       ...Customer
     }

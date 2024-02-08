@@ -4,6 +4,7 @@ import cross from '../image/croos2.png';
 import {useVariantUrl} from '~/lib/variants';
 
 export function CartMain({layout, cart}) {
+  console.log('cart', cart)
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
   const withDiscount =
     cart &&

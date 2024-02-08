@@ -337,9 +337,8 @@ const ARTICLE_QUERY = `#graphql
   query Article(
     $articleHandle: String!
     $blogHandle: String!
-    $country: CountryCode
     $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
+  ) @inContext(language: $language ) {
     blog(handle: $blogHandle) {
       articleByHandle(handle: $articleHandle) {
         title

@@ -185,14 +185,13 @@ export const CUSTOMER_FRAGMENT = `#graphql
 const CUSTOMER_ORDERS_QUERY = `#graphql
   ${CUSTOMER_FRAGMENT}
   query CustomerOrders(
-    $country: CountryCode
     $customerAccessToken: String!
     $endCursor: String
     $first: Int
     $language: LanguageCode
     $last: Int
     $startCursor: String
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     customer(customerAccessToken: $customerAccessToken) {
       ...CustomerOrders
     }

@@ -99,14 +99,13 @@ function NoSearchResults({noResults, recommendations, searchTerm}) {
 
 const SEARCH_QUERY = `#graphql
 query PaginatedProductsSearch(
-  $country: CountryCode
   $endCursor: String
   $first: Int
   $language: LanguageCode
   $last: Int
   $searchTerm: String
   $startCursor: String
-) @inContext(country: $country, language: $language) {
+) @inContext( language: $language) {
   products(
     first: $first,
     last: $last,

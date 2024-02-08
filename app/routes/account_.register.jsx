@@ -278,9 +278,8 @@ export default function Register() {
 const CUSTOMER_CREATE_MUTATION = `#graphql
   mutation customerCreate(
     $input: CustomerCreateInput!,
-    $country: CountryCode,
     $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     customerCreate(input: $input) {
       customer {
         id
@@ -298,9 +297,8 @@ const CUSTOMER_CREATE_MUTATION = `#graphql
 const REGISTER_LOGIN_MUTATION = `#graphql
   mutation registerLogin(
     $input: CustomerAccessTokenCreateInput!,
-    $country: CountryCode,
     $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext(language: $language) {
     customerAccessTokenCreate(input: $input) {
       customerUserErrors {
         code

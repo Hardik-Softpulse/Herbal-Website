@@ -144,9 +144,9 @@ const CUSTOMER_ACTIVATE_MUTATION = `#graphql
   mutation customerActivate(
     $id: ID!,
     $input: CustomerActivateInput!,
-    $country: CountryCode,
+
     $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     customerActivate(id: $id, input: $input) {
       customerAccessToken {
         accessToken

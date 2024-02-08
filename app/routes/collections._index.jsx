@@ -99,13 +99,12 @@ const COLLECTIONS_QUERY = `#graphql
     }
   }
   query StoreCollections(
-    $country: CountryCode
     $endCursor: String
     $first: Int
     $language: LanguageCode
     $last: Int
     $startCursor: String
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     collections(
       first: $first,
       last: $last,

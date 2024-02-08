@@ -123,9 +123,8 @@ export default function Recover() {
 const CUSTOMER_RECOVER_MUTATION = `#graphql
   mutation customerRecover(
     $email: String!,
-    $country: CountryCode,
     $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     customerRecover(email: $email) {
       customerUserErrors {
         code

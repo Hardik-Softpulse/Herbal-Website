@@ -270,10 +270,9 @@ const CUSTOMER_ORDER_QUERY = `#graphql
     }
   }
   query Order(
-    $country: CountryCode
     $language: LanguageCode
     $orderId: ID!
-  ) @inContext(country: $country, language: $language) {
+  ) @inContext( language: $language) {
     order: node(id: $orderId) {
       ... on Order {
         ...Order

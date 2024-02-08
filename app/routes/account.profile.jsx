@@ -270,9 +270,8 @@ const CUSTOMER_UPDATE_MUTATION = `#graphql
   mutation customerUpdate(
     $customerAccessToken: String!,
     $customer: CustomerUpdateInput!
-    $country: CountryCode
     $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
+  ) @inContext(language: $language) {
     customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
       customer {
         acceptsMarketing

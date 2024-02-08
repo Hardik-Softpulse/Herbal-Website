@@ -196,6 +196,7 @@ async function validateCustomerAccessToken(session, customerAccessToken) {
 
 const LAYOUT_QUERY = `#graphql
   query layout(
+    
     $language: LanguageCode
     $headerMenuHandle: String!
     $footerMenuHandle: String!

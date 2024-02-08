@@ -111,8 +111,8 @@ ${sitemapUrl ? `Sitemap: ${sitemapUrl}` : ''}`;
 }
 
 const ROBOTS_QUERY = `#graphql
-  query StoreRobots($country: CountryCode, $language: LanguageCode)
-   @inContext(country: $country, language: $language) {
+  query StoreRobots( $language: LanguageCode)
+   @inContext( language: $language) {
     shop {
       id
     }
