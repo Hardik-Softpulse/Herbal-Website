@@ -1,7 +1,7 @@
 import Stamp from '../image/stamp.png';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Pagination} from 'swiper/modules';
-import {ProductCard} from '~/components';
+import {ProductCards} from '~/components';
 
 export function NewArrival({product, title, collectionHandle}) {
   console.log('product', product);
@@ -46,7 +46,7 @@ export function NewArrival({product, title, collectionHandle}) {
               <div className="main_product">
                 {product?.map((products) => (
                   <SwiperSlide key={products.id}>
-                    <ProductCard product={products} />
+                    <ProductCards product={products} />
                   </SwiperSlide>
                 ))}
               </div>

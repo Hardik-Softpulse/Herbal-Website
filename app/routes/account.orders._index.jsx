@@ -74,15 +74,19 @@ function OrdersTable({orders}) {
           {({nodes, isLoading, PreviousLink, NextLink}) => {
             return (
               <>
-                <PreviousLink>
-                  {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-                </PreviousLink>
+                <div className="product_more_btn">
+                  <PreviousLink>
+                    {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
+                  </PreviousLink>
+                </div>
                 {nodes.map((order) => {
                   return <OrderItem key={order.id} order={order} />;
                 })}
-                <NextLink>
-                  {isLoading ? 'Loading...' : <span>Load more ↓</span>}
-                </NextLink>
+                <div className="product_more_btn">
+                  <NextLink>
+                    {isLoading ? 'Loading...' : <span>Load more ↓</span>}
+                  </NextLink>
+                </div>
               </>
             );
           }}
@@ -113,14 +117,16 @@ function OrderItem({order}) {
   return (
     <>
       <fieldset>
-        <Link className='order_id' to={`/account/orders/${order.id}`}>
+        <Link className="order_id" to={`/account/orders/${order.id}`}>
           <strong>#{order.orderNumber}</strong>
         </Link>
         <p>{new Date(order.processedAt).toDateString()}</p>
         <p>{order.financialStatus}</p>
         <p>{order.fulfillmentStatus}</p>
-        <Money className='order_price' data={order.currentTotalPrice} />
-        <Link  className='btn' to={`/account/orders/${btoa(order.id)}`}>View Order →</Link>
+        <Money className="order_price" data={order.currentTotalPrice} />
+        <Link className="btn" to={`/account/orders/${btoa(order.id)}`}>
+          View Order →
+        </Link>
       </fieldset>
       <br />
     </>

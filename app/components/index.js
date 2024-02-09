@@ -4,6 +4,7 @@ export {Layout} from './Layout';
 // export {Input} from './Input';
 // export {ProductGallery} from './ProductGallery';
 export {ProductCard} from './ProductCard';
+export {ProductCards} from './ProductCards';
 export {SearchForm} from './Search';
 export {CartMain} from './Cart';
 export {CartLoading} from './CartLoading';
