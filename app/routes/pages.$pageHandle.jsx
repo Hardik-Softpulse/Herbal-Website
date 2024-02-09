@@ -33,12 +33,14 @@ export default function Page() {
       <section>
         <div className="container">
           <div className="spacer">
-            <div class="section_title">
-              <h2>{seo.title}</h2>
-            </div>
-            <div className="main_policy">
-              <div className="policy_content">
-                <p dangerouslySetInnerHTML={{__html: page.body}} />
+            <div className="spacer">
+              <div class="section_title">
+                <h2>{seo.title}</h2>
+              </div>
+              <div className="main_policy">
+                <div className="policy_content">
+                  <p dangerouslySetInnerHTML={{__html: page.body}} />
+                </div>
               </div>
             </div>
           </div>

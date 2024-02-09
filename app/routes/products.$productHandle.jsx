@@ -172,21 +172,23 @@ function MainProduct({section, product, selectedVariant, variants}) {
   return (
     <section>
       <div className="container">
-        <div className="main_product_detail flex align_center">
-          <ProductImage
-            image={product.media}
-            selectedVariant={product?.selectedVariant}
-          />
-          <Suspense fallback={<ProductForm variants={[]} />}>
-            <Await
-              errorElement="There was a problem loading related products"
-              resolve={variants}
-            >
-              {(resp) => (
-                <ProductForm variants={resp.product?.variants.nodes || []} />
-              )}
-            </Await>
-          </Suspense>
+        <div className='spacer'>
+          <div className="main_product_detail flex align_center">
+            <ProductImage
+              image={product.media}
+              selectedVariant={product?.selectedVariant}
+            />
+            <Suspense fallback={<ProductForm variants={[]} />}>
+              <Await
+                errorElement="There was a problem loading related products"
+                resolve={variants}
+              >
+                {(resp) => (
+                  <ProductForm variants={resp.product?.variants.nodes || []} />
+                )}
+              </Await>
+            </Suspense>
+          </div>
         </div>
       </div>
     </section>

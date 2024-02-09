@@ -6,10 +6,11 @@ function mywishlist() {
       <section>
         <div className="container">
           <div className="spacer">
+          <div className="spacer">
             <div className="section_title">
               <h2>Mywishlist</h2>
             </div>
-            
+            </div>
           </div>
         </div>
       </section>

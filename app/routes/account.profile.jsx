@@ -222,10 +222,8 @@ export default function AccountProfile() {
           </small>
         </fieldset>
         {action?.error ? (
-          <p>
-            <mark>
-              <small>{action.error}</small>
-            </mark>
+          <p className="text-red-500">
+            <small>{action.error}</small>
           </p>
         ) : (
           <br />

@@ -5451,7 +5451,7 @@ aside main {
   margin-right: 0.75rem;
 }
 .cart-summary-aside {
-  background: white;
+  background: #d6cda4;
   border-top: 1px solid #000;
   border-top: 1px solid var(--color-dark);
   bottom: 0;
