@@ -86,24 +86,17 @@ export function ProductCard({product, label}) {
           </div>
 
           {isModalOpen && (
-            <div
-              id="ts-quickshop-modal"
-              className="ts-popup-modal"
-              onClick={() => setIsModalOpen(!isModalOpen)}
-            >
-              <div
-                className="overlays"
-                onClick={() => setIsModalOpen(!isModalOpen)}
-              >
+            <div id="ts-quickshop-modal" className="ts-popup-modal">
+              <div className="overlays">
+                <button className="close_cart">
+                  <img src={cross} alt="" />
+                </button>
+                <QuickView
+                  product={product}
+                  setIsModalOpen={setIsModalOpen}
+                  isModalOpen={isModalOpen}
+                />
               </div>
-              <button className="close_cart">
-                <img src={cross} alt="" />
-              </button>
-              <QuickView
-                product={product}
-                setIsModalOpen={setIsModalOpen}
-                isModalOpen={isModalOpen}
-              />
             </div>
           )}
         </div>
