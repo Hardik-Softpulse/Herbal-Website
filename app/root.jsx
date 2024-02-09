@@ -104,7 +104,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className={headerMenu || search ? 'active' : ''}>
+      <body className={headerMenu || search ? 'active' : ''} >
         <Layout
           {...data}
           seo={data.seo}
@@ -114,6 +114,7 @@ export default function App() {
           setMiniCart={setMiniCart}
           search={search}
           setSearch={setSearch}
+         
         >
           <Outlet />
         </Layout>

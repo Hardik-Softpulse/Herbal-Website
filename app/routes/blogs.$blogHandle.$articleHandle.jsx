@@ -78,7 +78,7 @@ export default function Article() {
                     />
                   )}
                 </div>
-                <div class="left_blog_detail_content">
+                <div className="left_blog_detail_content">
                   <p dangerouslySetInnerHTML={{__html: contentHtml}}></p>
                   <div className="blog_detail_share">
                     <h3>Share:</h3>
@@ -308,18 +308,18 @@ export default function Article() {
       </section>
 
       <section>
-        <div class="container">
-          <div class="spacer">
-            <div class="main_discount_banner flex align_center">
-              <div class="discount_vector">
+        <div className="container">
+          <div className="spacer">
+            <div className="main_discount_banner flex align_center">
+              <div className="discount_vector">
                 <img src={Discount} alt="" />
               </div>
-              <div class="discount_content">
+              <div className="discount_content">
                 <h4>Do you want a 10% discount for your first purchase?</h4>
                 <p>Join our newsletter and get discount</p>
                 <input type="email" placeholder="Enter your email address" />
-                <div class="discount_btn">
-                  <a href="#" class="btn">
+                <div className="discount_btn">
+                  <a href="#" className="btn">
                     Subscribe
                   </a>
                 </div>

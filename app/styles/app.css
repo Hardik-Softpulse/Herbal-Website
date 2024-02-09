@@ -1582,6 +1582,8 @@ body.active::before {
 
 .filter_show.active .filter_product_option {
   display: block;
+  max-height: 205px;
+  overflow-y: auto;
 }
 .filter_show.active .filter_down_arrow {
   transform: rotate(180deg);
@@ -3087,8 +3089,8 @@ textarea {
 .contact_banner_content .contact_icon {
   margin-right: 15px;
   margin-top: 4px;
-}header
-.con_banner_responsive {
+}
+header .con_banner_responsive {
   display: none;
 }
 /* *************************************************** end contact ************************************************************** */
@@ -5476,6 +5478,28 @@ aside main {
 .cartproduct {
   display: flex;
 }
-.empty-cart{
+.empty-cart {
   text-align: center;
+}
+
+.applied-filter {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+a.reset-act {
+  color: #000;
+  border: 1px solid #d6cda4;
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+span.filter-label {
+  padding: 0 10px;
+  font-size: 12px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
 }

@@ -32,6 +32,7 @@ export async function loader({context}) {
 
 export async function action({request, context}) {
   const {customerAccount} = context;
+  console.log('customerAccount', customerAccount);
 
   try {
     const form = await request.formData();
@@ -44,18 +45,18 @@ export async function action({request, context}) {
     }
 
     // this will ensure redirecting to login never happen for mutatation
-    const isLoggedIn = await customerAccount.isLoggedIn();
-    if (!isLoggedIn) {
-      return json(
-        {error: {[addressId]: 'Unauthorized'}},
-        {
-          status: 401,
-          headers: {
-            'Set-Cookie': await context.session.commit(),
-          },
-        },
-      );
-    }
+    // const isLoggedIn = await customerAccount.isLoggedIn();
+    // if (!isLoggedIn) {
+    //   return json(
+    //     {error: {[addressId]: 'Unauthorized'}},
+    //     {
+    //       status: 401,
+    //       headers: {
+    //         'Set-Cookie': await context.session.commit(),
+    //       },
+    //     },
+    //   );
+    // }
 
     const defaultAddress = form.has('defaultAddress')
       ? String(form.get('defaultAddress')) === 'on'
@@ -573,10 +574,8 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           <label htmlFor="defaultAddress">Set as default address</label>
         </div>
         {error ? (
-          <p>
-            <mark>
-              <small>{error}</small>
-            </mark>
+          <p className="text-red-500">
+            <small>{error}</small>
           </p>
         ) : (
           <br />

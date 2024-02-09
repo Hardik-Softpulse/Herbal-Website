@@ -486,17 +486,17 @@ function MultiColumn({data}) {
   const {block_order, blocks, settings} = data;
   return (
     <section>
-      <div class="container">
-        <div class="spacer">
-          <div class="section_title">
+      <div className="container">
+        <div className="spacer">
+          <div className="section_title">
             <h2>{settings.title}</h2>
           </div>
-          <div class="main_clean flex justify_center">
+          <div className="main_clean flex justify_center">
             {block_order.map((blockId) => {
               const {settings} = blocks[blockId];
               return (
-                <div class="clean">
-                  <div class="clean_img">
+                <div className="clean">
+                  <div className="clean_img">
                     <div
                       dangerouslySetInnerHTML={{__html: settings.svgIcons}}
                     ></div>

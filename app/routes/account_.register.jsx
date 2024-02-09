@@ -23,6 +23,7 @@ export async function action({request, context}) {
   const lastName = String(form.has('lastName') ? form.get('lastName') : '');
   const email = String(form.has('email') ? form.get('email') : '');
   const password = form.has('password') ? String(form.get('password')) : null;
+  const phone = form.has('phone') ? String(form.get('phone')) : null;
   const passwordConfirm = form.has('passwordConfirm')
     ? String(form.get('passwordConfirm'))
     : null;
@@ -42,7 +43,7 @@ export async function action({request, context}) {
 
     const {customerCreate} = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
       variables: {
-        input: {email, password, firstName, lastName},
+        input: {email, password, firstName, lastName,phone},
       },
     });
 
@@ -65,6 +66,7 @@ export async function action({request, context}) {
             password,
             firstName,
             lastName,
+            phone
           },
         },
       },
@@ -105,7 +107,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <main class="abt_sec">
+    <main className="abt_sec">
       <section>
         <div className="container">
           <div className="spacer">
@@ -188,8 +190,8 @@ export default function Register() {
                     <label for="">Mobile Number </label>
                     <br />
                     <input
-                      id="phoneno"
-                      name="phoneno"
+                      id="phone"
+                      name="phone"
                       type="tel"
                       required
                       placeholder="Enter your phoneno."

@@ -13,9 +13,10 @@ export const meta = () => {
   return [{title: 'Profile'}];
 };
 
-/**
- * @param {LoaderFunctionArgs}
- */
+const formatPhoneNumberToE164 = (phoneNumber) => {
+  const cleanedNumber = phoneNumber.replace(/\D/g, ''); // Remove non-digit characters
+  return `+${cleanedNumber}`;
+};
 export async function loader({context}) {
   const customerAccessToken = await context.session.get('customerAccessToken');
   if (!customerAccessToken) {
@@ -55,10 +56,15 @@ export async function action({request, context}) {
         continue;
       }
       if (key === 'acceptsMarketing') {
-        customer.acceptsMarketing = value === 'on';
+        customer.acceptsMarketing = value === 'true';
       }
       if (typeof value === 'string' && value.length) {
-        customer[key] = value;
+        if (key === 'phone') {
+          // Format phone number to E.164 format
+          customer[key] = formatPhoneNumberToE164(value);
+        } else {
+          customer[key] = value;
+        }
       }
     }
 
@@ -73,6 +79,8 @@ export async function action({request, context}) {
         customer,
       },
     });
+
+    console.log('updated', updated.customerUpdate.customer);
 
     // check for mutation errors
     if (updated.customerUpdate?.customerUserErrors?.length) {
@@ -209,7 +217,9 @@ export default function AccountProfile() {
             aria-label="New password confirm"
             minLength={8}
           />
-          <small className='text-red-500'>Passwords must be at least 8 characters.</small>
+          <small className="text-red-500">
+            Passwords must be at least 8 characters.
+          </small>
         </fieldset>
         {action?.error ? (
           <p>
@@ -220,7 +230,7 @@ export default function AccountProfile() {
         ) : (
           <br />
         )}
-        <button className='btn' type="submit" disabled={state !== 'idle'}>
+        <button className="btn" type="submit" disabled={state !== 'idle'}>
           {state !== 'idle' ? 'Updating' : 'Update'}
         </button>
       </Form>

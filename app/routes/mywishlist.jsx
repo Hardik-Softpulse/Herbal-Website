@@ -2,11 +2,11 @@ import React from 'react';
 
 function mywishlist() {
   return (
-    <main class="abt_sec">
+    <main className="abt_sec">
       <section>
-        <div class="container">
-          <div class="spacer">
-            <div class="section_title">
+        <div className="container">
+          <div className="spacer">
+            <div className="section_title">
               <h2>Mywishlist</h2>
             </div>
             

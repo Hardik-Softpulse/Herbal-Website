@@ -3,15 +3,15 @@ import Discount from '../image/discount.png'
 
 function return_policy() {
   return (
-    <main class="abt_sec">
+    <main className="abt_sec">
     <section>
-        <div class="container">
-            <div class="spacer">
-                <div class="section_title">
+        <div className="container">
+            <div className="spacer">
+                <div className="section_title">
                     <h2>Return Policy</h2>
                 </div>
-                <div class="main_policy">
-                    <div class="policy_content">
+                <div className="main_policy">
+                    <div className="policy_content">
                         <h3>Our Promise to You</h3>
                         <p>Supplemental terms and conditions or documents that may be posted on the Site from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Terms of Use at any time and for any reason. We will alert you about any changes by updating the “Last updated” date of these Terms of Use, and you waive any right to receive specific notice of each such change. It is your responsibility to periodically review these Terms of Use to stay informed of updates. You will be subject to, and will be deemed to have been made aware of and to have accepted, the changes in any revised Terms of Use by your continued use of the Site after the date such revised Terms of Use are posted.</p>
                         <h3>Returns Process</h3>
@@ -42,18 +42,18 @@ function return_policy() {
     </section>
     
     <section>
-        <div class="container">
-            <div class="spacer">
-                <div class="main_discount_banner flex align_center">
-                    <div class="discount_vector">
+        <div classn="container">
+            <div className="spacer">
+                <div className="main_discount_banner flex align_center">
+                    <div className="discount_vector">
                         <img src={Discount} alt=""/>
                     </div>
-                    <div class="discount_content">
+                    <div className="discount_content">
                         <h4>Do you want a 10% discount for your first purchase?</h4>
                         <p>Join our newsletter and get discount</p>
                         <input type="email" placeholder="Enter your email address"/>
-                        <div class="discount_btn">
-                            <a href="#" class="btn">Subscribe</a>
+                        <div className="discount_btn">
+                            <a href="#" className="btn">Subscribe</a>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DownArrow from '../image/down-arrow.svg';
-import {useLocation, useNavigate, useSearchParams} from '@remix-run/react';
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from '@remix-run/react';
 
 function Filter({filters, appliedFilters = []}) {
   const [filterOpen, setFilterOpen] = useState({});
@@ -17,18 +22,15 @@ function Filter({filters, appliedFilters = []}) {
     }));
   };
 
-  const toggleAppliedFilter = (filter) => {
-    const isFilterApplied = appliedFilters.some(
-      (obj) => obj.label === filter.label,
-    );
+  const toggleAppliedFilter = (filter, label, to) => {
+    const isFilterApplied = appliedFilters.some((obj) => obj.label === label);
 
     if (isFilterApplied) {
       // Filter is applied, remove it
-      const newFilters = appliedFilters.filter(
-        (obj) => obj.label !== filter.label,
-      );
+      const newFilters = appliedFilters.filter((obj) => obj.label !== label);
       navigate(`${location.pathname}?${newFilters.map((f) => f.to).join('&')}`);
-    } else {
+    } else if (filter && to) {
+      // Add this condition to check if filter and filter.to are defined
       // Filter is not applied, add it
       navigate(
         `${location.pathname}?${[...appliedFilters, filter]
@@ -38,9 +40,16 @@ function Filter({filters, appliedFilters = []}) {
     }
   };
 
+  useEffect(() => {
+    toggleAppliedFilter();
+  });
+
   return (
     <div className="left_filter">
       <h3>Filter</h3>
+      {appliedFilters.length > 0 ? (
+        <AppliedFilters filters={appliedFilters} />
+      ) : null}
       <ul>
         {filters.map(
           (item) =>
@@ -88,7 +97,11 @@ function Filter({filters, appliedFilters = []}) {
                                 applied ? 'active' : ''
                               }`}
                               onClick={() =>
-                                toggleAppliedFilter({label: items.label, to})
+                                toggleAppliedFilter({
+                                  item,
+                                  label: items.label,
+                                  to,
+                                })
                               }
                               htmlFor={items.id}
                             >
@@ -109,6 +122,39 @@ function Filter({filters, appliedFilters = []}) {
 }
 
 export default Filter;
+
+function AppliedFilters({filters = []}) {
+  const [params] = useSearchParams();
+  const location = useLocation();
+  return (
+    <div className="applied-filter">
+      {filters.map((filter) => {
+        return (
+          <Link
+            to={getAppliedFilterLink(filter, params, location)}
+            className="reset-act"
+            key={`${filter.label}-${filter.urlParam}`}
+          >
+            <span className='filter-label'>{filter.label}</span>
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1 1L16 16M16 1L1 16"
+                stroke="#000"
+                strokeWidth="2.4"
+              />
+            </svg>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
 
 function getAppliedFilterLink(filter, params, location) {
   const paramsClone = new URLSearchParams(params);

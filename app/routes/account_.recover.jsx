@@ -66,7 +66,7 @@ export default function Recover() {
                 </>
               ) : (
                 <>
-                  <div class="section_title">
+                  <div className="section_title">
                     <h2>Forgot Password.</h2>
                   </div>
                   <div className="main_forgot_pass">

@@ -34,7 +34,7 @@ export function SearchForm({searchTerm, search, setSearch}) {
       method="get"
       action={params.locale ? `/${params.locale}/search` : '/search'}
     >
-      <button class="close_cart" onClick={() => setSearch(!search)}>
+      <button className="close_cart" onClick={() => setSearch(!search)}>
         <img src={cross} alt="" />
       </button>
       <input

@@ -163,13 +163,11 @@ export default function Collection() {
   return (
     <main className="abt_sec">
       <section className="main_arrivals">
-        <div>
-          <div className="main_arrivals_banner">
-            <div className="arrivals_banner_img">
-              <img src={NewArrival} alt="" />
-              <div className="arrivals_content flex align_center justify_center">
-                <h2>{title}</h2>
-              </div>
+        <div className="main_arrivals_banner">
+          <div className="arrivals_banner_img">
+            <img src={NewArrival} alt="" />
+            <div className="arrivals_content flex align_center justify_center">
+              <h2>{title}</h2>
             </div>
           </div>
         </div>
@@ -221,7 +219,7 @@ export default function Collection() {
                             <button className="btn">Previous</button>
                           </PreviousLink>
 
-                          <div className='product_more_btn'>
+                          <div className="product_more_btn">
                             <NextLink>
                               <button className="btn">Load More</button>
                             </NextLink>

@@ -29,15 +29,15 @@ export default function Page() {
   const {page, seo} = useLoaderData();
 
   return (
-    <main class="abt_sec">
+    <main className="abt_sec">
       <section>
-        <div class="container">
-          <div class="spacer">
+        <div className="container">
+          <div className="spacer">
             <div class="section_title">
               <h2>{seo.title}</h2>
             </div>
-            <div class="main_policy">
-              <div class="policy_content">
+            <div className="main_policy">
+              <div className="policy_content">
                 <p dangerouslySetInnerHTML={{__html: page.body}} />
               </div>
             </div>

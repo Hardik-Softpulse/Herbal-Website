@@ -19,7 +19,7 @@ export function Layout({
   return (
     <>
       <CartAside cart={cart} />
-      {layout.headerMenu && (
+      {layout?.headerMenu && (
         <Header
           header={layout.headerMenu}
           cart={cart}

@@ -73,7 +73,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <main class="abt_sec">
+    <main className="abt_sec">
       <section>
         <div className="container">
           <div className="spacer">
