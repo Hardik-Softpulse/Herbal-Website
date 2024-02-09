@@ -67,7 +67,6 @@ export function Header({
     } else {
       headerRef.current.style.position = 'fixed';
     }
-   
   }, [location.hash]);
 
   return (
@@ -142,6 +141,10 @@ export function HeaderMenu({
             <img src={logo} alt="" />
           </a>
         </div>
+        <div
+          className={`drawer-overlay ${headerMenu ? 'active' : ''}`}
+          onClick={() => setHeaderMenu(!headerMenu)}
+        ></div>
         <div className={`navigation ${headerMenu ? 'active' : ''}`}>
           <button
             className={`menu_btn cross ${headerMenu ? 'active' : ''}`}
@@ -208,6 +211,7 @@ export function HeaderMenu({
             </div>
           </nav>
         </div>
+
         <HeaderCtas
           isLoggedIn={isLoggedIn}
           cart={cart}

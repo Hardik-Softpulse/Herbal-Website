@@ -104,8 +104,9 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className={headerMenu || search ? 'active' : ''} >
+      <body className={headerMenu || search ? 'active' : ''}>
         <Layout
+          onClick={() => setHeaderMenu(false)}
           {...data}
           seo={data.seo}
           headerMenu={headerMenu}
@@ -114,7 +115,6 @@ export default function App() {
           setMiniCart={setMiniCart}
           search={search}
           setSearch={setSearch}
-         
         >
           <Outlet />
         </Layout>
