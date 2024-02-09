@@ -22,7 +22,7 @@ export function Footer({footer}) {
             <div className="foot1_social">
               <h3>Follow us:</h3>
               <div className="social_media">
-                <a href="#">
+                <a href="https://instagram.com/shopify">
                   <svg
                     width="16"
                     height="16"
@@ -60,7 +60,7 @@ export function Footer({footer}) {
                     </defs>
                   </svg>
                 </a>
-                <a href="#">
+                <a href="'https://youtube.com/shopify">
                   <svg
                     width="16"
                     height="16"
@@ -91,7 +91,7 @@ export function Footer({footer}) {
                     </defs>
                   </svg>
                 </a>
-                <a href="#">
+                <a href="https://facebook.com/shopify">
                   <svg
                     width="16"
                     height="16"
@@ -139,7 +139,7 @@ export function Footer({footer}) {
                     />
                   </svg>
                 </a>
-                <a href="#">
+                <a href="https://twitter.com/shopify">
                   <svg
                     width="16"
                     height="16"
