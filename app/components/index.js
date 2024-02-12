@@ -12,6 +12,7 @@ export {CartLoading} from './CartLoading';
 // export {AccountDetails} from './AccountDetails';
 // export {AccountAddressBook} from './AccountAddressBook';
 // export {Modal} from './Modal';
+
 export {GenericError} from './GenericError';
 export {Hero} from './Hero';
 export {SearchResults} from './Search';
@@ -29,4 +30,5 @@ export {HelthBanner} from './HelthBanner';
 export {ImgBanner} from './ImgBanner';
 export {ReviewSection} from './ReviewSection';
 export {Newsletter} from './Newsletter';
+export {AboutUs} from './AboutUs';
 // export {QuickView} from './QuickView'

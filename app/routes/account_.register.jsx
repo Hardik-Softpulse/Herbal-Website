@@ -100,7 +100,6 @@ export async function action({request, context}) {
 
 export default function Register() {
   const data = useActionData();
-  console.log('data', data);
   const error = data?.error || null;
   const [nativeEmailError, setNativeEmailError] = useState(null);
   const [nativePasswordError, setNativePasswordError] = useState(null);

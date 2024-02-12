@@ -76,7 +76,6 @@ export async function loader({request, context}) {
 
 export default function Acccount() {
   const {customer, isPrivateRoute, isAccountHome} = useLoaderData();
-  console.log('customer', customer);
   if (!isPrivateRoute && !isAccountHome) {
     return <Outlet context={{customer}} />;
   }

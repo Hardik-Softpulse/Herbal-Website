@@ -34,7 +34,6 @@ export default function QuickView({product, isModalOpen, setIsModalOpen}) {
 
 function ProductImage({image}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  console.log('image', image);
 
   return (
     <div className="left_product_detail">

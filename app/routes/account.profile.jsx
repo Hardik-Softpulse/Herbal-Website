@@ -80,8 +80,6 @@ export async function action({request, context}) {
       },
     });
 
-    console.log('updated', updated.customerUpdate.customer);
-
     // check for mutation errors
     if (updated.customerUpdate?.customerUserErrors?.length) {
       return json(

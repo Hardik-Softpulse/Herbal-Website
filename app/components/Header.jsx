@@ -1,6 +1,5 @@
 import {Await, Link, NavLink, useLocation} from '@remix-run/react';
 import {Suspense, useEffect, useRef, useState} from 'react';
-import {useRootLoaderData} from '~/root';
 import logo from '../image/logo-ethenic.png';
 import {SearchForm} from './Search';
 /**

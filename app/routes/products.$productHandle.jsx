@@ -566,8 +566,6 @@ function MultiRow({data}) {
 function RelatedProducts() {
   const {data} = useLoaderData();
 
-  console.log('data', data);
-
   return (
     <Suspense>
       <Await

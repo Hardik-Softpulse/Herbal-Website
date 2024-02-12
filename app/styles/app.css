@@ -4418,9 +4418,9 @@ h4.active {
   .social_icon ul li:nth-child(3) {
     padding-right: unset;
   }
-  .social_icon ul li:nth-child(2) {
+  /* .social_icon ul li:nth-child(2) {
     display: none;
-  }
+  } */
   .main_menu ul li {
     padding: 10px 20px;
     border-bottom: 1px solid #c1d9cd;

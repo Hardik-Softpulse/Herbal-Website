@@ -67,7 +67,6 @@ export default function Login() {
   /** @type {ActionReturnData} */
   const data = useActionData();
   const error = data?.error || null;
-  console.log('data?.error', data);
   const [nativeEmailError, setNativeEmailError] = useState(null);
   const [nativePasswordError, setNativePasswordError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);

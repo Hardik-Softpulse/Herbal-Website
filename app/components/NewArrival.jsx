@@ -4,7 +4,6 @@ import {Pagination} from 'swiper/modules';
 import {ProductCards} from '~/components';
 
 export function NewArrival({product, title, collectionHandle}) {
-  console.log('product', product);
   return (
     <section className="new_product">
       <div className="container">

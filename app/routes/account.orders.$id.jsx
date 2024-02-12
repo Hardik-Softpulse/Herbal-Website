@@ -56,7 +56,6 @@ export async function loader({params, context}) {
 
 export default function OrderRoute() {
   const {order, lineItems, discountValue, discountPercentage} = useLoaderData();
-  console.log('order', order);
   return (
     <div className="account-order">
       <h2>Order {order.name}</h2>

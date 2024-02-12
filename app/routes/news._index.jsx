@@ -41,7 +41,6 @@ export const loader = async ({request, context: {storefront}, params}) => {
 export default function Blog() {
   const {blog} = useLoaderData();
   const {articles} = blog;
-  console.log('first', articles)
 
   return (
     <main className="abt_sec">

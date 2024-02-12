@@ -90,7 +90,6 @@ export default function App() {
   const [headerMenu, setHeaderMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
   const [search, setSearch] = useState(false);
-  console.log('data', data)
 
   return (
     <html lang="en">

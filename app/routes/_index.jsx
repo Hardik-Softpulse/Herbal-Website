@@ -101,8 +101,6 @@ export default function Homepage() {
     featured_collection_3ATADh,
     featured_blog_F9yDUi,
   } = jsonData.sections;
- ;
-
   return (
     <main>
       {jsonData.order.map((section, index) => {
@@ -122,7 +120,6 @@ export default function Homepage() {
                 <Suspense>
                   <Await resolve={collection}>
                     {({collection}) => {
-                 
                       return (
                         <NewArrival
                           key={index}

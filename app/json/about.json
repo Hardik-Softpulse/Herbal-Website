@@ -1,0 +1,201 @@
+{
+    "sections": {
+        "main": {
+            "type": "main-page",
+            "settings": {
+                "padding_top": 28,
+                "padding_bottom": 0
+            }
+        },
+        "image_banner_XYcMUF": {
+            "type": "image-banner",
+            "blocks": {
+                "heading_h8Mm97": {
+                    "type": "heading",
+                    "settings": {
+                        "heading": "<strong>  Be New Everyday<\/strong>",
+                        "heading_size": "h1"
+                    }
+                },
+                "text_djVYq7": {
+                    "type": "text",
+                    "settings": {
+                        "text": "Streetwear, snickers, and more than just clothes",
+                        "text_style": "body"
+                    }
+                }
+            },
+            "block_order": [
+                "heading_h8Mm97",
+                "text_djVYq7"
+            ],
+            "settings": {
+                "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/Shop-clothes-img-4.jpg",
+                "image_overlay_opacity": 0,
+                "image_height": "medium",
+                "desktop_content_position": "middle-left",
+                "show_text_box": true,
+                "desktop_content_alignment": "center",
+                "color_scheme": "background-1",
+                "image_behavior": "none",
+                "mobile_content_alignment": "center",
+                "stack_images_on_mobile": true,
+                "show_text_below": true
+            }
+        },
+        "rich_text_RnpWhB": {
+            "type": "rich-text",
+            "blocks": {
+                "heading_eRBG6M": {
+                    "type": "heading",
+                    "settings": {
+                        "heading": "Make People Fall In -Love With Your Clothes",
+                        "heading_size": "h1"
+                    }
+                },
+                "text_weTU76": {
+                    "type": "text",
+                    "settings": {
+                        "text": "<p>The only way to do something in depth is to work hard. I do not have one theme for each season, I just try to make beautiful clothes all year round. I've always thought of the T-shirt as the Alpha and Omega of the fashion alphabet.<\/p>"
+                    }
+                }
+            },
+            "block_order": [
+                "heading_eRBG6M",
+                "text_weTU76"
+            ],
+            "settings": {
+                "desktop_content_position": "center",
+                "content_alignment": "center",
+                "color_scheme": "",
+                "full_width": true,
+                "padding_top": 40,
+                "padding_bottom": 52
+            }
+        },
+        "multirow_Ye8Fxb": {
+            "type": "multirow",
+            "blocks": {
+                "row_AyqK9J": {
+                    "type": "row",
+                    "settings": {
+                        "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/slider-6-3.jpg",
+                        "caption": "",
+                        "heading": "Discover the Latest StylesforWomen",
+                        "text": "<p>From statement pieces to delicate designs, our collection has the perfect accessory to complement any outfit and elevate your look<\/p>",
+                        "button_label": "",
+                        "button_link": ""
+                    }
+                },
+                "row_UKQg8g": {
+                    "type": "row",
+                    "settings": {
+                        "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/home-banner-12.jpg",
+                        "caption": "",
+                        "heading": "Fashion Forward Finds",
+                        "text": "<p>Latest Styles for Men and Women<\/p>",
+                        "button_label": "",
+                        "button_link": ""
+                    }
+                }
+            },
+            "block_order": [
+                "row_AyqK9J",
+                "row_UKQg8g"
+            ],
+            "settings": {
+                "image_height": "medium",
+                "desktop_image_width": "medium",
+                "heading_size": "h1",
+                "text_style": "body",
+                "button_style": "secondary",
+                "desktop_content_position": "middle",
+                "desktop_content_alignment": "left",
+                "image_layout": "alternate-left",
+                "section_color_scheme": "",
+                "row_color_scheme": "",
+                "mobile_content_alignment": "left",
+                "padding_top": 36,
+                "padding_bottom": 36
+            }
+        },
+        "multicolumn_G33tGJ": {
+            "type": "multicolumn",
+            "blocks": {
+                "column_NgMYYW": {
+                    "type": "column",
+                    "settings": {
+                        "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/brand-1.png?v=1706516219&width=300",
+                        "svgIcons": "",
+                        "title": "Exclusive Offers",
+                        "text": "",
+                        "link_label": "",
+                        "link": ""
+                    }
+                },
+                "column_XCJrDG": {
+                    "type": "column",
+                    "settings": {
+                        "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/brand-2.png?v=1706516456&width=300",
+                        "svgIcons": "",
+                        "title": "Min. 40% off",
+                        "text": "",
+                        "link_label": "",
+                        "link": ""
+                    }
+                },
+                "column_ry9CW6": {
+                    "type": "column",
+                    "settings": {
+                        "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/brand-4.png?v=1706516497&width=300",
+                        "svgIcons": "",
+                        "title": "Free Delivery",
+                        "text": "",
+                        "link_label": "",
+                        "link": ""
+                    }
+                },
+                "column_tfpU77": {
+                    "type": "column",
+                    "settings": {
+                        "image": "https://cdn.shopify.com/s/files/1/0855/9652/files/brand-6.png?v=1706516572&width=300",
+                        "svgIcons": "",
+                        "title": "Up to 50% off",
+                        "text": "",
+                        "link_label": "",
+                        "link": ""
+                    }
+                }
+            },
+            "block_order": [
+                "column_NgMYYW",
+                "column_XCJrDG",
+                "column_ry9CW6",
+                "column_tfpU77"
+            ],
+            "settings": {
+                "title": "Brand Values",
+                "heading_size": "h1",
+                "image_width": "full",
+                "image_ratio": "adapt",
+                "columns_desktop": 5,
+                "column_alignment": "center",
+                "background_style": "primary",
+                "button_label": "",
+                "button_link": "",
+                "color_scheme": "",
+                "columns_mobile": "1",
+                "swipe_on_mobile": false,
+                "padding_top": 36,
+                "padding_bottom": 36
+            }
+        }
+    },
+    "order": [
+        "main",
+        "image_banner_XYcMUF",
+        "rich_text_RnpWhB",
+        "multirow_Ye8Fxb",
+        "multicolumn_G33tGJ"
+    ]
+}
