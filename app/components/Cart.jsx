@@ -4,6 +4,7 @@ import cross from '../image/croos2.png';
 import {useVariantUrl} from '~/lib/variants';
 
 export function CartMain({layout, cart}) {
+  console.log('cart', cart);
 
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
   const withDiscount =
@@ -26,7 +27,6 @@ export function CartMain({layout, cart}) {
               <button
                 className="close_cart"
                 onClick={() => {
-                 
                   history.go(-1);
 
                   window.location.hash = '';
@@ -186,6 +186,7 @@ function CartCheckoutActions({checkoutUrl}) {
 }
 
 export function CartSummary({cost, layout, children = null, checkoutUrl}) {
+  console.log('cost', cost);
   const className =
     layout === 'page'
       ? ' cart-summary-page'
@@ -199,6 +200,7 @@ export function CartSummary({cost, layout, children = null, checkoutUrl}) {
     amount: discountAmountNumber.toString(),
     currencyCode: 'INR',
   };
+  console.log('discountAmount', discountAmount);
 
   return (
     <div aria-labelledby="cart-summary" className={className}>

@@ -1,8 +1,6 @@
-import { useNavigate } from '@remix-run/react';
 import {FeaturedSection} from './FeaturedSection';
 
 export function GenericError({error}) {
-  const navigate = useNavigate()
   const heading = `Something’s wrong here.`;
   let description = `We found an error while loading this page.`;
 
@@ -17,7 +15,6 @@ export function GenericError({error}) {
         <div className="spacer">
           <div className="genric-error">
             <h2>{heading}</h2>
-
             <p>{description}</p>
             {error?.stack && (
               <pre
@@ -33,9 +30,9 @@ export function GenericError({error}) {
                 }}
               />
             )}
-            <button className="btn" onClick={() => navigate('/')}>
+            <a href="/" className="btn">
               Take me to the home page
-            </button>
+            </a>
           </div>
           <FeaturedSection />
         </div>

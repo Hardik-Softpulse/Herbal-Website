@@ -45,6 +45,14 @@ export function AboutUs({title}) {
       <section className="collage">
         <div className="container">
           <div className="spacer">
+            <div className="section_title">
+              <h2>{rich_text_RnpWhB.blocks.heading_eRBG6M.settings.heading}</h2>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: rich_text_RnpWhB.blocks.text_weTU76.settings.text,
+                }}
+              />
+            </div>
             <div className="main_highlight_sec flex align_center">
               <div className="left_highlight_sec">
                 <h6>{multirow_Ye8Fxb.blocks.row_AyqK9J.settings.heading}</h6>
@@ -88,64 +96,76 @@ export function AboutUs({title}) {
           </div>
         </div>
       </section>
-      <div>
-        <div className="section_title">
-          <h2>{multicolumn_G33tGJ.settings.title}</h2>
+      <section>
+        <div className="spacer">
+          <div className="container">
+            <div className="section_title">
+              <h2>{multicolumn_G33tGJ.settings.title}</h2>
+            </div>
+            <div className="brands_values">
+              <Swiper
+                modules={[Navigation]}
+                navigation={{clickable: true}}
+                breakpoints={{
+                  200: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+                  511: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                  },
+                  767: {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                  },
+                }}
+              >
+                <SwiperSlide>
+                  <div className="brand-image">
+                    <img
+                      src={
+                        multicolumn_G33tGJ.blocks.column_NgMYYW.settings.image
+                      }
+                      alt="Brands-Image"
+                    />
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="brand-image">
+                    <img
+                      src={
+                        multicolumn_G33tGJ.blocks.column_XCJrDG.settings.image
+                      }
+                      alt="Brands-Image"
+                    />
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="brand-image">
+                    <img
+                      src={
+                        multicolumn_G33tGJ.blocks.column_ry9CW6.settings.image
+                      }
+                      alt="Brands-Image"
+                    />
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="brand-image">
+                    <img
+                      src={
+                        multicolumn_G33tGJ.blocks.column_tfpU77.settings.image
+                      }
+                      alt="Brands-Image"
+                    />
+                  </div>
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </div>
         </div>
-        <div className="brands_values">
-          <Swiper
-            modules={[Navigation]}
-            navigation={{clickable: true}}
-            breakpoints={{
-              200: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-              },
-              511: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-              },
-              767: {
-                slidesPerView: 4,
-                spaceBetween: 20,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <div className="brand-image">
-                <img
-                  src={multicolumn_G33tGJ.blocks.column_NgMYYW.settings.image}
-                  alt="Brands-Image"
-                />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="brand-image">
-                <img
-                  src={multicolumn_G33tGJ.blocks.column_XCJrDG.settings.image}
-                  alt="Brands-Image"
-                />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="brand-image">
-                <img
-                  src={multicolumn_G33tGJ.blocks.column_ry9CW6.settings.image}
-                  alt="Brands-Image"
-                />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="brand-image">
-                <img
-                  src={multicolumn_G33tGJ.blocks.column_tfpU77.settings.image}
-                  alt="Brands-Image"
-                />
-              </div>
-            </SwiperSlide>
-          </Swiper>
-        </div>
-      </div>
+      </section>
     </main>
   );
 }

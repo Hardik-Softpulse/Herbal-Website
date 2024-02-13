@@ -6,6 +6,7 @@ import {
   useOutletContext,
 } from '@remix-run/react';
 import {useState} from 'react';
+import Cross from '../image/cross.svg'
 
 export const meta = () => {
   return [{title: 'Addresses'}];
@@ -216,7 +217,7 @@ export default function Addresses() {
         <p>You have no addresses saved.</p>
       ) : (
         <div className="address_accounnt_order">
-          <div className="address_account_wrap">
+          <div className="address_account_wrap create_account">
             <legend>Create address</legend>
             <NewAddressForm />
           </div>
@@ -281,7 +282,7 @@ function ExistingAddresses({addresses, defaultAddress}) {
   };
 
   return (
-    <div className="address-details">
+    <div className="address_book_wrap address-details">
       {addresses.nodes.map((address) => {
         const isDefaultAddress = defaultAddress?.id === address.id;
         return (
@@ -325,7 +326,7 @@ function ExistingAddresses({addresses, defaultAddress}) {
                 isOpen={false}
               >
                 {({stateForMethod}) => (
-                  <div>
+                  <div className='address_save_dlt_btn'>
                     <button
                       disabled={stateForMethod('PUT') !== 'idle'}
                       formMethod="PUT"
@@ -361,9 +362,14 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
   const error = action?.error?.[addressId];
   const isDefaultAddress = defaultAddress?.id === addressId;
   return (
+    <div className="address_edit_form">
     <Form id={addressId}>
+    <button class="close_cart">
+          <img src={Cross} alt="" />
+        </button>
       <fieldset>
         <input type="hidden" name="addressId" defaultValue={addressId} />
+        <div>
         <label htmlFor="firstName">First name*</label>
         <input
           aria-label="First name"
@@ -374,7 +380,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           placeholder="First name"
           required
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="lastName">Last name*</label>
         <input
           aria-label="Last name"
@@ -385,7 +391,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           placeholder="Last name"
           required
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="company">Company</label>
         <input
           aria-label="Company"
@@ -395,7 +401,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           name="company"
           placeholder="Company"
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="address1">Address line*</label>
         <input
           aria-label="Address line 1"
@@ -406,7 +412,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           placeholder="Address line 1*"
           required
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="address2">Address line 2</label>
         <input
           aria-label="Address line 2"
@@ -416,7 +422,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           name="address2"
           placeholder="Address line 2"
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="city">City*</label>
         <input
           aria-label="City"
@@ -427,7 +433,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           placeholder="City"
           required
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="zoneCode">State / Province*</label>
         <input
           aria-label="State/Province"
@@ -438,7 +444,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           placeholder="State / Province"
           required
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="zip">Zip / Postal Code*</label>
         <input
           aria-label="Zip"
@@ -449,7 +455,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           placeholder="Zip / Postal Code"
           required
           type="text"
-        />
+        /></div> <div>
         <label htmlFor="territoryCode">Country Code*</label>
         <input
           aria-label="territoryCode"
@@ -461,7 +467,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           required
           type="text"
           maxLength={2}
-        />
+        /></div> <div>
         <label htmlFor="phoneNumber">Phone</label>
         <input
           aria-label="Phone Number"
@@ -472,8 +478,8 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           placeholder="+16135551111"
           pattern="^\+?[1-9]\d{3,14}$"
           type="tel"
-        />
-        <div>
+        /></div>
+        <div className="set-default">
           <input
             defaultChecked={isDefaultAddress}
             id="defaultAddress"
@@ -493,7 +499,7 @@ export function AddressForm({addressId, address, defaultAddress, children}) {
           stateForMethod: (method) => (formMethod === method ? state : 'idle'),
         })}
       </fieldset>
-    </Form>
+    </Form></div>
   );
 }
 

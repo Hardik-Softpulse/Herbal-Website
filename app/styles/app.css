@@ -2345,7 +2345,6 @@ body.active {
 }
 .main_highlight_sec2 {
   flex-direction: row-reverse;
-  margin-top: 100px;
 }
 .main_highlight_sec2 .left_highlight_sec {
   max-width: 50%;
@@ -3035,6 +3034,7 @@ textarea {
   letter-spacing: 0.28px;
   justify-content: center;
   display: flex;
+  margin-top: 5px;
 }
 .register_frm .right_contact_form span a {
   color: #1c6758;
@@ -3378,8 +3378,7 @@ p.text-red-500,
 .address-book p {
   text-align: start;
 }
-.main_forgot_pass,
-.account-profile {
+.main_forgot_pass{
   max-width: 540px;
   width: 100%;
   padding: 0 15px;
@@ -3395,14 +3394,29 @@ p.text-red-500,
   gap: 15px;
 }
 .account-addresses .address_account_wrap {
-  width: 48%;
+  width: 100%;
 }
-.account-addresses .address_account_wrap .address-book {
+.account-addresses .address_account_wrap .address-book{
   border-radius: 10px;
   padding: 20px;
-  max-width: calc(100% - 54%);
+  max-width: calc(33.33% - 20px);
   width: 100%;
   box-shadow: 0 4px 28px -2px #00000014;
+}
+.create_account .address_edit_form .close_cart{
+  display: none;
+}
+.address_edit_form .close_cart{
+  background-color: var(--subTheme);
+  display: block;
+  width: unset;
+  border: none;
+  padding: 5px;
+  margin-left: auto;
+  border-radius: 5px;
+}
+.address_edit_form .close_cart img{
+  display: block;
 }
 .account-addresses .address_account_wrap .address_book_wrap {
   display: flex;
@@ -3414,9 +3428,11 @@ p.text-red-500,
   align-items: center;
   gap: 10px;
 }
-.main_forgot_pass form button,
-.account-profile form button,
-.account-addresses form button {
+.address_save_dlt_btn{
+  display: flex;
+  gap: 10px;
+}
+.main_forgot_pass form button{
   width: 100%;
   cursor: pointer;
 }
@@ -3497,7 +3513,16 @@ button {
 .account-addresses input#defaultAddress {
   margin-right: 10px;
 }
-
+.main_profile_form{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+}
+.main_profile_form .profile_form_wrap{
+  max-width: calc(50% - 10px);
+  width: 100%;
+}
 .account {
   padding: 0 20px;
 }
@@ -3629,11 +3654,12 @@ body #ts-quickshop-modal {
 }
 button.menu_btn.cross.active {
   display: block;
-  background: none;
-  border: none;
 }
 button.menu_btn.cross {
   display: none;
+  background: none;
+  border: none;
+  margin: 0px 20px 10px auto;
 }
 
 h4.active {
@@ -3659,7 +3685,7 @@ h4.active {
   transition: color 0.3s ease;
 }
 
-.address-book .address_edit_form {
+.address-details .address_edit_form {
   position: fixed;
   top: 0;
   left: 0;
@@ -3676,7 +3702,7 @@ h4.active {
   transition: all 0.2s ease-in-out;
   z-index: 999;
 }
-.address-book .address_edit_form form {
+.address-details .address_edit_form form {
   max-width: 1200px;
   width: 100%;
   background: #ffffff;
@@ -3718,6 +3744,7 @@ h4.active {
   display: flex;
   flex-wrap: wrap;
   margin-top: 40px;
+  gap: 20px;
 }
 
 .overlay .close-outside {
@@ -3852,6 +3879,7 @@ span.filter-label {
 .banner_contant_about {
   position: absolute;
   top: 50%;
+  transform: translateY(-50%);
   left: 10%;
   background: #fff;
   padding: 40px;
@@ -3859,8 +3887,9 @@ span.filter-label {
   max-width: 40%;
   color: #1c6758;
 }
-.banner_img_about {
+.main_banner_about {
   position: relative;
+  padding: 0 20px;
 }
 .banner_img_about img {
   border-radius: 15px;
@@ -3876,15 +3905,21 @@ span.filter-label {
   letter-spacing: 0.02em;
   margin-bottom: 25px;
 }
-.rich_text {
+.collage .section_title{
   text-align: center;
-  margin-top: 60px;
-  padding: 10px 60px;
+  margin-bottom: 50px;
 }
-.rich_text h1 {
-  margin-bottom: 20px;
-  color: #1c6758;
+.collage .section_title h2{
+  margin-bottom: 15px;
 }
+.collage .section_title p{
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--bodyColor);
+  max-width: 950px;
+  margin: 0 auto;
+}
+
 section.collage {
   margin-top: 30px;
 }
@@ -3896,6 +3931,85 @@ section.collage {
   height: 220px;
   width: 220px;
 }
+.new_product .swiper {
+  padding-bottom: 50px !important;
+}
+
+.genric-error {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.genric-error p {
+  margin-bottom: 15px;
+  letter-spacing: 1.1px;
+}
+.genric-error h2 {
+  padding: 15px 0;
+  color: #1c6758;
+}
+.account-order h2{
+  color: var(--themeColor);
+  padding-bottom: 10px;
+  font-size: 22px;
+  line-height: normal;
+}
+.account-order p{
+  color: var(--bodyColor);
+  margin-bottom: 7px;
+  font-size: 16px;
+  line-height: normal;
+}
+.account-order table{
+  border-spacing: 0;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+.account-order th{
+  font-size: 17px;
+  line-height: normal;
+  color: var(--subTheme);
+  font-family: var(--bodyFont);
+  font-weight: 900;
+  margin-top: 10px;
+  margin-bottom: 17px;
+  padding: 15px;
+  text-align: center;
+  background: #f7f8f9;
+  border-bottom: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
+}
+.account-order th:last-child,
+.account-order td:last-child{
+  border-right: unset;
+}
+.account-order td{
+  color: var(--bodyColor);
+  font-size: 15px;
+  padding: 15px 10px;
+  text-align: center;
+  vertical-align: center;
+  border-right: 1px solid #dfdfdf;
+}
+.account-order tr{
+  background: #f7f8f9;
+  border-bottom: 1px solid #dfdfdf;
+}
+.order_table{
+  overflow: auto;
+}
+.order_table::-webkit-scrollbar {
+  width: 5px;
+}
+.order_table::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+  border-radius: 10px;
+}
+.order_table::-webkit-scrollbar-thumb {
+  background-color: var(--subTheme);
+  border-radius: 10px;
+}
+
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {
@@ -4264,6 +4378,21 @@ section.collage {
   .contact_name input {
     width: 420px;
   }
+
+  /* about */
+  .banner_contant_about{
+    padding: 20px;
+  }
+  .banner_contant_about h1{
+    line-height: normal;
+    margin-bottom: 15px;
+    font-size: 24px;
+  }
+  .banner_contant_about h4{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: normal;
+  }
 }
 @media screen and (max-width: 991px) {
   .right_blog_detail {
@@ -4499,6 +4628,10 @@ section.collage {
   }
   .product_img_wrap .product_quick_hvr {
     padding: 5px;
+  }
+  .collage .section_title p{
+    font-size: 15px;
+    line-height: normal;
   }
 }
 @media screen and (max-width: 825px) {
@@ -5164,6 +5297,13 @@ section.collage {
   div#product_detail_thumb {
     padding: 0px 0;
   }
+  .banner_contant_about h1 {
+    margin-bottom: 10px;
+    font-size: 19px;
+  }
+  .main_profile_form .profile_form_wrap{
+    max-width: 100%;
+  }
 }
 @media screen and (max-width: 550px) {
   .searchForm {
@@ -5297,15 +5437,28 @@ section.collage {
   .account-addresses .address_account_wrap .address-book {
     max-width: 100%;
   }
+  
   .main_clean .clean {
     max-width: calc(50% - 20px);
   }
+  .banner_img_about img {
+    object-fit: cover;
+    height: 50vh;
+  }
+  .brand-image {
+    height: 150px;
+    width: 150px;
+}
+
 }
 @media screen and (max-width: 425px) {
   .btn {
     padding: 7px 15px;
     font-size: 11px;
     line-height: 15px;
+  }
+  .social_icon ul li {
+    padding: 0 5px;
   }
   .main_banner .swiper-button-next,
   .main_banner .swiper-button-prev {
@@ -5479,26 +5632,11 @@ section.collage {
   .address_edit_form fieldset > div {
     max-width: 100%;
   }
-  .banner_img_about img {
-    object-fit: cover;
-    height: 100vh;
-  }
   .banner_contant_about {
-    top: 72%;
-    left: 4%;
-    padding: 15px;
-    max-width: 50%;
-  }
-  .banner_contant_about h1 {
-    font-size: 20px;
-    line-height: 45px;
-    margin-bottom: 8px;
-  }
-  .banner_contant_about h4 {
-    font-size: 12px;
-    padding: 0 4px;
-    letter-spacing: 1.2px;
-  }
+    max-width: 100%;
+    right: 10%;
+}
+  
 }
 @media screen and (max-width: 337px) {
   .foot2 {
@@ -5588,16 +5726,3 @@ section.collage {
   }
 }
 
-
-.genric-error {
-  text-align: center;
-  margin-bottom: 50px;
-}
-.genric-error p {
-  margin-bottom: 15px;
-  letter-spacing: 1.1px;
-}
-.genric-error h2 {
-  padding: 15px 0;
-  color: #1c6758;
-}
