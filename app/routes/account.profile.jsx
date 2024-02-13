@@ -42,6 +42,7 @@ export async function action({request, context}) {
   }
 
   try {
+    validateFormData(form);
     const password = getPassword(form);
     const customer = {};
     const validInputKeys = [
@@ -70,6 +71,20 @@ export async function action({request, context}) {
 
     if (password) {
       customer.password = password;
+    }
+
+    function validateFormData(form) {
+      for (const [key, value] of form.entries()) {
+        if (containsSpecialCharacters(value)) {
+          throw new Error(`Special characters are not allowed in ${key}`);
+        }
+      }
+    }
+
+    // Function to check if a string contains special characters
+    function containsSpecialCharacters(str) {
+      const regex = /[!@#$%^&*(),.?":{}|<>]/; // Add more special characters if needed
+      return regex.test(str);
     }
 
     // update customer and possibly password
@@ -122,7 +137,14 @@ export default function AccountProfile() {
         <h2>My profile</h2>
       </div>
       <br />
-      <Form method="PUT">
+      <Form method="PUT" acceptCharset="UTF-8">
+        {action?.error ? (
+          <p className="text-red-500">
+            <small>{action.error}</small>
+          </p>
+        ) : (
+          <br />
+        )}
         <legend>Personal information</legend>
         <fieldset>
           <label htmlFor="firstName">First name</label>
@@ -215,17 +237,11 @@ export default function AccountProfile() {
             aria-label="New password confirm"
             minLength={8}
           />
-          <small className="text-red-500">
-            Passwords must be at least 8 characters.
-          </small>
-        </fieldset>
-        {action?.error ? (
           <p className="text-red-500">
-            <small>{action.error}</small>
+            <small>Passwords must be at least 8 characters.</small>
           </p>
-        ) : (
-          <br />
-        )}
+        </fieldset>
+
         <button className="btn" type="submit" disabled={state !== 'idle'}>
           {state !== 'idle' ? 'Updating' : 'Update'}
         </button>
@@ -234,9 +250,7 @@ export default function AccountProfile() {
   );
 }
 
-/**
- * @param {FormData} form
- */
+
 function getPassword(form) {
   let password;
   const currentPassword = form.get('currentPassword');

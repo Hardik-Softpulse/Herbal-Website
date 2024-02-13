@@ -1,6 +1,8 @@
+import { useNavigate } from '@remix-run/react';
 import {FeaturedSection} from './FeaturedSection';
 
 export function GenericError({error}) {
+  const navigate = useNavigate()
   const heading = `Something’s wrong here.`;
   let description = `We found an error while loading this page.`;
 
@@ -31,7 +33,7 @@ export function GenericError({error}) {
                 }}
               />
             )}
-            <button className="btn" to={'/'}>
+            <button className="btn" onClick={() => navigate('/')}>
               Take me to the home page
             </button>
           </div>
