@@ -23,6 +23,8 @@ export async function loader({request, params, context}) {
 
   const seo = seoPayload.page({page, url: request.url});
 
+  console.log('page', page)
+
   return json({page, seo});
 }
 

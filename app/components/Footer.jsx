@@ -173,9 +173,9 @@ export function Footer({footer}) {
         </div>
         <div className="footer_bottom flex align_center justify_between">
           <div className="services flex">
-            <a href="#">Terms</a>
-            <a href="#">Privacy</a>
-            <a href="#">Disclaimer</a>
+            <a href="/terms-and-conditions">Terms</a>
+            <a href="/pages/privacy-policy">Privacy</a>
+            <a href="/terms-and-conditions">Disclaimer</a>
             <a href="#">Accessibility</a>
             <a href="/return_policy">Return Policy</a>
           </div>

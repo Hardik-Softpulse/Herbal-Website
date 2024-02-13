@@ -172,7 +172,7 @@ function MainProduct({section, product, selectedVariant, variants}) {
   return (
     <section>
       <div className="container">
-        <div className='spacer'>
+        <div className="spacer">
           <div className="main_product_detail flex align_center">
             <ProductImage
               image={product.media}
@@ -197,6 +197,12 @@ function MainProduct({section, product, selectedVariant, variants}) {
 
 function ProductImage({image, selectedVariant}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const reorderedImages = [
+    selectedVariant?.image,
+    ...image.nodes.filter((img) => img !== selectedVariant?.image),
+  ];
+
+  console.log('reorderedImages', reorderedImages)
 
   return (
     <div className="left_product_detail">
@@ -229,7 +235,7 @@ function ProductImage({image, selectedVariant}) {
           }}
           onSwiper={setThumbsSwiper}
         >
-          {image.nodes?.map((img) => (
+          {reorderedImages?.map((img) => (
             <SwiperSlide key={img.id}>
               <div className="pro_thumb_detail_img">
                 {img?.mediaContentType === 'VIDEO' ? (
@@ -240,10 +246,7 @@ function ProductImage({image, selectedVariant}) {
                     />
                   </video>
                 ) : (
-                  <Image
-                    src={selectedVariant?.image?.url ?? img.image?.url}
-                    alt="pro-detail"
-                  />
+                  <Image src={img?.url ?? img.image?.url} alt="pro-detail" />
                 )}
               </div>
             </SwiperSlide>
@@ -263,7 +266,7 @@ function ProductImage({image, selectedVariant}) {
         slidesPerView={1}
         effect="fade"
       >
-        {image.nodes?.map((img) => (
+        {reorderedImages?.map((img) => (
           <SwiperSlide key={img.id}>
             <div className="pro_detail_img">
               {img?.mediaContentType === 'VIDEO' ? (
@@ -275,10 +278,7 @@ function ProductImage({image, selectedVariant}) {
                 </video>
               ) : (
                 <div className="swiper-zoom-container">
-                  <Image
-                    src={selectedVariant.image?.url ?? img.image?.url}
-                    alt="pro-detail"
-                  />{' '}
+                  <Image src={img?.url ?? img.image?.url} alt="pro-detail" />{' '}
                 </div>
               )}
             </div>

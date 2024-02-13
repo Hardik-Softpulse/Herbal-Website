@@ -6,15 +6,18 @@ export function NotFound({type = 'page'}) {
 
   return (
     <main className="abt_sec">
-      <div heading={heading}>
-        <h3 width="narrow" as="p">
-          {description}
-        </h3>
-        <button width="auto" variant="secondary" to={'/'}>
-          Take me to the home page
-        </button>
+      <div className="container">
+        <div className="spacer">
+          <div className="genric-error">
+            <h2>{heading}</h2>
+            <p>{description}</p>
+            <button className="btn" to={'/'}>
+              Take me to the home page
+            </button>
+          </div>
+          <FeaturedSection />
+        </div>
       </div>
-      <FeaturedSection />
     </main>
   );
 }

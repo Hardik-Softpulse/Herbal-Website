@@ -122,7 +122,7 @@ export default function OrderRoute() {
                   <td>
                     <Money data={order.totalPriceV2} />
                   </td>
-                  {/* <td>{statusMessage(order.fulfillmentStatus)}</td> */}
+                  <td>{order.fulfillmentStatus}</td>
                   <td>
                     {order?.shippingAddress ? (
                       <ul className="mt-6">
@@ -162,8 +162,6 @@ export default function OrderRoute() {
     </div>
   );
 }
-
-
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/objects/Order
 const CUSTOMER_ORDER_QUERY = `#graphql
