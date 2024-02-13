@@ -34,14 +34,7 @@ export function AboutUs({title}) {
           <h4>{image_banner_XYcMUF.blocks.text_djVYq7.settings.text}</h4>
         </div>
       </div>
-      <div className="rich_text">
-        <h1>{rich_text_RnpWhB.blocks.heading_eRBG6M.settings.heading}</h1>
-        <p
-          dangerouslySetInnerHTML={{
-            __html: rich_text_RnpWhB.blocks.text_weTU76.settings.text,
-          }}
-        />
-      </div>
+
       <section className="collage">
         <div className="container">
           <div className="spacer">
