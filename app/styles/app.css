@@ -5302,6 +5302,26 @@ h4.active {
   .address_edit_form fieldset > div {
     max-width: 100%;
   }
+  .banner_img_about img {
+    object-fit: cover;
+    height: 100vh;
+  }
+  .banner_contant_about {
+    top: 72%;
+    left: 4%;
+    padding: 15px;
+    max-width: 50%;
+  }
+  .banner_contant_about h1 {
+    font-size: 20px;
+    line-height: 45px;
+    margin-bottom: 8px;
+  }
+  .banner_contant_about h4 {
+    font-size: 12px;
+    padding: 0 4px;
+    letter-spacing: 1.2px;
+  }
 }
 @media screen and (max-width: 337px) {
   .foot2 {
@@ -5519,4 +5539,56 @@ span.filter-label {
 .active.drawer-overlay {
   opacity: 1;
   visibility: visible;
+}
+.banner_contant_about {
+  position: absolute;
+  top: 55%;
+  left: 10%;
+  background: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 40%;
+  color: #1c6758;
+}
+.banner_img_about {
+  position: relative;
+}
+.banner_img_about img {
+  border-radius: 15px;
+  width: 100%;
+  object-fit: cover;
+}
+.banner_contant_about h1 {
+  font-size: 25px;
+  line-height: 30px;
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+.banner_contant_about h1 {
+  font-family: var(--headFont);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 53px;
+  letter-spacing: 0.02em;
+  margin-bottom: 25px;
+}
+.rich_text {
+  text-align: center;
+  margin-top: 60px;
+  padding: 10px 60px;
+}
+.rich_text h1 {
+  margin-bottom: 20px;
+  color: #1c6758;
+}
+section.collage {
+  margin-top: 30px;
+}
+.brands_values {
+  display: flex;
+  flex-wrap: wrap;
+}
+.brand-image {
+  height: 220px;
+  width: 220px;
 }

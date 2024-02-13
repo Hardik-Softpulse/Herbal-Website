@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import aboutPage from '../json/about.json';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Navigation} from 'swiper/modules';
 
 export function AboutUs({title}) {
   const [data, setData] = useState(aboutPage);
@@ -10,7 +12,7 @@ export function AboutUs({title}) {
     multirow_Ye8Fxb,
     multicolumn_G33tGJ,
   } = data.sections;
-  console.log('aboutPage', data);
+
   return (
     <main className="abt_sec">
       <section>
@@ -24,11 +26,11 @@ export function AboutUs({title}) {
       </section>
 
       <div className="main_banner">
-        <div className="banner_img">
+        <div className="banner_img_about">
           <img src={image_banner_XYcMUF.settings.image} alt="" />
         </div>
 
-        <div className="banner_contant">
+        <div className="banner_contant_about">
           <h1
             dangerouslySetInnerHTML={{
               __html:
@@ -38,7 +40,7 @@ export function AboutUs({title}) {
           <h4>{image_banner_XYcMUF.blocks.text_djVYq7.settings.text}</h4>
         </div>
       </div>
-      <div>
+      <div className="rich_text">
         <h1>{rich_text_RnpWhB.blocks.heading_eRBG6M.settings.heading}</h1>
         <p
           dangerouslySetInnerHTML={{
@@ -46,7 +48,7 @@ export function AboutUs({title}) {
           }}
         />
       </div>
-      <section>
+      <section className="collage">
         <div className="container">
           <div className="spacer">
             <div className="main_highlight_sec flex align_center">
@@ -96,31 +98,58 @@ export function AboutUs({title}) {
         <div className="section_title">
           <h2>{multicolumn_G33tGJ.settings.title}</h2>
         </div>
-        <div>
-          <div>
-            <img
-              src={multicolumn_G33tGJ.blocks.column_NgMYYW.settings.image}
-              alt="Collection-Image"
-            />
-          </div>
-          <div>
-            <img
-              src={multicolumn_G33tGJ.blocks.column_XCJrDG.settings.image}
-              alt="Collection-Image"
-            />
-          </div>
-          <div>
-            <img
-              src={multicolumn_G33tGJ.blocks.column_ry9CW6.settings.image}
-              alt="Collection-Image"
-            />
-          </div>
-          <div>
-            <img
-              src={multicolumn_G33tGJ.blocks.column_tfpU77.settings.image}
-              alt="Collection-Image"
-            />
-          </div>
+        <div className="brands_values">
+          <Swiper
+            modules={[Navigation]}
+            navigation={{clickable: true}}
+            breakpoints={{
+              200: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              511: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              767: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+              },
+            }}
+          >
+            <SwiperSlide>
+              <div className="brand-image">
+                <img
+                  src={multicolumn_G33tGJ.blocks.column_NgMYYW.settings.image}
+                  alt="Brands-Image"
+                />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="brand-image">
+                <img
+                  src={multicolumn_G33tGJ.blocks.column_XCJrDG.settings.image}
+                  alt="Brands-Image"
+                />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="brand-image">
+                <img
+                  src={multicolumn_G33tGJ.blocks.column_ry9CW6.settings.image}
+                  alt="Brands-Image"
+                />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="brand-image">
+                <img
+                  src={multicolumn_G33tGJ.blocks.column_tfpU77.settings.image}
+                  alt="Brands-Image"
+                />
+              </div>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </div>
     </main>
