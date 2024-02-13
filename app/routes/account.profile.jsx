@@ -75,8 +75,18 @@ export async function action({request, context}) {
 
     function validateFormData(form) {
       for (const [key, value] of form.entries()) {
-        if (containsSpecialCharacters(value)) {
-          throw new Error(`Special characters are not allowed in ${key}`);
+        if (key === 'firstName' || key === 'lastName') {
+          if (containsSpecialCharacters(value)) {
+            throw new Error(`Special characters are not allowed in ${key}`);
+          }
+        } else if (key === 'email') {
+          // Allow special characters in the email field
+          continue;
+        } else {
+          // For other fields, use the generic validation logic
+          if (containsSpecialCharacters(value)) {
+            throw new Error(`Special characters are not allowed in ${key}`);
+          }
         }
       }
     }
@@ -249,7 +259,6 @@ export default function AccountProfile() {
     </div>
   );
 }
-
 
 function getPassword(form) {
   let password;

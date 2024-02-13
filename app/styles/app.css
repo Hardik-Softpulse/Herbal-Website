@@ -2669,13 +2669,11 @@ span.swiper-pagination-bullet {
   position: relative;
 }
 .right_blog_detail {
-  max-width: 25%;
   width: 100%;
   margin-top: 30px;
   padding-left: 40px;
 }
 .main_blog_detail .left_blog_detail {
-  max-width: 75%;
   width: 100%;
   height: 100%;
 }
