@@ -5542,7 +5542,7 @@ span.filter-label {
 }
 .banner_contant_about {
   position: absolute;
-  top: 55%;
+  top: 50%;
   left: 10%;
   background: #fff;
   padding: 40px;
@@ -5558,12 +5558,7 @@ span.filter-label {
   width: 100%;
   object-fit: cover;
 }
-.banner_contant_about h1 {
-  font-size: 25px;
-  line-height: 30px;
-  margin-top: 5px;
-  margin-bottom: 8px;
-}
+
 .banner_contant_about h1 {
   font-family: var(--headFont);
   font-weight: 700;

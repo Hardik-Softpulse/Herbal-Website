@@ -15,17 +15,11 @@ export function AboutUs({title}) {
 
   return (
     <main className="abt_sec">
-      <section>
-        <div className="container">
-          <div className="spacer">
-            <div className="section_title">
-              <h2>{title}</h2>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="section_title">
+        <h2>{title}</h2>
+      </div>
 
-      <div className="main_banner">
+      <div className="main_banner_about">
         <div className="banner_img_about">
           <img src={image_banner_XYcMUF.settings.image} alt="" />
         </div>
