@@ -60,7 +60,7 @@ export function Footer({footer}) {
                     </defs>
                   </svg>
                 </a>
-                <a href="'https://youtube.com/shopify">
+                <a href="https://youtube.com/shopify">
                   <svg
                     width="16"
                     height="16"
