@@ -245,7 +245,7 @@ export default function Collection() {
               <Swiper
                 loop={true}
                 spaceBetween={20}
-                slidesPerView={7}
+                slidesPerView={6}
                 modules={[Navigation]}
                 navigation={{clickable: true}}
                 breakpoints={{

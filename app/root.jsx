@@ -12,7 +12,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from '@remix-run/react';
-import favicon from './image/favicon.png';
+import favicon from '../public/favicon.png';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import swiperPag from 'swiper/css/pagination';
@@ -53,7 +53,7 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    {rel: 'icon', type: 'image/png', href: favicon},
   ];
 }
 
