@@ -177,7 +177,7 @@ export function Footer({footer}) {
             <a href="/pages/privacy-policy">Privacy</a>
             <a href="/pages/terms-and-conditions">Disclaimer</a>
             <a href="#">Accessibility</a>
-            <a href="/pages/return_policy">Return Policy</a>
+            <a href="/return_policy">Return Policy</a>
           </div>
           <div className="services flex">
             <img src={Card1} alt="" />
