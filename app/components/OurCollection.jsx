@@ -15,7 +15,7 @@ export function OurCollection({collection, data}) {
               loop={true}
               spaceBetween={20}
               slidesPerView={4}
-              slidesPerGroup={4}
+              // slidesPerGroup={4}
               autoplay={{
                 delay: 2500,
               }}
@@ -26,42 +26,34 @@ export function OurCollection({collection, data}) {
                 100: {
                   slidesPerView: 1,
                   spaceBetween: 20,
-                  slidesPerGroup: 1,
                 },
                 200: {
                   slidesPerView: 2,
                   spaceBetween: 20,
-                  slidesPerGroup: 2,
                 },
                 415: {
                   slidesPerView: 2.5,
                   spaceBetween: 20,
-                  slidesPerGroup: 2.5,
                 },
                 501: {
                   slidesPerView: 3,
                   spaceBetween: 20,
-                  slidesPerGroup: 3,
                 },
                 700: {
                   slidesPerView: 3.2,
                   spaceBetween: 20,
-                  slidesPerGroup: 3.2,
                 },
                 1000: {
                   slidesPerView: 4.5,
                   spaceBetween: 20,
-                  slidesPerGroup: 4.5,
                 },
                 1100: {
                   slidesPerView: 4,
                   spaceBetween: 20,
-                  slidesPerGroup: 4,
                 },
                 1300: {
                   slidesPerView: 4,
                   spaceBetween: 20,
-                  slidesPerGroup: 4,
                 },
               }}
             >
