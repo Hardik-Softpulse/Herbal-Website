@@ -137,7 +137,6 @@ function redirectToFirstVariant({product, request}) {
 
 export default function Product() {
   const {product, variants} = useLoaderData();
-  const {selectedVariant} = product;
   const [productsData, setProductsData] = useState(data);
 
   return (
@@ -201,8 +200,6 @@ function ProductImage({image, selectedVariant}) {
     selectedVariant?.image,
     ...image.nodes.filter((img) => img !== selectedVariant?.image),
   ];
-
-  console.log('reorderedImages', reorderedImages);
 
   return (
     <div className="left_product_detail">
@@ -333,18 +330,6 @@ function ProductForm({variants}) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
-  const [selectedOptions, setSelectedOptions] = useState({});
-
-  // Function to handle option click
-  const handleOptionClick = (optionName, value) => {
-    // Update selected options
-    setSelectedOptions((prevSelectedOptions) => ({
-      ...prevSelectedOptions,
-      [optionName]: value,
-    }));
-
-    // Handle any other logic, such as updating the selected variant
-  };
 
   return (
     <div className="right_product_detail">
@@ -372,6 +357,7 @@ function ProductForm({variants}) {
             />
           )}
         </s>
+        <span className="discount">{`${percentageDifferenceResult}%`}</span>
       </div>
       <div className="pro_detail_P">
         <p>{product.description}</p>
@@ -381,12 +367,14 @@ function ProductForm({variants}) {
         options={product.options}
         variants={variants}
       >
-        {({option, id}) => (
+        {({option}) => (
           <div className="pro_detail_size flex align_center">
             <h5>{option.name}:</h5>
             {option.values.length > 7
               ? option.values.map(({value, to}) => {
-                  const isActive = selectedOptions[option.name] === value;
+                  const data = selectedVariant.selectedOptions.some(
+                    (option) => option.value === value,
+                  );
                   return (
                     <Link
                       key={option.name + value}
@@ -394,13 +382,12 @@ function ProductForm({variants}) {
                       preventScrollReset
                       prefetch="intent"
                       replace
-                      onClick={() => handleOptionClick(option.name, value)}
                     >
                       <h4 className={data === true ? 'active' : ''}>{value}</h4>
                     </Link>
                   );
                 })
-              : option.values.map(({value, to}) => {
+              : option.values?.map(({value, to}) => {
                   const data = selectedVariant.selectedOptions.some(
                     (option) => option.value === value,
                   );
