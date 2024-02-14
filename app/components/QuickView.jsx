@@ -186,7 +186,7 @@ function ProductForm({variants, products, isModalOpen, setIsModalOpen}) {
           <div className="pro_detail_size flex align_center">
             <h5>{option.name}:</h5>
             {option.values.length > 7
-              ? option.values.map(({value, to}) => {
+              ? option.values.map(({value}) => {
                   return (
                     <h4
                       key={option.name + value}
@@ -199,7 +199,7 @@ function ProductForm({variants, products, isModalOpen, setIsModalOpen}) {
                     </h4>
                   );
                 })
-              : option.values.map(({value, to}) => {
+              : option.values.map(({value}) => {
                   return (
                     <h4
                       key={option.name + value}

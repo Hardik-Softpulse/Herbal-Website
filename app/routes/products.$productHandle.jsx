@@ -1,4 +1,4 @@
-import {Suspense, useEffect, useState} from 'react';
+import {Suspense, useState} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData} from '@remix-run/react';
 import data from '../json/product.json';
@@ -357,7 +357,11 @@ function ProductForm({variants}) {
             />
           )}
         </s>
-        <span className="discount">{`${percentageDifferenceResult}%`}</span>
+        {percentageDifferenceResult !== null ? (
+          <span className="discount">{`${percentageDifferenceResult}%`}</span>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="pro_detail_P">
         <p>{product.description}</p>
@@ -367,7 +371,7 @@ function ProductForm({variants}) {
         options={product.options}
         variants={variants}
       >
-        {({option}) => (
+        {({option, id}) => (
           <div className="pro_detail_size flex align_center">
             <h5>{option.name}:</h5>
             {option.values.length > 7
@@ -387,7 +391,7 @@ function ProductForm({variants}) {
                     </Link>
                   );
                 })
-              : option.values?.map(({value, to}) => {
+              : option.values.map(({value, to}) => {
                   const data = selectedVariant.selectedOptions.some(
                     (option) => option.value === value,
                   );

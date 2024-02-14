@@ -42,7 +42,7 @@ function Filter({filters, appliedFilters = []}) {
 
   useEffect(() => {
     toggleAppliedFilter();
-  });
+  },[]);
 
   return (
     <div className="left_filter">
