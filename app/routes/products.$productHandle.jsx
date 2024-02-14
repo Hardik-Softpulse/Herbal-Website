@@ -202,7 +202,7 @@ function ProductImage({image, selectedVariant}) {
     ...image.nodes.filter((img) => img !== selectedVariant?.image),
   ];
 
-  console.log('reorderedImages', reorderedImages)
+  console.log('reorderedImages', reorderedImages);
 
   return (
     <div className="left_product_detail">
@@ -292,7 +292,7 @@ function ProductImage({image, selectedVariant}) {
 function ProductForm({variants}) {
   const [quantity, setQuantity] = useState(1);
   const {product, shop, analytics} = useLoaderData();
-  const { selectedVarianst, setSelectedVariants } = useState(null);
+
   const selectedVariant = product.selectedVariant;
   const isOutOfStock = !selectedVariant?.availableForSale;
 
@@ -333,14 +333,17 @@ function ProductForm({variants}) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
-  const handleOptionClick = (optionName, value) => {
-    // Find the variant with the selected options
-    const newSelectedVariant = variants.find(variant => {
-      return variant.selectedOptions.some(option => option.name === optionName && option.value === value);
-    });
+  const [selectedOptions, setSelectedOptions] = useState({});
 
-    // Update the selected variant in the parent component
-    setSelectedVariants(newSelectedVariant);
+  // Function to handle option click
+  const handleOptionClick = (optionName, value) => {
+    // Update selected options
+    setSelectedOptions((prevSelectedOptions) => ({
+      ...prevSelectedOptions,
+      [optionName]: value,
+    }));
+
+    // Handle any other logic, such as updating the selected variant
   };
 
   return (
@@ -383,9 +386,7 @@ function ProductForm({variants}) {
             <h5>{option.name}:</h5>
             {option.values.length > 7
               ? option.values.map(({value, to}) => {
-                  const data = selectedVariant.selectedOptions.some(
-                    (option) => option.value === value,
-                  );
+                  const isActive = selectedOptions[option.name] === value;
                   return (
                     <Link
                       key={option.name + value}
@@ -832,6 +833,3 @@ const BLOGS_ITEM = `#graphql
     title
   }
   `;
-
-
- // VariantSelector in select option private window in solw working how to solve problem with code
