@@ -23,26 +23,37 @@ function Filter({filters, appliedFilters = []}) {
   };
 
   const toggleAppliedFilter = (filter, label, to) => {
-    const isFilterApplied = appliedFilters.some((obj) => obj.label === label);
+    if (filter && to) {
+      const isFilterApplied = appliedFilters.some((obj) => obj.label === label);
+      const newFilters = isFilterApplied
+        ? appliedFilters.filter((obj) => obj.label !== label)
+        : [...appliedFilters, {label, to}];
 
-    if (isFilterApplied) {
-      // Filter is applied, remove it
-      const newFilters = appliedFilters.filter((obj) => obj.label !== label);
       navigate(`${location.pathname}?${newFilters.map((f) => f.to).join('&')}`);
-    } else if (filter && to) {
-      // Add this condition to check if filter and filter.to are defined
-      // Filter is not applied, add it
-      navigate(
-        `${location.pathname}?${[...appliedFilters, filter]
-          .map((f) => f.to)
-          .join('&')}`,
-      );
     }
   };
 
+  // const toggleAppliedFilter = (filter, label, to) => {
+  //   const isFilterApplied = appliedFilters.some((obj) => obj.label === label);
+
+  //   if (isFilterApplied) {
+  //     // Filter is applied, remove it
+  //     const newFilters = appliedFilters.filter((obj) => obj.label !== label);
+  //     navigate(`${location.pathname}?${newFilters.map((f) => f.to).join('&')}`);
+  //   } else if (filter && to) {
+  //     // Add this condition to check if filter and filter.to are defined
+  //     // Filter is not applied, add it
+  //     navigate(
+  //       `${location.pathname}?${[...appliedFilters, filter]
+  //         .map((f) => f.to)
+  //         .join('&')}`,
+  //     );
+  //   }
+  // };
+
   useEffect(() => {
     toggleAppliedFilter();
-  },[]);
+  }, [appliedFilters]);
 
   return (
     <div className="left_filter">
@@ -135,7 +146,7 @@ function AppliedFilters({filters = []}) {
             className="reset-act"
             key={`${filter.label}-${filter.urlParam}`}
           >
-            <span className='filter-label'>{filter.label}</span>
+            <span className="filter-label">{filter.label}</span>
             <svg
               width="10"
               height="10"
@@ -143,11 +154,7 @@ function AppliedFilters({filters = []}) {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M1 1L16 16M16 1L1 16"
-                stroke="#000"
-                strokeWidth="2.4"
-              />
+              <path d="M1 1L16 16M16 1L1 16" stroke="#000" strokeWidth="2.4" />
             </svg>
           </Link>
         );

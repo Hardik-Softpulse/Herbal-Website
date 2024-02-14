@@ -1269,7 +1269,7 @@ body.active {
 .cart_product_count .skin-2 .num-in input {
   display: flex;
   width: 29%;
-  height: 26px;
+  height: 25px;
   border: none;
   text-align: center;
   background-color: var(--secondaryColor);
@@ -4600,7 +4600,7 @@ span.discount {
   .right_product_detail .pro_detail_P p {
     margin-bottom: 10px;
     font-size: 12px;
-    line-height: 15px;
+    line-height: 20px;
   }
   .pro_detail_size {
     margin-bottom: 15px;
