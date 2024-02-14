@@ -292,7 +292,7 @@ function ProductImage({image, selectedVariant}) {
 function ProductForm({variants}) {
   const [quantity, setQuantity] = useState(1);
   const {product, shop, analytics} = useLoaderData();
-
+  const { selectedVarianst, setSelectedVariants } = useState(null);
   const selectedVariant = product.selectedVariant;
   const isOutOfStock = !selectedVariant?.availableForSale;
 
@@ -333,7 +333,15 @@ function ProductForm({variants}) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
-  useEffect(() => {}, [product.options]);
+  const handleOptionClick = (optionName, value) => {
+    // Find the variant with the selected options
+    const newSelectedVariant = variants.find(variant => {
+      return variant.selectedOptions.some(option => option.name === optionName && option.value === value);
+    });
+
+    // Update the selected variant in the parent component
+    setSelectedVariants(newSelectedVariant);
+  };
 
   return (
     <div className="right_product_detail">
@@ -385,6 +393,7 @@ function ProductForm({variants}) {
                       preventScrollReset
                       prefetch="intent"
                       replace
+                      onClick={() => handleOptionClick(option.name, value)}
                     >
                       <h4 className={data === true ? 'active' : ''}>{value}</h4>
                     </Link>
@@ -823,3 +832,6 @@ const BLOGS_ITEM = `#graphql
     title
   }
   `;
+
+
+ // VariantSelector in select option private window in solw working how to solve problem with code
