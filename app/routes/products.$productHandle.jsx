@@ -1,6 +1,13 @@
-import {Suspense, useState} from 'react';
+import {Suspense, useState, useMemo} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {Await, Link, useLoaderData} from '@remix-run/react';
+import {
+  Await,
+  Link,
+  useLoaderData,
+  useSearchParams,
+  useNavigation,
+  useLocation,
+} from '@remix-run/react';
 import data from '../json/product.json';
 import {
   Image,
@@ -291,6 +298,8 @@ function ProductForm({variants}) {
   const [quantity, setQuantity] = useState(1);
   const {product, shop, analytics} = useLoaderData();
 
+  console.log('product', product);
+
   const selectedVariant = product.selectedVariant;
   const isOutOfStock = !selectedVariant?.availableForSale;
 
@@ -332,6 +341,26 @@ function ProductForm({variants}) {
     }
   };
 
+  const [currentSearchParams] = useSearchParams();
+  const {location} = useNavigation();
+  const searchParams = useMemo(() => {
+    return location
+      ? new URLSearchParams(location.search)
+      : currentSearchParams;
+  }, [currentSearchParams, location]);
+
+  const searchParamsWithDefaults = useMemo(() => {
+    const clonedParams = new URLSearchParams(searchParams);
+    for (const {name, value} of selectedVariant.selectedOptions) {
+      if (!searchParams.has(name)) {
+        clonedParams.set(name, value);
+      }
+    }
+    return clonedParams;
+  }, [searchParams, selectedVariant.selectedOptions]);
+
+  console.log('searchParamsWithDefaults', searchParamsWithDefaults);
+
   return (
     <div className="right_product_detail">
       <h6>{product.vendor}</h6>
@@ -367,33 +396,39 @@ function ProductForm({variants}) {
       <div className="pro_detail_P">
         <p>{product.description}</p>
       </div>
-      <VariantSelector
+      {/* <VariantSelector
         handle={product.handle}
         options={product.options}
         variants={variants}
-      >
-        {({option, id}) => (
-          <div className="pro_detail_size flex align_center">
-            <h5>{option.name}:</h5>
-            {option.values.map(({value, to}) => {
-              const data = selectedVariant.selectedOptions.some(
-                (option) => option.value === value,
-              );
-              return (
-                <Link
-                  key={option.name + value}
-                  to={to}
-                  preventScrollReset
-                  prefetch="intent"
-                  replace
-                >
-                  <h4 className={data === true ? 'active' : ''}>{value}</h4>
-                </Link>
-              );
-            })}
-          </div>
-        )}
-      </VariantSelector>
+      > */}
+      {/* {product.options.map((option) => (
+        <div className="pro_detail_size flex align_center" key={option.name}>
+          <h5>{option.name}:</h5>
+          {option.values?.map((optionValue) => {
+            const {value, to} = optionValue;
+            console.log('to', to);
+            const isActive = selectedVariant.selectedOptions.some(
+              (selectedOption) => selectedOption.value === optionValue,
+            );
+            return (
+              <Link
+                key={option.name + optionValue}
+                searchParams={searchParamsWithDefaults}
+                preventScrollReset
+                prefetch="intent"
+                replace
+              >
+                <h4 className={isActive ? 'active' : ''}>{optionValue}</h4>
+              </Link>
+            );
+          })}
+        </div>
+      ))} */}
+      {/* </VariantSelector> */}
+      <ProductOptions
+        options={product.options}
+        searchParamsWithDefaults={searchParamsWithDefaults}
+      />
 
       <div className="pro_detail_add_cart flex align_center">
         <div className="num-block skin-2">
@@ -464,6 +499,67 @@ function ProductForm({variants}) {
         </ul>
       </div>
     </div>
+  );
+}
+
+function ProductOptions({options, searchParamsWithDefaults}) {
+  return (
+    <>
+      {options
+        .filter((option) => option.values.length > 1)
+        .map((option, i) => (
+          <div className="pro_detail_size flex align_center" key={i}>
+            <h5>{option.name}:</h5>
+
+            {option.values.map((value) => {
+              const isActive =
+                searchParamsWithDefaults.get(option.name) === value;
+              const id = `option-${option.name}-${value}`;
+
+              return (
+                <ProductOptionLink
+                  key={id}
+                  optionName={option.name}
+                  optionValue={value}
+                  searchParams={searchParamsWithDefaults}
+                  isActive={isActive}
+                />
+              );
+            })}
+          </div>
+        ))}
+    </>
+  );
+}
+
+function ProductOptionLink({
+  isActive,
+  optionName,
+  optionValue,
+  searchParams,
+  children,
+  ...props
+}) {
+  const {pathname} = useLocation();
+  const isLocalePathname = /\/[a-zA-Z]{2}-[a-zA-Z]{2}\//g.test(pathname);
+  // fixes internalized pathname
+  const path = isLocalePathname
+    ? `/${pathname.split('/').slice(2).join('/')}`
+    : pathname;
+
+  const clonedSearchParams = new URLSearchParams(searchParams);
+  clonedSearchParams.set(optionName, optionValue);
+
+  return (
+    <Link
+      {...props}
+      preventScrollReset
+      prefetch="intent"
+      replace
+      to={`${path}?${clonedSearchParams.toString()}`}
+    >
+      <h4 className={isActive ? 'active' : ''}>{optionValue}</h4>
+    </Link>
   );
 }
 
