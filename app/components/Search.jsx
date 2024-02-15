@@ -27,7 +27,7 @@ export function SearchForm({searchTerm, search, setSearch}) {
   //     document.removeEventListener('keydown', handleKeyDown);
   //   };
   // }, []);
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const searchQuery = inputRef.current.value.trim();
@@ -38,6 +38,12 @@ export function SearchForm({searchTerm, search, setSearch}) {
         : `/search?q=${encodedQuery}`;
       window.location.href = searchPath;
       setSearch(false); // Close the search form
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSubmit(event);
     }
   };
   return (
@@ -57,6 +63,7 @@ export function SearchForm({searchTerm, search, setSearch}) {
         placeholder="Search…"
         ref={inputRef}
         type="search"
+        onKeyDown={handleKeyDown}
       />
       <button className="btn" type="submit">
         Search
@@ -95,7 +102,7 @@ function SearchResultsProductsGrid({products}) {
                 <button className="btn">Previous</button>
               </PreviousLink>
 
-              <div className='product_more_btn'>
+              <div className="product_more_btn">
                 <NextLink>
                   <button className="btn">Load More</button>
                 </NextLink>

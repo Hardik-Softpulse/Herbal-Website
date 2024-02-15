@@ -272,7 +272,7 @@ function ProductForm({variants, products, isModalOpen, setIsModalOpen}) {
       </div>
       <div className="pro_detail_fast_vector flex">
         <img src={Truck} alt="" />
-        <p>Free Shipping on orders over $64</p>
+        <p>Free Shipping on orders over ₹64</p>
       </div>
       <div className="pro_detail_highlight">
         <h4>Highlight</h4>

@@ -441,7 +441,11 @@ function ProductForm({variants}) {
 
         <div className="add_to_cart_btn">
           {selectedVariant?.availableForSale === false ? (
-            <button variant="secondary" disabled={isOutOfStock} className="btn">
+            <button
+              variant="secondary"
+              disabled={isOutOfStock}
+              className="btn "
+            >
               <span>Sold out</span>
             </button>
           ) : (
@@ -469,7 +473,7 @@ function ProductForm({variants}) {
       </div>
       <div className="pro_detail_fast_vector flex">
         <img src={Truck} alt="" />
-        <p>Free Shipping on orders over $64</p>
+        <p>Free Shipping on orders over ₹64</p>
       </div>
       <div className="pro_detail_highlight">
         <h4>Highlight</h4>
