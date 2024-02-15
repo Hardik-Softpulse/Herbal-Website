@@ -6,7 +6,7 @@ import {useState} from 'react';
 import cross from '../image/cross.svg';
 import QuickView from './QuickView';
 
-export function ProductCard({product, label}) {
+export function ProductCard({product, label, onClick,loading}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   let cardLabel;
   const cardProduct = product?.variants ? product : getProductPlaceholder();
@@ -52,12 +52,13 @@ export function ProductCard({product, label}) {
     <div className="product_item">
       <div className="product_img">
         <div className="product_img_wrap">
-          <Link to={`/products/${product.handle}`}>
+          <Link to={`/products/${product.handle}`} onClick={onClick}> 
             <Image
               src={image?.url}
               alt={`Picture of ${product.title}`}
               height="450px"
               width="340px"
+              loading={loading}
             />
           </Link>
           {cardLabel && (
