@@ -1,4 +1,3 @@
-
 /* @import url(custome-font.css); */
 
 * {
@@ -2671,13 +2670,13 @@ span.swiper-pagination-bullet {
   position: relative;
 }
 .right_blog_detail {
-  max-width: 25%;
+  /* max-width: 25%; */
   width: 100%;
   margin-top: 30px;
   padding-left: 40px;
 }
 .main_blog_detail .left_blog_detail {
-  max-width: 75%;
+  /* max-width: 75%; */
   width: 100%;
   height: 100%;
 }
@@ -3380,7 +3379,7 @@ p.text-red-500,
 .address-book p {
   text-align: start;
 }
-.main_forgot_pass{
+.main_forgot_pass {
   max-width: 540px;
   width: 100%;
   padding: 0 15px;
@@ -3398,17 +3397,17 @@ p.text-red-500,
 .account-addresses .address_account_wrap {
   width: 100%;
 }
-.account-addresses .address_account_wrap .address-book{
+.account-addresses .address_account_wrap .address-book {
   border-radius: 10px;
   padding: 20px;
   max-width: calc(33.33% - 20px);
   width: 100%;
   box-shadow: 0 4px 28px -2px #00000014;
 }
-.create_account .address_edit_form .close_cart{
+.create_account .address_edit_form .close_cart {
   display: none;
 }
-.address_edit_form .close_cart{
+.address_edit_form .close_cart {
   background-color: var(--subTheme);
   display: block;
   width: unset;
@@ -3417,7 +3416,7 @@ p.text-red-500,
   margin-left: auto;
   border-radius: 5px;
 }
-.address_edit_form .close_cart img{
+.address_edit_form .close_cart img {
   display: block;
 }
 .account-addresses .address_account_wrap .address_book_wrap {
@@ -3430,11 +3429,11 @@ p.text-red-500,
   align-items: center;
   gap: 10px;
 }
-.address_save_dlt_btn{
+.address_save_dlt_btn {
   display: flex;
   gap: 10px;
 }
-.main_forgot_pass form button{
+.main_forgot_pass form button {
   width: 100%;
   cursor: pointer;
 }
@@ -3515,13 +3514,13 @@ button {
 .account-addresses input#defaultAddress {
   margin-right: 10px;
 }
-.main_profile_form{
+.main_profile_form {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   justify-content: space-between;
 }
-.main_profile_form .profile_form_wrap{
+.main_profile_form .profile_form_wrap {
   max-width: calc(50% - 10px);
   width: 100%;
 }
@@ -3906,14 +3905,14 @@ span.filter-label {
   letter-spacing: 0.02em;
   margin-bottom: 25px;
 }
-.collage .section_title{
+.collage .section_title {
   text-align: center;
   margin-bottom: 50px;
 }
-.collage .section_title h2{
+.collage .section_title h2 {
   margin-bottom: 15px;
 }
-.collage .section_title p{
+.collage .section_title p {
   font-size: 18px;
   line-height: 24px;
   color: var(--bodyColor);
@@ -3948,25 +3947,25 @@ section.collage {
   padding: 15px 0;
   color: #1c6758;
 }
-.account-order h2{
+.account-order h2 {
   color: var(--themeColor);
   padding-bottom: 10px;
   font-size: 22px;
   line-height: normal;
 }
-.account-order p{
+.account-order p {
   color: var(--bodyColor);
   margin-bottom: 7px;
   font-size: 16px;
   line-height: normal;
 }
-.account-order table{
+.account-order table {
   border-spacing: 0;
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 10px;
 }
-.account-order th{
+.account-order th {
   font-size: 17px;
   line-height: normal;
   color: var(--subTheme);
@@ -3981,10 +3980,10 @@ section.collage {
   border-right: 1px solid #dfdfdf;
 }
 .account-order th:last-child,
-.account-order td:last-child{
+.account-order td:last-child {
   border-right: unset;
 }
-.account-order td{
+.account-order td {
   color: var(--bodyColor);
   font-size: 15px;
   padding: 15px 10px;
@@ -3992,11 +3991,11 @@ section.collage {
   vertical-align: center;
   border-right: 1px solid #dfdfdf;
 }
-.account-order tr{
+.account-order tr {
   background: #f7f8f9;
   border-bottom: 1px solid #dfdfdf;
 }
-.order_table{
+.order_table {
   overflow: auto;
 }
 .order_table::-webkit-scrollbar {
@@ -4011,33 +4010,33 @@ section.collage {
   border-radius: 10px;
 }
 
-.cartPage{
+.cartPage {
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
 }
-.cartPage .cartdetail{
+.cartPage .cartdetail {
   flex-direction: column;
 }
-.cartPage .cart_product_info p{
+.cartPage .cart_product_info p {
   max-width: 100%;
 }
 .cartPage .cart_product_img {
   padding-bottom: 20%;
   width: 20%;
 }
-.cartPage .cart_product_img img{
+.cartPage .cart_product_img img {
   border-radius: 10px;
 }
-.cartPage .cart-summary-page{
+.cartPage .cart-summary-page {
   margin-top: 30px;
   background-color: #f7f7f7;
   padding: 20px;
 }
-.cartPage .cart-summary-page .cart_p{
+.cartPage .cart-summary-page .cart_p {
   text-align: left;
 }
-.cartPage .cart_checkout_btn button{
+.cartPage .cart_checkout_btn button {
   padding: 10px 20px;
   width: unset;
 }
@@ -4048,10 +4047,10 @@ section.collage {
   margin-left: 20px;
   width: 79%;
 }
-.cartPage .cart_heading{
+.cartPage .cart_heading {
   position: unset;
 }
-.cart_product_info{
+.cart_product_info {
   max-width: 70%;
 }
 span.discount {
@@ -4430,15 +4429,15 @@ span.discount {
   }
 
   /* about */
-  .banner_contant_about{
+  .banner_contant_about {
     padding: 20px;
   }
-  .banner_contant_about h1{
+  .banner_contant_about h1 {
     line-height: normal;
     margin-bottom: 15px;
     font-size: 24px;
   }
-  .banner_contant_about h4{
+  .banner_contant_about h4 {
     font-weight: 400;
     font-size: 12px;
     line-height: normal;
@@ -4679,7 +4678,7 @@ span.discount {
   .product_img_wrap .product_quick_hvr {
     padding: 5px;
   }
-  .collage .section_title p{
+  .collage .section_title p {
     font-size: 15px;
     line-height: normal;
   }
@@ -5351,11 +5350,11 @@ span.discount {
     margin-bottom: 10px;
     font-size: 19px;
   }
-  .main_profile_form .profile_form_wrap{
+  .main_profile_form .profile_form_wrap {
     max-width: 100%;
   }
 
-  .cartPage .cart-summary-page{
+  .cartPage .cart-summary-page {
     padding: 10px;
     margin-top: 20px;
   }
@@ -5371,7 +5370,6 @@ span.discount {
     font-size: 15px;
     line-height: 20px;
   }
-
 }
 @media screen and (max-width: 550px) {
   .searchForm {
@@ -5505,7 +5503,7 @@ span.discount {
   .account-addresses .address_account_wrap .address-book {
     max-width: 100%;
   }
-  
+
   .main_clean .clean {
     max-width: calc(50% - 20px);
   }
@@ -5516,8 +5514,7 @@ span.discount {
   .brand-image {
     height: 150px;
     width: 150px;
-}
-
+  }
 }
 @media screen and (max-width: 425px) {
   .btn {
@@ -5708,12 +5705,11 @@ span.discount {
   .cartPage .cart_product_img {
     padding-bottom: 40%;
     width: 40%;
-  } 
+  }
   .cart_product_content {
     margin-left: 10px;
     width: 64%;
   }
-  
 }
 @media screen and (max-width: 337px) {
   .foot2 {
@@ -5802,4 +5798,3 @@ span.discount {
     width: 245px;
   }
 }
-

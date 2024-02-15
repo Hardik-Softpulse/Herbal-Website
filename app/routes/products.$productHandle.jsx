@@ -18,7 +18,7 @@ import Truck from '../image/truck.svg';
 import {routeHeaders} from '~/data/cache';
 import invariant from 'tiny-invariant';
 import {seoPayload} from '~/lib/seo.server';
-import {AddToCartButton,  NewArrival} from '~/components';
+import {AddToCartButton, NewArrival} from '~/components';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
@@ -138,6 +138,7 @@ function redirectToFirstVariant({product, request}) {
 export default function Product() {
   const {product, variants} = useLoaderData();
   const [productsData, setProductsData] = useState(data);
+  console.log('product', product);
 
   return (
     <main className="abt_sec">
@@ -374,39 +375,22 @@ function ProductForm({variants}) {
         {({option, id}) => (
           <div className="pro_detail_size flex align_center">
             <h5>{option.name}:</h5>
-            {option.values.length > 7
-              ? option.values.map(({value, to}) => {
-                  const data = selectedVariant.selectedOptions.some(
-                    (option) => option.value === value,
-                  );
-                  return (
-                    <Link
-                      key={option.name + value}
-                      to={to}
-                      preventScrollReset
-                      prefetch="intent"
-                      replace
-                    >
-                      <h4 className={data === true ? 'active' : ''}>{value}</h4>
-                    </Link>
-                  );
-                })
-              : option.values.map(({value, to}) => {
-                  const data = selectedVariant.selectedOptions.some(
-                    (option) => option.value === value,
-                  );
-                  return (
-                    <Link
-                      key={option.name + value}
-                      to={to}
-                      preventScrollReset
-                      prefetch="intent"
-                      replace
-                    >
-                      <h4 className={data === true ? 'active' : ''}>{value}</h4>
-                    </Link>
-                  );
-                })}
+            {option.values.map(({value, to}) => {
+              const data = selectedVariant.selectedOptions.some(
+                (option) => option.value === value,
+              );
+              return (
+                <Link
+                  key={option.name + value}
+                  to={to}
+                  preventScrollReset
+                  prefetch="intent"
+                  replace
+                >
+                  <h4 className={data === true ? 'active' : ''}>{value}</h4>
+                </Link>
+              );
+            })}
           </div>
         )}
       </VariantSelector>

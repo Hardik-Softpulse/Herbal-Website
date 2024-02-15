@@ -72,7 +72,7 @@ export function Header({
     <header ref={headerRef} className={hideNav ? 'hide-nav' : ''}>
       <div className="top_header">
         <p>
-          Get 10% off on minimum purchase of ₹100 use code <span>10 OFF</span>
+          Get 10% off on minimum purchase of ₹100 use code <span>100 OFF</span>
         </p>
       </div>
       <HeaderMenu

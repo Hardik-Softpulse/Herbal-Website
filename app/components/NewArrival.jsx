@@ -29,11 +29,11 @@ export function NewArrival({product, title, collectionHandle}) {
                   spaceBetween: 20,
                 },
                 200: {
-                  slidesPerView: 1,
+                  slidesPerView: 2,
                   spaceBetween: 20,
                 },
                 511: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 20,
                 },
                 767: {
