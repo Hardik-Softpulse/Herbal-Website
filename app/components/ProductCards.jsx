@@ -64,9 +64,6 @@ export function ProductCards({product, label}) {
               <p>{cardLabel}</p>
             </div>
           )}
-         
-
-        
         </div>
       </div>
 

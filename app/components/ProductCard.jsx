@@ -6,10 +6,11 @@ import {useState} from 'react';
 import cross from '../image/cross.svg';
 import QuickView from './QuickView';
 
-export function ProductCard({product, label, onClick,loading}) {
+export function ProductCard({product, label, onClick, loading}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {variants, media} = product;
   let cardLabel;
-  const cardProduct = product?.variants ? product : getProductPlaceholder();
+  const cardProduct = variants ? product : getProductPlaceholder();
   if (!cardProduct?.variants?.nodes?.length) return null;
 
   const firstVariant = flattenConnection(cardProduct.variants)[0];
@@ -52,18 +53,39 @@ export function ProductCard({product, label, onClick,loading}) {
     <div className="product_item">
       <div className="product_img">
         <div className="product_img_wrap">
-          <Link to={`/products/${product.handle}`} onClick={onClick}> 
-            <Image
-              src={image?.url}
-              alt={`Picture of ${product.title}`}
-              height="450px"
-              width="340px"
-              loading={loading}
-            />
-          </Link>
+          <div className="image-container">
+            <Link to={`/products/${product.handle}`} onClick={onClick}>
+              <Image
+                src={media.nodes[0]?.image?.url}
+                alt={`Picture of ${product.title}`}
+                height="450px"
+                width="340px"
+                loading={loading}
+                className="image-main"
+              />
+              <Image
+                src={media.nodes[1]?.image?.url}
+                alt={`Picture of ${product.title}`}
+                height="450px"
+                width="340px"
+                loading={loading}
+                className="image-hover"
+              />
+            </Link>
+          </div>
+
           {cardLabel && (
             <div className="product_top_price">
               <p>{cardLabel}</p>
+            </div>
+          )}
+          {!availableForSale && (
+            <div
+              className={`product_top_price ${
+                !availableForSale ? 'sold_out' : ''
+              }`}
+            >
+              <p>Sold out</p>
             </div>
           )}
           <div className="product_quick_hvr">
@@ -85,7 +107,6 @@ export function ProductCard({product, label, onClick,loading}) {
               </svg>
             </button>
           </div>
-
           {isModalOpen && (
             <div id="ts-quickshop-modal" className="ts-popup-modal">
               <div className="overlays">

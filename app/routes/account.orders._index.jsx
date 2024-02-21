@@ -67,7 +67,6 @@ export default function Orders() {
  * @param {Pick<CustomerOrdersFragment, 'orders'>}
  */
 function OrdersTable({orders}) {
-  console.log('orders', orders)
   return (
     <div className="acccount-orders">
       {orders?.nodes.length ? (

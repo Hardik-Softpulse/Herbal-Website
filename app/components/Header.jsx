@@ -1,7 +1,9 @@
-import {Await, Link, NavLink, useLocation} from '@remix-run/react';
-import {Suspense, useEffect, useRef, useState} from 'react';
+import { Await, Link, NavLink, useLocation } from '@remix-run/react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import logo from '../image/logo-ethenic.png';
-import {SearchForm} from './Search';
+import { SearchForm } from './Search';
+import navImg from '../image/navImg.jpg';
+
 /**
  * @param {HeaderProps}
  */
@@ -14,7 +16,7 @@ export function Header({
   headerMenu,
   setHeaderMenu,
 }) {
-  const {shop, menu} = header;
+  const { shop, menu } = header;
   const headerRef = useRef(null);
   const [hideNav, setHideNav] = useState(false);
   const location = useLocation();
@@ -197,12 +199,39 @@ export function HeaderMenu({
                         </span>
                       )}
 
-                      {isSubMenuOpen &&
-                        item.items?.map((menuItem) => (
-                          <div className="hdr_sub_menu" key={menuItem.id}>
-                            <a href={menuItem.to}>{menuItem.title}</a>
+                      {isSubMenuOpen && (
+                        <div className="hdr_sub_menu">
+                          <div className="sub_menu_heading">
+                            <div className="sub_menu">
+                              <h3>Collections</h3>
+                              {item.items?.map((menuItem) => (
+                                <p key={menuItem.id}>
+                                  <ShopLink
+                                    key={menuItem.id}
+                                    item={menuItem.title}
+                                  />
+                                </p>
+                              ))}
+                            </div>
+                            <div className="sub_menu">
+                              <h3>Featured</h3>
+                              <p>
+                                <Link to="/collections/new-arrival"> New Arrival</Link>
+                              </p>
+                              <p>
+                                <Link to="/collections/all"> All Products</Link>
+                              </p>
+                            </div>
+                            <div className="sub_menu">
+                              <div className="nav_menu_img">
+                                <img src={navImg} />
+                              </div>
+                              <p className="img_content">Feel unique and good</p>
+                            </div>
                           </div>
-                        ))}
+
+                        </div>
+                      )}
                     </li>
                   );
                 })}
@@ -222,7 +251,13 @@ export function HeaderMenu({
   );
 }
 
-function HeaderCtas({isLoggedIn, cart, search, setSearch}) {
+function ShopLink({ item }) {
+  console.log('item', item);
+  console.log('item', item);
+  return <Link prefetch="intent">{item}</Link>;
+}
+
+function HeaderCtas({ isLoggedIn, cart, search, setSearch }) {
   return (
     <div className="social_icon">
       <ul className="flex align_center">
@@ -269,7 +304,7 @@ function HeaderCtas({isLoggedIn, cart, search, setSearch}) {
   );
 }
 
-function AccountLink({isLoggedIn}) {
+function AccountLink({ isLoggedIn }) {
   return isLoggedIn ? (
     <Link to="/account" className="flex">
       <svg
@@ -323,7 +358,7 @@ function AccountLink({isLoggedIn}) {
   );
 }
 
-function Badge({count}) {
+function Badge({ count }) {
   return (
     <li>
       <a href="#cart-aside" className="flex shop_cart">
@@ -369,7 +404,7 @@ function Badge({count}) {
   );
 }
 
-function CartToggle({cart}) {
+function CartToggle({ cart }) {
   return (
     <Suspense fallback={<Badge count={0} />}>
       <Await resolve={cart}>

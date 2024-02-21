@@ -54,7 +54,6 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
       name
       values
     }
-   
     variants(first: 250) {
       nodes {
         id

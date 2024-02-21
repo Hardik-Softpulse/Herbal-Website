@@ -2,8 +2,8 @@ import {Await} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
-import {Header} from '~/components/Header';
 import {CartMain} from '~/components/Cart';
+import {Header} from './Header';
 
 export function Layout({
   cart,
@@ -15,7 +15,6 @@ export function Layout({
   headerMenu,
   setHeaderMenu,
 }) {
-
   return (
     <>
       <CartAside cart={cart} />
@@ -53,4 +52,3 @@ function CartAside({cart}) {
     </Aside>
   );
 }
-

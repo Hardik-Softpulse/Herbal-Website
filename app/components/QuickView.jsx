@@ -65,6 +65,25 @@ function ProductImage({image}) {
             },
           }}
           onSwiper={setThumbsSwiper}
+          onSlideChange={(swiper) => {
+            const activeIndex = swiper.activeIndex;
+            const currentSlide = swiper.slides[activeIndex];
+            const videoElement = currentSlide.querySelector('video');
+
+            // Pause all other videos
+            swiper.slides.forEach((slide, index) => {
+              if (index !== activeIndex) {
+                const video = slide.querySelector('video');
+                if (video) {
+                  video.pause();
+                }
+              }
+            });
+
+            if (videoElement) {
+              videoElement.play();
+            }
+          }}
         >
           {image?.nodes?.map((img) => (
             <SwiperSlide key={img.id}>

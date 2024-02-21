@@ -84,6 +84,7 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
           amount
           currencyCode
         }
+        productType
         product {
           title
           handle

@@ -66,7 +66,7 @@ export async function action({request, context}) {
             password,
             firstName,
             lastName,
-            phone
+            phone,
           },
         },
       },
@@ -233,7 +233,7 @@ export default function Register() {
                     <br />
                     <div className="showPass">
                       <input
-                         type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? 'text' : 'password'}
                         name="passwordConfirm"
                         placeholder="Enter your Conform password"
                       />

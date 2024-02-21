@@ -57,6 +57,8 @@ export async function loader({request, context: {storefront}}) {
 export default function SearchPage() {
   const {searchTerm, products, noResultRecommendations, seo} = useLoaderData();
 
+  console.log('products', products)
+
   return (
     <main className="abt_sec">
       <section className="main_search_form">

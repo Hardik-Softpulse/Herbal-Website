@@ -2,10 +2,9 @@ import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
 import cross from '../image/croos2.png';
 import {useVariantUrl} from '~/lib/variants';
+import Truck from '../image/truck.svg';
 
 export function CartMain({layout, cart}) {
-  console.log('cart', cart);
-
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
   const withDiscount =
     cart &&
@@ -186,7 +185,6 @@ function CartCheckoutActions({checkoutUrl}) {
 }
 
 export function CartSummary({cost, layout, children = null, checkoutUrl}) {
-  console.log('cost', cost);
   const className =
     layout === 'page'
       ? ' cart-summary-page'
@@ -200,7 +198,6 @@ export function CartSummary({cost, layout, children = null, checkoutUrl}) {
     amount: discountAmountNumber.toString(),
     currencyCode: 'INR',
   };
-  console.log('discountAmount', discountAmount);
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
@@ -234,6 +231,29 @@ export function CartSummary({cost, layout, children = null, checkoutUrl}) {
           </span>
         </div>
       </div>
+
+      {originalTotal >= 0 && originalTotal <= 100 ? (
+        <span className="charges">50 INR charge</span>
+      ) : (
+        <div className="pro_detail_fast_vector flex">
+          <img src={Truck} alt="" />
+          <p> 100 Free shipping on order above ₹100</p>
+        </div>
+        // <span className="charges">
+        //   <svg
+        //     xmlns="http://www.w3.org/2000/svg"
+        //     viewBox="0 0 24 18"
+        //     width="24"
+        //     height="18"
+        //   >
+        //     <path
+        //       fill-rule="evenodd"
+        //       d="M5 8L5 9L13 9L13 2L3 2L3 1C3 0.45 3.45 0 4 0C6.58 0 11.42 0 14 0C14.55 0 15 0.45 15 1L15 3L19.67 3C20.78 3 21.27 3.58 21.6 4.11C22.2 5.05 23.14 6.54 23.71 7.48C23.9 7.8 24 8.15 24 8.52C24 9.71 24 11.5 24 13C24 14.09 23.26 15 22 15L21 15C21 16.66 19.66 18 18 18C16.34 18 15 16.66 15 15L11 15C11 16.66 9.66 18 8 18C6.34 18 5 16.66 5 15L4 15C3.45 15 3 14.55 3 14L3 8L1 8L1 6L8 6L8 8L5 8ZM6.8 15C6.8 15.66 7.34 16.2 8 16.2C8.66 16.2 9.2 15.66 9.2 15C9.2 14.34 8.66 13.8 8 13.8C7.34 13.8 6.8 14.34 6.8 15ZM16.8 15C16.8 15.66 17.34 16.2 18 16.2C18.66 16.2 19.2 15.66 19.2 15C19.2 14.34 18.66 13.8 18 13.8C17.34 13.8 16.8 14.34 16.8 15ZM15 11L5 11L5 13L5.76 13C6.31 12.39 7.11 12 8 12C8.89 12 9.69 12.39 10.24 13L15.76 13C16.31 12.39 17.11 12 18 12C18.89 12 19.69 12.39 20.24 13L22 13L22 8.43C22 8.43 20.84 6.44 20.29 5.5C20.11 5.19 19.78 5 19.43 5L15 5L15 11ZM18.7 6C19.06 6 19.4 6.19 19.57 6.5C20.06 7.36 21 9 21 9L16 9L16 6C16 6 17.83 6 18.7 6ZM0 3L8 3L8 5L0 5L0 3Z"
+        //     ></path>
+        //   </svg>
+
+        // </span>
+      )}
       <div className="product_cross_img">
         <CartCheckoutActions checkoutUrl={checkoutUrl} />
       </div>

@@ -23,7 +23,7 @@ import {seoPayload} from '~/lib/seo.server';
 import invariant from 'tiny-invariant';
 import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 import {GenericError, NotFound} from '~/components';
-import SwiperZoom from 'swiper/css/zoom';
+import ImageZoom from 'react-inner-image-zoom/lib/InnerImageZoom/styles.css';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') {
@@ -40,7 +40,7 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 export function links() {
   return [
     {rel: 'stylesheet', href: appStyles},
-    {rel: 'stylesheet', href: SwiperZoom},
+    {rel: 'stylesheet', href: ImageZoom},
     {rel: 'stylesheet', href: swiperPag},
     {rel: 'stylesheet', href: swiperNav},
     {rel: 'stylesheet', href: swiper},
@@ -96,6 +96,11 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+          http
+          httpEquiv="Content-Security-Policy"
+          content="connect-src 'self' https://api.yotpo.com https://monorail-edge.shopifysvc.com localhost:* ws://localhost:* ws://127.0.0.1:*;"
+        />
         <meta
           httpEquiv="Content-Security-Policy"
           content="style-src 'self' 'unsafe-inline' https://cdn.shopify.com https://fonts.googleapis.com localhost:*;"
@@ -197,7 +202,6 @@ async function validateCustomerAccessToken(session, customerAccessToken) {
 
 const LAYOUT_QUERY = `#graphql
   query layout(
-    
     $language: LanguageCode
     $headerMenuHandle: String!
     $footerMenuHandle: String!

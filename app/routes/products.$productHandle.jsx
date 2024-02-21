@@ -1,4 +1,4 @@
-import {Suspense, useState, useMemo} from 'react';
+import {Suspense, useState, useMemo, useEffect} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {
   Await,
@@ -12,7 +12,6 @@ import data from '../json/product.json';
 import {
   Image,
   Money,
-  VariantSelector,
   getSelectedProductOptions,
   AnalyticsPageType,
   flattenConnection,
@@ -26,6 +25,7 @@ import {routeHeaders} from '~/data/cache';
 import invariant from 'tiny-invariant';
 import {seoPayload} from '~/lib/seo.server';
 import {AddToCartButton, NewArrival} from '~/components';
+import InnerImageZoom from 'react-inner-image-zoom';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
@@ -145,7 +145,6 @@ function redirectToFirstVariant({product, request}) {
 export default function Product() {
   const {product, variants} = useLoaderData();
   const [productsData, setProductsData] = useState(data);
-  console.log('product', product);
 
   return (
     <main className="abt_sec">
@@ -171,6 +170,7 @@ export default function Product() {
             return null;
         }
       })}
+      {/* <Review product={product} /> */}
     </main>
   );
 }
@@ -283,7 +283,14 @@ function ProductImage({image, selectedVariant}) {
                 </video>
               ) : (
                 <div className="swiper-zoom-container">
-                  <Image src={img?.url ?? img.image?.url} alt="pro-detail" />{' '}
+                  <Image
+                    zoomSrc={img?.url ?? img.image?.url}
+                    src={img?.url ?? img.image?.url}
+                    alt="pro-detail"
+                    hasSpacer={true}
+                    zoomType="hover"
+                    zoomPreload={true}
+                  />
                 </div>
               )}
             </div>
@@ -297,9 +304,6 @@ function ProductImage({image, selectedVariant}) {
 function ProductForm({variants}) {
   const [quantity, setQuantity] = useState(1);
   const {product, shop, analytics} = useLoaderData();
-
-  console.log('product', product);
-
   const selectedVariant = product.selectedVariant;
   const isOutOfStock = !selectedVariant?.availableForSale;
 
@@ -358,8 +362,6 @@ function ProductForm({variants}) {
     }
     return clonedParams;
   }, [searchParams, selectedVariant.selectedOptions]);
-
-  console.log('searchParamsWithDefaults', searchParamsWithDefaults);
 
   return (
     <div className="right_product_detail">
@@ -713,6 +715,128 @@ function FeaturedBlogSection() {
     </section>
   );
 }
+// function Review({product}) {
+//   const yotpo_api_key = '5Ge9QQES2Q5Dqu1KkE1BMLcsXYHSUPLpSSXLGhwF';
+//   const [reviewContent, setReviewContent] = useState('');
+//   const [reviewTitle, setReviewTitle] = useState('');
+//   const [displayName, setDisplayName] = useState('');
+//   const [email, setEmail] = useState('');
+//   const [internalId, setInternalId] = useState('');
+//   const apiToken = 'bW8OZ3Gey613HSOW04xquq6l7WA';
+//   const shopDomain = 'sp-tanvi.myshopify.com';
+//   const externalId = 7564377292965;
+//   const [direction, setDirection] = useState('desc');
+//   const [perPage, setPerPage] = useState(5);
+//   const page = 1;
+
+//   async function fetchJudgeMeReviewData() {
+//     const response = await fetch(
+//       `https://judge.me/api/v1/products/-1?api_token=${apiToken}&shop_domain=${shopDomain}&external_id=${externalId}`,
+//       {
+//         method: 'GET',
+//         redirect: 'follow',
+//       },
+//     );
+//     const result = await response.json();
+//     return setInternalId(result.product.id);
+//   }
+
+//   async function fetchJudgeMeReviews({page}) {
+//     const qurypram = {
+//       sort_dir: direction,
+//     };
+//     const queryParams = new URLSearchParams(qurypram);
+//     const response = await fetch(
+//       `https://judge.me/api/v1/reviews?api_token=${apiToken}&shop_domain=${shopDomain}&per_page=${perPage}&page=${page}&id=${internalId}&${queryParams.toString()}`,
+//     );
+//     const data = await response.json();
+//     console.log('data', data);
+//     return data.reviews;
+//   }
+
+//   useEffect(() => {
+//     fetchJudgeMeReviews(page);
+//   }, []);
+
+//   return (
+//     <section className="pro_detail_review">
+//       <div className="container">
+//         <div className="spacer">
+//           <div className="section_title">
+//             <div className="title_star flex align_center justify_center">
+//               {/* <img src="image/half-star.png" alt="" /> */}
+//               <span>(1617 Ratings)</span>
+//             </div>
+//             <h2>Real Reviews From Real Customers</h2>
+//           </div>
+//           <div className="main_pro_detail_review">
+//             <div className="detail_sort_by flex align_center justify_end">
+//               <div className="write_review">
+//                 <span>
+//                   {/* <img src="image/edit.svg" alt="" /> */}
+//                   Write a Review
+//                 </span>
+//               </div>
+//               <form
+//                 className="reviewForm"
+//                 onSubmit={(e) => {
+//                   e.preventDefault();
+//                   createReview();
+//                 }}
+//               >
+//                 <div className="rating">
+//                   <label>Rating :</label>
+//                 </div>
+//                 <div>
+//                   <label>Name</label>
+//                   <input
+//                     type="text"
+//                     name=" display_name"
+//                     value={displayName}
+//                     onChange={(e) => setDisplayName(e.target.value)}
+//                   />
+//                 </div>
+//                 <div>
+//                   <label>Email</label>
+//                   <input
+//                     type="email"
+//                     name="email"
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                   />
+//                 </div>
+
+//                 <div>
+//                   <label>Review Title</label>
+//                   <input
+//                     name="review_title"
+//                     type="text"
+//                     value={reviewTitle}
+//                     onChange={(e) => setReviewTitle(e.target.value)}
+//                   />
+//                 </div>
+
+//                 <div>
+//                   <label>Review</label>
+//                   <textarea
+//                     name="review_content"
+//                     value={reviewContent}
+//                     onChange={(e) => setReviewContent(e.target.value)}
+//                     placeholder="Write your review..."
+//                   />
+//                 </div>
+//                 <button type="submit">Submit Review</button>
+//               </form>
+//               <select name="" id="">
+//                 <option value="">Sort By</option>
+//               </select>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariantFragment on ProductVariant {
@@ -770,7 +894,8 @@ const PRODUCT_QUERY = `#graphql
       selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions) {
         ...ProductVariantFragment
       }
-      media(first: 7) {
+      productType
+      media(first: 10) {
         nodes {
           ...Media
         }

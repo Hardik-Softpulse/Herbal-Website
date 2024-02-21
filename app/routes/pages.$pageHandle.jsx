@@ -20,11 +20,7 @@ export async function loader({request, params, context}) {
   if (!page) {
     throw new Response(null, {status: 404});
   }
-
   const seo = seoPayload.page({page, url: request.url});
-
-  console.log('page', page)
-
   return json({page, seo});
 }
 
