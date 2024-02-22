@@ -3,8 +3,10 @@ import {Link} from '@remix-run/react';
 import cross from '../image/croos2.png';
 import {useVariantUrl} from '~/lib/variants';
 import Truck from '../image/truck.svg';
+import { Suspense } from 'react';
 
 export function CartMain({layout, cart}) {
+  console.log('cart 2', cart);
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
   const withDiscount =
     cart &&
@@ -71,11 +73,13 @@ function CartLines({lines, layout}) {
         const cartLineItem = line.node;
 
         return (
-          <CartLineItem
-            key={cartLineItem.id}
-            line={cartLineItem}
-            layout={layout}
-          />
+          <Suspense fallback={<p>Loading cart ...</p>}>
+            <CartLineItem
+              key={cartLineItem.id}
+              line={cartLineItem}
+              layout={layout}
+            />
+          </Suspense>
         );
       })}
     </div>
