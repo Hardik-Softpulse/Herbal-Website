@@ -4192,6 +4192,16 @@ a:hover .image-hover {
   transform: scale(2, 2);
   transition: all 0.5s ease-in-out;
 }
+blog_detail .spacer{
+  padding-top: 30px !important;
+  padding-bottom: 0 !important;
+}
+.featuredSection .new_product .swiper{
+  padding-bottom: unset !important;
+}
+.featuredSection .new_product .spacer{
+  padding-bottom: 20px !important;
+}
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {
