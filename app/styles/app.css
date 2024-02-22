@@ -4180,6 +4180,18 @@ a:hover .image-hover {
 #ts-quickshop-modal .overlays #product_detail .pro_detail_img {
   padding-bottom: 100%;
 }
+#product_detail .pro_detail_img {
+  position: relative;
+  /* padding-bottom: 100%; */
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 15px;
+}
+#product_detail .pro_detail_img:hover img {
+  transform: scale(2, 2);
+  transition: all 0.5s ease-in-out;
+}
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {
