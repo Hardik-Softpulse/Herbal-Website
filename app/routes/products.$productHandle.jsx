@@ -18,7 +18,7 @@ import {
 } from '@shopify/hydrogen';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Navigation, Thumbs, Zoom} from 'swiper/modules';
+import {Navigation, Thumbs} from 'swiper/modules';
 import Star1 from '../image/1star.png';
 import Truck from '../image/truck.svg';
 import {routeHeaders} from '~/data/cache';
@@ -207,6 +207,23 @@ function ProductImage({image, selectedVariant}) {
     selectedVariant?.image,
     ...image.nodes.filter((img) => img !== selectedVariant?.image),
   ];
+  const [cursorPosition, setCursorPosition] = useState({x: 0, y: 0});
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const {left, top, width, height} = e.target.getBoundingClientRect();
+    const x = (e.pageX - left) / width;
+    const y = (e.pageY - top) / height;
+    setCursorPosition({x, y});
+  };
+
+  const handleMouseEnter = () => {
+    setIsZoomed(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsZoomed(false);
+  };
 
   return (
     <div className="left_product_detail">
@@ -280,14 +297,23 @@ function ProductImage({image, selectedVariant}) {
                   />
                 </video>
               ) : (
-                <div className="swiper-zoom-container">
+                <div
+                  className={`product-image-container ${
+                    isZoomed ? 'zoomed' : ''
+                  }`}
+                  onMouseMove={handleMouseMove}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <Image
-                    zoomSrc={img?.url ?? img.image?.url}
                     src={img?.url ?? img.image?.url}
                     alt="pro-detail"
-                    hasSpacer={true}
-                    zoomType="hover"
-                    zoomPreload={true}
+                    className="product-image"
+                    style={{
+                      transformOrigin: `${cursorPosition.x * 100}% ${
+                        cursorPosition.y * 100
+                      }%`,
+                    }}
                   />
                 </div>
               )}
@@ -298,6 +324,8 @@ function ProductImage({image, selectedVariant}) {
     </div>
   );
 }
+
+//
 
 function ProductForm({variants}) {
   const [quantity, setQuantity] = useState(1);

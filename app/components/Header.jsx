@@ -172,10 +172,13 @@ export function HeaderMenu({
                   const isSubMenuOpen =
                     subMenu && item.id === activeSubMenuIndex;
 
+                    console.log('item.title', item.title)
                   return (
                     <li
                       key={item.id}
-                      className={isSubMenuOpen ? 'active-submenu' : ''}
+                      className={`${isSubMenuOpen ? 'active-submenu' : ''} ${
+                        item.title === 'Shop' ? 'shop_hover' : ''
+                      }`}
                     >
                       <NavLink to={item.to} target={item.target}>
                         {item.title}
@@ -199,39 +202,41 @@ export function HeaderMenu({
                         </span>
                       )}
 
-                      {/* {isSubMenuOpen && ( */}
-                      <div className="hdr_sub_menu">
-                        <div className="sub_menu_heading">
-                          <div className="sub_menu">
-                            <h3>Collections</h3>
-                            {item.items?.map((menuItem) => (
-                              <p key={menuItem.id}>
-                                <Link to={menuItem.to} prefetch="intent">
-                                  {menuItem.title}
+                      {isSubMenuOpen && (
+                        <div className="hdr_sub_menu">
+                          <div className="sub_menu_heading">
+                            <div className="sub_menu">
+                              <h3>Collections</h3>
+                              {item.items?.map((menuItem) => (
+                                <p key={menuItem.id}>
+                                  <Link to={menuItem.to} prefetch="intent">
+                                    {menuItem.title}
+                                  </Link>
+                                </p>
+                              ))}
+                            </div>
+                            <div className="sub_menu">
+                              <h3>Featured</h3>
+                              <p>
+                                <Link to="/collections/new-arrival">
+                                  New Arrival
                                 </Link>
                               </p>
-                            ))}
-                          </div>
-                          <div className="sub_menu">
-                            <h3>Featured</h3>
-                            <p>
-                              <Link to="/collections/new-arrival">
-                                New Arrival
-                              </Link>
-                            </p>
-                            <p>
-                              <Link to="/collections/all"> All Products</Link>
-                            </p>
-                          </div>
-                          <div className="sub_menu">
-                            <div className="nav_menu_img">
-                              <img src={navImg} />
+                              <p>
+                                <Link to="/collections/all"> All Products</Link>
+                              </p>
                             </div>
-                            <p className="img_content">Feel unique and good</p>
+                            <div className="sub_menu">
+                              <div className="nav_menu_img">
+                                <img src={navImg} />
+                              </div>
+                              <p className="img_content">
+                                Feel unique and good
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      {/* )} */}
+                      )}
                     </li>
                   );
                 })}

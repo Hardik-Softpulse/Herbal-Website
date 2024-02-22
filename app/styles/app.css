@@ -4188,20 +4188,31 @@ a:hover .image-hover {
   overflow: hidden;
   border-radius: 15px;
 }
-#product_detail .pro_detail_img:hover img {
-  transform: scale(2, 2);
-  transition: all 0.5s ease-in-out;
-}
-.blog_detail .spacer{
+
+.blog_detail .spacer {
   padding-top: 30px !important;
   padding-bottom: 0 !important;
 }
-.featuredSection .new_product .swiper{
+.featuredSection .new_product .swiper {
   padding-bottom: unset !important;
 }
-.featuredSection .new_product .spacer{
+.featuredSection .new_product .spacer {
   padding-bottom: 20px !important;
 }
+.product-image-container {
+  overflow: hidden;
+  position: relative;
+}
+.product-image {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+.zoomed .product-image {
+  transform: scale(2.5); /* Adjust the zoom factor as needed */
+}
+
+
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {
