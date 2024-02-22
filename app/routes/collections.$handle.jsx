@@ -119,7 +119,6 @@ export async function loader({request, params, context}) {
 export default function Collection() {
   const {collection, appliedFilters, collections} = useLoaderData();
   const {products, image, handle, title} = collection;
-  console.log('collection', collection);
 
   const items = [
     {label: 'Featured', key: 'featured'},
@@ -205,7 +204,6 @@ export default function Collection() {
                     <>
                       <div className="main_product flex">
                         {nodes.map((product, i) => {
-                          console.log('collection', product);
                           return (
                             <ProductCard
                               key={product.id}
@@ -286,7 +284,6 @@ export default function Collection() {
                 }}
               >
                 {collections.map((data) => {
-                  console.log('data', data);
                   return (
                     <SwiperSlide key={data.id}>
                       <div className="interest_content">

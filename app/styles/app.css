@@ -1129,6 +1129,7 @@ body.active {
 }
 .cart_scroll {
   overflow: auto;
+  height: calc(100vh - 350px)
 }
 .cart_heading {
   position: sticky;

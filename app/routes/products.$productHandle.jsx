@@ -290,7 +290,7 @@ function ProductImage({image, selectedVariant}) {
           <SwiperSlide key={img.id}>
             <div className="pro_detail_img">
               {img?.mediaContentType === 'VIDEO' ? (
-                <video controls>
+                <video controls autoPlay>
                   <source
                     src={img.sources[0]?.url}
                     type={img.sources[0]?.mimeType}
