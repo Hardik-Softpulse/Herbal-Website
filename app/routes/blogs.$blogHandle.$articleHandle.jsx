@@ -68,15 +68,7 @@ export default function Article() {
             <div className="main_blog_detail flex">
               <div className="left_blog_detail">
                 <div className="left_blog_detail_img">
-                  {image && (
-                    <Image
-                      data={image}
-                      loading="eager"
-                      lt="blog"
-                      height="452px"
-                      width="1065px"
-                    />
-                  )}
+                  {image && <Image data={image} loading="eager" lt="blog" />}
                 </div>
                 <div className="left_blog_detail_content">
                   <p dangerouslySetInnerHTML={{__html: contentHtml}}></p>

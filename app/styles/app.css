@@ -4192,7 +4192,7 @@ a:hover .image-hover {
   transform: scale(2, 2);
   transition: all 0.5s ease-in-out;
 }
-blog_detail .spacer{
+.blog_detail .spacer{
   padding-top: 30px !important;
   padding-bottom: 0 !important;
 }

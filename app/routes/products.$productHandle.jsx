@@ -25,7 +25,6 @@ import {routeHeaders} from '~/data/cache';
 import invariant from 'tiny-invariant';
 import {seoPayload} from '~/lib/seo.server';
 import {AddToCartButton, NewArrival} from '~/components';
-import InnerImageZoom from 'react-inner-image-zoom';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
