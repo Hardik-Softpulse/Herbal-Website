@@ -175,7 +175,7 @@ export function HeaderMenu({
                   return (
                     <li
                       key={item.id}
-                      className={isSubMenuOpen ? 'active-submenu test' : ''}
+                      className={isSubMenuOpen ? 'active-submenu' : ''}
                     >
                       <NavLink to={item.to} target={item.target}>
                         {item.title}
