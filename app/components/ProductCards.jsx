@@ -2,19 +2,17 @@ import {flattenConnection, Image, Money, useMoney} from '@shopify/hydrogen';
 import {isDiscounted, isNewArrival} from '~/lib/utils';
 import {getProductPlaceholder} from '~/lib/placeholders';
 import {Link} from '@remix-run/react';
-import {useState} from 'react';
-
 
 export function ProductCards({product, label}) {
-
   let cardLabel;
+  const {media} = product;
   const cardProduct = product?.variants ? product : getProductPlaceholder();
   if (!cardProduct?.variants?.nodes?.length) return null;
 
   const firstVariant = flattenConnection(cardProduct.variants)[0];
 
   if (!firstVariant) return null;
-  const {image, price, compareAtPrice, availableForSale} = firstVariant;
+  const {price, compareAtPrice, availableForSale} = firstVariant;
 
   if (label) {
     cardLabel = label;
@@ -53,10 +51,18 @@ export function ProductCards({product, label}) {
         <div className="product_img_wrap">
           <Link to={`/products/${product.handle}`}>
             <Image
-              src={image?.url}
+              src={media?.nodes[0]?.image?.url}
               alt={`Picture of ${product.title}`}
               height="450px"
               width="340px"
+              className="image-main"
+            />
+            <Image
+              src={media?.nodes[1]?.image?.url}
+              alt={`Picture of ${product.title}`}
+              height="450px"
+              width="340px"
+              className="image-hover"
             />
           </Link>
           {cardLabel && (

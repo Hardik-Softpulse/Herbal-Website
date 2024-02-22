@@ -1,3 +1,4 @@
+
 /* @import url(custome-font.css); */
 
 * {
@@ -411,7 +412,7 @@ header {
 .product_item .product_content h4 {
   font-family: var(--headFont);
   font-weight: 400;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 26px;
   letter-spacing: 0.02em;
   color: var(--bodyColor);
@@ -419,12 +420,8 @@ header {
 }
 .product_content .product_price {
   align-items: end;
-  /* margin-top: auto; */
+  margin-top: auto;
 }
-.product_img {
-  margin-bottom: 10px;
-}
-
 .product_content .product_price h5 {
   font-weight: 400;
   font-size: 16px;
@@ -841,7 +838,7 @@ footer {
 .social_media {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 15px;
 }
 .foot1_social .social_media a svg {
   transition: 0.3s;
@@ -1376,14 +1373,14 @@ body.active {
 .cart_total {
   margin-bottom: 10px;
 }
-.cart_check_out span.charges {
+.cart_check_out span.charges{
   margin-bottom: 10px;
   display: block;
   font-weight: 500;
   font-family: var(--bodyColor);
   font-size: 14px;
   line-height: 18px;
-  letter-spacing: 0.02em;
+  letter-spacing: .02em;
   color: #333;
 }
 .cart_checkout_btn button {
@@ -1410,9 +1407,7 @@ body.active {
   text-align: center;
   margin-top: 10px;
 }
-span.charges svg {
-  margin-right: 7px;
-}
+
 /************************************************************ end shopping cart ************************************************************/
 
 .stamp img {
@@ -2067,6 +2062,12 @@ span.charges svg {
   /* padding-bottom: 100%; */
   width: 100%;
   height: auto;
+  overflow: hidden;
+  border-radius: 15px;
+}
+#product_detail .pro_detail_img:hover img{
+  transform: scale(2, 2);
+  transition: all .5s ease-in-out;
 }
 #product_detail .pro_detail_img img,
 #product_detail .pro_detail_img video {
@@ -2082,6 +2083,7 @@ span.charges svg {
   max-height: 100%;
   display: block;
   object-position: top;
+  overflow: hidden;
 }
 
 .left_product_detail .swiper-button-prev::after,
@@ -2107,6 +2109,7 @@ span.charges svg {
   line-height: 40px;
   color: var(--themeColor);
   margin-bottom: 15px;
+  text-align: left;
 }
 .right_product_detail .pro_detail_star span {
   font-weight: 400;
@@ -2163,6 +2166,7 @@ span.charges svg {
   border-radius: 5px;
   margin: 0 5px 10px 10px;
 }
+
 .pro_detail_size p {
   font-weight: 400;
   font-size: 14px;
@@ -3240,19 +3244,19 @@ label.pro_type_button.active {
   border-radius: 10px;
   padding: 10px;
 }
-.sub_menu {
+.sub_menu{
   padding: 20px 20px;
-  border-right: 1px solid #d6cda4;
+  border-right: 1px solid #d6cda4 ;
   max-width: 33.33%;
   width: 100%;
 }
-.sub_menu:last-child {
+.sub_menu:last-child{
   border-right: unset;
-}
-.sub_menu .nav_menu_img img {
+} 
+.sub_menu .nav_menu_img img{
   width: 100%;
 }
-.sub_menu .img_content {
+.sub_menu .img_content{
   font-family: var(--bodyFont);
   color: var(--bodyColor);
 }
@@ -3262,8 +3266,9 @@ label.pro_type_button.active {
 .pro_detail_size a h4.active {
   border: 1px solid var(--themeColor);
 }
-.main_menu li:hover .hdr_sub_menu {
+.main_menu li.shop_hover:hover .hdr_sub_menu{
   display: block;
+  transition: .3s;
 }
 .shop_cart span {
   background: #1c6758;
@@ -3989,6 +3994,7 @@ section.collage {
 .genric-error {
   text-align: center;
   margin-bottom: 50px;
+  padding: 0 20px;
 }
 .genric-error p {
   margin-bottom: 15px;
@@ -4162,43 +4168,36 @@ a:hover .image-hover {
   color: var(--bodyColor) !important;
   padding: 2px 7px !important;
 }
-.product_top_price p {
+ .product_top_price p {
   padding: 2px 10px;
   font-weight: 700;
   font-size: 12px;
   line-height: 16px;
-  letter-spacing: 0.02em;
+  letter-spacing: .02em;
   color: #fff;
   background-color: var(--themeColor);
   border-radius: 20px;
 }
-#ts-quickshop-modal .overlays #product_detail .pro_detail_img img,
-#ts-quickshop-modal .overlays #product_detail .pro_detail_img video {
+
+#ts-quickshop-modal .overlays #product_detail .pro_detail_img img, 
+#ts-quickshop-modal .overlays #product_detail .pro_detail_img video{
   position: absolute;
   height: 100%;
 }
-#ts-quickshop-modal .overlays #product_detail .pro_detail_img {
+#ts-quickshop-modal .overlays #product_detail .pro_detail_img{
   padding-bottom: 100%;
 }
-#product_detail .pro_detail_img {
-  position: relative;
-  /* padding-bottom: 100%; */
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-  border-radius: 15px;
-}
-
-.blog_detail .spacer {
+.blog_detail .spacer{
   padding-top: 30px !important;
   padding-bottom: 0 !important;
 }
-.featuredSection .new_product .swiper {
+.featuredSection .new_product .swiper{
   padding-bottom: unset !important;
 }
-.featuredSection .new_product .spacer {
+.featuredSection .new_product .spacer{
   padding-bottom: 20px !important;
 }
+
 .product-image-container {
   overflow: hidden;
   position: relative;
@@ -4211,7 +4210,6 @@ a:hover .image-hover {
 .zoomed .product-image {
   transform: scale(2.5); /* Adjust the zoom factor as needed */
 }
-
 
 
 /* 1400, 1150, 991, 767, 550, 375 */
@@ -4596,8 +4594,8 @@ a:hover .image-hover {
     font-size: 12px;
     line-height: normal;
   }
-  #product_detail .pro_detail_img img,
-  #product_detail .pro_detail_img video {
+  #product_detail .pro_detail_img img, 
+  #product_detail .pro_detail_img video{
     height: auto;
   }
 }
@@ -4903,7 +4901,7 @@ a:hover .image-hover {
     margin-left: 20px;
     margin-bottom: 20px;
   }
-
+  
   .hdr_sub_menu {
     padding: unset;
     transform: translate(0);
@@ -4913,17 +4911,18 @@ a:hover .image-hover {
     position: unset;
     padding: 10px 5px;
   }
-  .sub_menu_heading {
+  .sub_menu_heading{
     display: block;
   }
-  .sub_menu {
+  .sub_menu{
     border-right: unset;
     max-width: unset;
     padding: 5px 10px;
   }
-  .sub_menu_heading h3 {
+  .sub_menu_heading h3{
     margin-bottom: 10px;
   }
+ 
 
   /* nav{
       width: inherit;
@@ -5545,7 +5544,6 @@ a:hover .image-hover {
     padding: 16px;
   }
   .searchForm button.close_cart {
-    padding: 7;
     margin-left: 0;
   }
   input.search {
@@ -5685,7 +5683,7 @@ a:hover .image-hover {
     width: 150px;
   }
 
-  .right_filter .main_product .product_item {
+  .right_filter .main_product .product_item{
     max-width: 100%;
   }
 }

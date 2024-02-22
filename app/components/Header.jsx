@@ -7,6 +7,7 @@ import navImg from '../image/navImg.jpg';
 /**
  * @param {HeaderProps}
  */
+
 export function Header({
   header,
   isLoggedIn,
@@ -171,8 +172,6 @@ export function HeaderMenu({
                 {(menu?.items || []).map((item) => {
                   const isSubMenuOpen =
                     subMenu && item.id === activeSubMenuIndex;
-
-                    console.log('item.title', item.title)
                   return (
                     <li
                       key={item.id}

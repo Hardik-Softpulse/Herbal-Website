@@ -19,6 +19,7 @@ import {
 } from '~/components';
 import jsonData from '../json/db.json';
 import {seoPayload} from '~/lib/seo.server';
+import {MEDIA_FRAGMENT} from '~/data/fragments';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -293,6 +294,11 @@ collection(handle: $handle) {
       publishedAt
       handle
       vendor
+      media(first: 10) {
+        nodes {
+          ...Media
+        }
+      }
       variants(first: 1) {
         nodes {
           id
@@ -325,6 +331,7 @@ collection(handle: $handle) {
   }
 }
 }
+${MEDIA_FRAGMENT}
 `;
 
 const SINGLE_COLLECTION = `#graphql
@@ -341,7 +348,12 @@ products(first: 4) {
     description
     publishedAt
     handle
-    vendor
+    vendor   
+    media(first: 10) {
+      nodes {
+        ...Media
+      }
+    }
     variants(first: 1) {
       nodes {
         id
@@ -373,7 +385,7 @@ products(first: 4) {
   }
 }
 }
-}
+}${MEDIA_FRAGMENT}
 `;
 
 const COLLECTIONS_QUERY = `#graphql
