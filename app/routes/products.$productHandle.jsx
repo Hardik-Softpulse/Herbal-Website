@@ -261,8 +261,7 @@ function ProductImage({image, selectedVariant}) {
 
       <Swiper
         id="product_detail"
-        modules={[Thumbs, Zoom]}
-        zoom={true}
+        modules={[Thumbs]}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
         }}
