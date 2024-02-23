@@ -20,7 +20,6 @@ import {getImageLoadingPriority} from '~/lib/const';
 import Discount from '../image/discount.png';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
-
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
 };

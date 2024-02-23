@@ -100,7 +100,7 @@ function CartLines({lines, layout}) {
         const cartLineItem = line.node;
 
         return (
-          <Suspense fallback={<p>Loading cart ...</p>}>
+          <Suspense fallback={<span className="loader"></span>}>
             <CartLineItem
               key={cartLineItem.id}
               line={cartLineItem}
