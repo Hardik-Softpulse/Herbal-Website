@@ -1,6 +1,8 @@
 import {Link} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
 import React from 'react';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Pagination} from 'swiper/modules';
 
 export function FeaturedBlog({articles, seo}) {
   return (
@@ -11,8 +13,32 @@ export function FeaturedBlog({articles, seo}) {
             <h2>{seo.jsonLd.name}</h2>
           </div>
           <div className="main_health flex align_center justify_center">
-            <img src={articles.image?.url} alt="" />
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={20}
+              modules={[Pagination]}
+              pagination={{clickable: true}}
+              breakpoints={{
+                100: {
+                  slidesPerView: 1,
+                  spaceBetween: 20,
+                },
+                200: {
+                  slidesPerView: 1,
+                  spaceBetween: 20,
+                },
+                511: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                767: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+              }}
+            >
             {articles.map((article) => (
+              <SwiperSlide>
               <div className="blog_list" key={article.id}>
                 {article.image && (
                   <div className="blog_list_img">
@@ -39,7 +65,9 @@ export function FeaturedBlog({articles, seo}) {
                   </Link>
                 </div>
               </div>
+              </SwiperSlide>
             ))}
+            </Swiper>
           </div>
         </div>
       </div>

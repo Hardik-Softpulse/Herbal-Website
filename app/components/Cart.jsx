@@ -72,14 +72,14 @@ export function CartMain({layout, cart}) {
 }
 
 function CartDetails({layout, cart}) {
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     if (cart) {
       setIsLoading(false);
     }
   }, [cart]);
-  
+
   return (
     <div className="cart_scroll">
       {isLoading ? (

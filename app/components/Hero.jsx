@@ -33,10 +33,10 @@ export function Hero({data}) {
               return (
                 <SwiperSlide key={blockId}>
                   <div className="banner_img">
-                    <img src={settings.image} alt="" />
+                    <img src={settings.image} alt="banner_img" />
                   </div>
                   <div className="banner_responsive">
-                    <img src={settings.image} alt="" />
+                    <img src={settings.image} alt="banner_responsive" />
                   </div>
                   <div className="container">
                     <div className="main_banner_contant flex justify_end">

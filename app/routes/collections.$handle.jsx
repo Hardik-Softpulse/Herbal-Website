@@ -20,6 +20,7 @@ import {getImageLoadingPriority} from '~/lib/const';
 import Discount from '../image/discount.png';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
+import {LazyLoadImage} from 'react-lazy-load-image-component';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
@@ -165,7 +166,7 @@ export default function Collection() {
       <section className="main_arrivals">
         <div className="main_arrivals_banner">
           <div className="arrivals_banner_img">
-            <img src={NewArrival} alt="" />
+            <img src={require('../image/women-coll.jpg')} alt="collection-banner" />
             <div className="arrivals_content flex align_center justify_center">
               <h2>{title}</h2>
             </div>
@@ -278,7 +279,7 @@ export default function Collection() {
                     spaceBetween: 20,
                   },
                   1300: {
-                    slidesPerView: 6,
+                    slidesPerView: 5,
                     spaceBetween: 20,
                   },
                 }}
