@@ -428,8 +428,8 @@ function ProductForm({variants}) {
         handle={product.handle}
         options={product.options}
         variants={variants}
-      > */}
-      {/* {product.options.map((option) => (
+      >
+      {product.options.map((option) => (
         <div className="pro_detail_size flex align_center" key={option.name}>
           <h5>{option.name}:</h5>
           {option.values?.map((optionValue) => {
@@ -451,8 +451,8 @@ function ProductForm({variants}) {
             );
           })}
         </div>
-      ))} */}
-      {/* </VariantSelector> */}
+      ))}
+      </VariantSelector> */}
       <ProductOptions
         options={product.options}
         searchParamsWithDefaults={searchParamsWithDefaults}
@@ -501,32 +501,22 @@ function ProductForm({variants}) {
       </div>
       <div className="pro_detail_fast_vector flex">
         <img src={Truck} alt="" />
-        <p>Free Shipping on orders over ₹64</p>
+        <p>Free Shipping on orders over ₹100</p>
       </div>
       <div className="pro_detail_highlight">
         <h4>Highlight</h4>
         <ul>
           <li className="flex align_center">
-            <p>
-              Full-body wellness with six powerful, best-selling supplements.*
-            </p>
+            <p>Runs True to Size.</p>
           </li>
           <li className="flex align_center">
-            <p>
-              Perfect for the wellness warrior, supplement aficionado, or herbal
-              enthusiast.
-            </p>
+            <p>Elastic Waistline.</p>
           </li>
           <li className="flex align_center">
-            <p>
-              Full-body wellness with six powerful, best-selling supplements.*
-            </p>
+            <p>Machine wash according to care label instructions.</p>
           </li>
           <li className="flex align_center">
-            <p>
-              Perfect for the wellness warrior, supplement aficionado, or herbal
-              enthusiast.
-            </p>
+            <p>Waffle knit slouch beanie.</p>
           </li>
         </ul>
       </div>
@@ -696,167 +686,45 @@ function RelatedProducts() {
   );
 }
 
-function FeaturedBlogSection() {
-  const {articles, seoblog} = useLoaderData();
-  return (
-    <section>
-      <div className="container">
-        <div className="spacer">
-          <div className="section_title">
-            <h2>Know More from Blog</h2>
-          </div>
-          <div className="main_blog flex">
-            {articles.map((data) => {
-              return (
-                <div className="blog">
-                  <div className="blog_img">
-                    <Image
-                      src={data.image.url}
-                      alt="blog"
-                      width="453px"
-                      height="197px"
-                    />
-                  </div>
-                  <div className="blog_content">
-                    <h2>{data.title}</h2>
-                    <p dangerouslySetInnerHTML={{__html: data.contentHtml}}></p>
-                    <Link
-                      to={`/${BLOG_HANDLE}/${data.handle}`}
-                      className="blog-img"
-                    >
-                      Read More
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="product_btn">
-            <Link to={`/${BLOG_HANDLE}`} className="btn">
-              View All
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-// function Review({product}) {
-//   const yotpo_api_key = '5Ge9QQES2Q5Dqu1KkE1BMLcsXYHSUPLpSSXLGhwF';
-//   const [reviewContent, setReviewContent] = useState('');
-//   const [reviewTitle, setReviewTitle] = useState('');
-//   const [displayName, setDisplayName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [internalId, setInternalId] = useState('');
-//   const apiToken = 'bW8OZ3Gey613HSOW04xquq6l7WA';
-//   const shopDomain = 'sp-tanvi.myshopify.com';
-//   const externalId = 7564377292965;
-//   const [direction, setDirection] = useState('desc');
-//   const [perPage, setPerPage] = useState(5);
-//   const page = 1;
-
-//   async function fetchJudgeMeReviewData() {
-//     const response = await fetch(
-//       `https://judge.me/api/v1/products/-1?api_token=${apiToken}&shop_domain=${shopDomain}&external_id=${externalId}`,
-//       {
-//         method: 'GET',
-//         redirect: 'follow',
-//       },
-//     );
-//     const result = await response.json();
-//     return setInternalId(result.product.id);
-//   }
-
-//   async function fetchJudgeMeReviews({page}) {
-//     const qurypram = {
-//       sort_dir: direction,
-//     };
-//     const queryParams = new URLSearchParams(qurypram);
-//     const response = await fetch(
-//       `https://judge.me/api/v1/reviews?api_token=${apiToken}&shop_domain=${shopDomain}&per_page=${perPage}&page=${page}&id=${internalId}&${queryParams.toString()}`,
-//     );
-//     const data = await response.json();
-//     console.log('data', data);
-//     return data.reviews;
-//   }
-
-//   useEffect(() => {
-//     fetchJudgeMeReviews(page);
-//   }, []);
-
+// function FeaturedBlogSection() {
+//   const {articles, seoblog} = useLoaderData();
 //   return (
-//     <section className="pro_detail_review">
+//     <section>
 //       <div className="container">
 //         <div className="spacer">
 //           <div className="section_title">
-//             <div className="title_star flex align_center justify_center">
-//               {/* <img src="image/half-star.png" alt="" /> */}
-//               <span>(1617 Ratings)</span>
-//             </div>
-//             <h2>Real Reviews From Real Customers</h2>
+//             <h2>Know More from Blog</h2>
 //           </div>
-//           <div className="main_pro_detail_review">
-//             <div className="detail_sort_by flex align_center justify_end">
-//               <div className="write_review">
-//                 <span>
-//                   {/* <img src="image/edit.svg" alt="" /> */}
-//                   Write a Review
-//                 </span>
-//               </div>
-//               <form
-//                 className="reviewForm"
-//                 onSubmit={(e) => {
-//                   e.preventDefault();
-//                   createReview();
-//                 }}
-//               >
-//                 <div className="rating">
-//                   <label>Rating :</label>
+//           <div className="main_blog flex">
+//             {articles.map((data) => {
+//               return (
+//                 <div className="blog">
+//                   <div className="blog_img">
+//                     <Image
+//                       src={data.image.url}
+//                       alt="blog"
+//                       width="453px"
+//                       height="197px"
+//                     />
+//                   </div>
+//                   <div className="blog_content">
+//                     <h2>{data.title}</h2>
+//                     <p dangerouslySetInnerHTML={{__html: data.contentHtml}}></p>
+//                     <Link
+//                       to={`/${BLOG_HANDLE}/${data.handle}`}
+//                       className="blog-img"
+//                     >
+//                       Read More
+//                     </Link>
+//                   </div>
 //                 </div>
-//                 <div>
-//                   <label>Name</label>
-//                   <input
-//                     type="text"
-//                     name=" display_name"
-//                     value={displayName}
-//                     onChange={(e) => setDisplayName(e.target.value)}
-//                   />
-//                 </div>
-//                 <div>
-//                   <label>Email</label>
-//                   <input
-//                     type="email"
-//                     name="email"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                   />
-//                 </div>
-
-//                 <div>
-//                   <label>Review Title</label>
-//                   <input
-//                     name="review_title"
-//                     type="text"
-//                     value={reviewTitle}
-//                     onChange={(e) => setReviewTitle(e.target.value)}
-//                   />
-//                 </div>
-
-//                 <div>
-//                   <label>Review</label>
-//                   <textarea
-//                     name="review_content"
-//                     value={reviewContent}
-//                     onChange={(e) => setReviewContent(e.target.value)}
-//                     placeholder="Write your review..."
-//                   />
-//                 </div>
-//                 <button type="submit">Submit Review</button>
-//               </form>
-//               <select name="" id="">
-//                 <option value="">Sort By</option>
-//               </select>
-//             </div>
+//               );
+//             })}
+//           </div>
+//           <div className="product_btn">
+//             <Link to={`/${BLOG_HANDLE}`} className="btn">
+//               View All
+//             </Link>
 //           </div>
 //         </div>
 //       </div>
