@@ -4,10 +4,6 @@ import logo from '../image/logo-ethenic.png';
 import {SearchForm} from './Search';
 import navImg from '../image/navImg.jpg';
 
-/**
- * @param {HeaderProps}
- */
-
 export function Header({
   header,
   isLoggedIn,
@@ -17,7 +13,6 @@ export function Header({
   headerMenu,
   setHeaderMenu,
 }) {
-  const {shop, menu} = header;
   const headerRef = useRef(null);
   const [hideNav, setHideNav] = useState(false);
   const location = useLocation();

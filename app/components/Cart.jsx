@@ -1,9 +1,10 @@
 import {CartForm, Image, Money} from '@shopify/hydrogen';
-import {Link} from '@remix-run/react';
+import {Link, useFetcher} from '@remix-run/react';
 import cross from '../image/croos2.png';
 import {useVariantUrl} from '~/lib/variants';
 import Truck from '../image/truck.svg';
-import { Suspense } from 'react';
+import {Suspense} from 'react';
+import {CartAction} from '~/lib/type';
 
 export function CartMain({layout, cart}) {
   console.log('cart 2', cart);
@@ -170,9 +171,27 @@ function CartLineItem({layout, line}) {
           </div>
           <CartLineQuantity line={line} />
         </div>
-        <CartLineRemoveButton lineIds={id} />
+        <ItemRemoveButton lineIds={id} />
       </div>
     </div>
+  );
+}
+
+function ItemRemoveButton({lineIds}) {
+  const fetcher = useFetcher();
+
+  return (
+    <fetcher.Form action="/cart" method="post">
+      <input
+        type="hidden"
+        name="cartAction"
+        value={CartAction.REMOVE_FROM_CART}
+      />
+      <input type="hidden" name="linesIds" value={JSON.stringify(lineIds)} />
+      <button type="submit" className="product_cross_img">
+        <img src={cross} alt="" />
+      </button>
+    </fetcher.Form>
   );
 }
 
@@ -292,7 +311,7 @@ function CartLineQuantity({line}) {
     <div className="cart_product_count">
       <div className="num-block skin-2">
         <div className="num-in">
-          <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
+          <UpdateCartButton lines={[{id: lineId, quantity: prevQuantity}]}>
             <button
               aria-label="Decrease quantity"
               disabled={quantity <= 1}
@@ -302,9 +321,9 @@ function CartLineQuantity({line}) {
             >
               <span>&#8722; </span>
             </button>
-          </CartLineUpdateButton>
+          </UpdateCartButton>
           <input type="text" className="in-num" value={quantity} readOnly />
-          <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
+          <UpdateCartButton lines={[{id: lineId, quantity: nextQuantity}]}>
             <button
               aria-label="Increase quantity"
               name="increase-quantity"
@@ -313,7 +332,7 @@ function CartLineQuantity({line}) {
             >
               <span>&#43;</span>
             </button>
-          </CartLineUpdateButton>
+          </UpdateCartButton>
         </div>
       </div>
     </div>
@@ -353,5 +372,17 @@ function CartLineUpdateButton({children, lines}) {
     >
       {children}
     </CartForm>
+  );
+}
+
+function UpdateCartButton({children, lines}) {
+  const fetcher = useFetcher();
+
+  return (
+    <fetcher.Form action="/cart" method="post">
+      <input type="hidden" name="cartAction" value={CartAction.UPDATE_CART} />
+      <input type="hidden" name="lines" value={JSON.stringify(lines)} />
+      {children}
+    </fetcher.Form>
   );
 }
