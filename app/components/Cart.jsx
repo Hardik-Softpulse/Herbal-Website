@@ -8,7 +8,6 @@ import {CartAction} from '~/lib/type';
 import {useState} from 'react';
 
 export function CartMain({layout, cart}) {
-  console.log('cart 2', cart);
   const linesCount = Boolean(cart?.lines?.edges?.length || 0);
   const withDiscount =
     cart &&
@@ -72,7 +71,7 @@ export function CartMain({layout, cart}) {
 }
 
 function CartDetails({layout, cart}) {
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (cart) {

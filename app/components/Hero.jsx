@@ -33,7 +33,7 @@ export function Hero({data}) {
               return (
                 <SwiperSlide key={blockId}>
                   <div className="banner_img">
-                    <img src={settings.image} alt="banner_img" />
+                    <img src={settings.image} alt="banner_img" loading="lazy" />
                   </div>
                   <div className="banner_responsive">
                     <img src={settings.image} alt="banner_responsive" />

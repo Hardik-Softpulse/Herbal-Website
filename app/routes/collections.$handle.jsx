@@ -20,7 +20,6 @@ import {getImageLoadingPriority} from '~/lib/const';
 import Discount from '../image/discount.png';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
-import {LazyLoadImage} from 'react-lazy-load-image-component';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
@@ -166,7 +165,7 @@ export default function Collection() {
       <section className="main_arrivals">
         <div className="main_arrivals_banner">
           <div className="arrivals_banner_img">
-            <img src={require('../image/women-coll.jpg')} alt="collection-banner" />
+            <img src={require('../image/women-coll.jpg')} alt="collection-banner" loading="lazy" />
             <div className="arrivals_content flex align_center justify_center">
               <h2>{title}</h2>
             </div>
@@ -290,7 +289,7 @@ export default function Collection() {
                       <div className="interest_content">
                         <div className="interest_img">
                           <a href={`/collections/${data.handle}`}>
-                            <img src={data.image?.url} alt="Collection-Image" />
+                            <img src={data.image?.url} alt="Collection-Image" loading="lazy"/>
                           </a>
                         </div>
                         <a href={`/collections/${data.handle}`}>{data.title}</a>

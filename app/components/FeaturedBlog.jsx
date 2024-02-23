@@ -24,11 +24,11 @@ export function FeaturedBlog({articles, seo}) {
                   spaceBetween: 20,
                 },
                 200: {
-                  slidesPerView: 1,
+                  slidesPerView: 1.3,
                   spaceBetween: 20,
                 },
                 511: {
-                  slidesPerView: 2,
+                  slidesPerView: 1.6,
                   spaceBetween: 20,
                 },
                 767: {
@@ -37,36 +37,38 @@ export function FeaturedBlog({articles, seo}) {
                 },
               }}
             >
-            {articles.map((article) => (
-              <SwiperSlide>
-              <div className="blog_list" key={article.id}>
-                {article.image && (
-                  <div className="blog_list_img">
-                    <Link
-                      to={`/blogs/${article.blog?.handle}/${article.handle}`}
-                    >
-                      <Image
-                        alt={article.image.altText || article.title}
-                        aspectRatio="3/2"
-                        data={article.image}
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                      />
-                    </Link>
+              {articles.map((article) => (
+                <SwiperSlide>
+                  <div className="blog_list" key={article.id}>
+                    {article.image && (
+                      <div className="blog_list_img">
+                        <Link
+                          to={`/blogs/${article.blog?.handle}/${article.handle}`}
+                        >
+                          <Image
+                            alt={article.image.altText || article.title}
+                            aspectRatio="3/2"
+                            data={article.image}
+                            sizes="(min-width: 768px) 50vw, 100vw"
+                          />
+                        </Link>
+                      </div>
+                    )}
+                    <div className="blog_list_content">
+                      <h2>{article.title}</h2>
+                      <h5>{article.publishedAt}</h5>
+                      <p
+                        dangerouslySetInnerHTML={{__html: article.contentHtml}}
+                      ></p>
+                      <Link
+                        to={`/blogs/${article.blog?.handle}/${article.handle}`}
+                      >
+                        Read More
+                      </Link>
+                    </div>
                   </div>
-                )}
-                <div className="blog_list_content">
-                  <h2>{article.title}</h2>
-                  <h5>{article.publishedAt}</h5>
-                  <p
-                    dangerouslySetInnerHTML={{__html: article.contentHtml}}
-                  ></p>
-                  <Link to={`/blogs/${article.blog?.handle}/${article.handle}`}>
-                    Read More
-                  </Link>
-                </div>
-              </div>
-              </SwiperSlide>
-            ))}
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>
