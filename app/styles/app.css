@@ -4234,6 +4234,14 @@ a:hover .image-hover {
 .main_health .swiper-pagination-bullet-active{
   background: var(--themeColor) !important;
 }
+.filter_show.active .filter_product_option::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+.filter_show.active .filter_product_option::-webkit-scrollbar-thumb {
+  background-color: var(--subTheme);
+  border-radius: 5px;
+}
 
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {
