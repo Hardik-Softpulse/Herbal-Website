@@ -3,8 +3,9 @@ import {Link, useFetcher} from '@remix-run/react';
 import cross from '../image/croos2.png';
 import {useVariantUrl} from '~/lib/variants';
 import Truck from '../image/truck.svg';
-import {Suspense} from 'react';
+import {Suspense, useEffect} from 'react';
 import {CartAction} from '~/lib/type';
+import {useState} from 'react';
 
 export function CartMain({layout, cart}) {
   console.log('cart 2', cart);
@@ -14,6 +15,18 @@ export function CartMain({layout, cart}) {
     Boolean(cart.discountCodes?.filter((code) => code.applicable).length);
   const className = ` mini_cart  ${withDiscount ? 'with-discount' : ''}`;
   const cartHasItems = !!cart && cart.totalQuantity > 0;
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (cart) {
+      setIsLoading(false);
+    }
+  }, [cart]);
+
+  if (isLoading) {
+    return <p>Loading cart...</p>;
+  }
 
   return (
     <div className={layout == 'page' ? 'cartmain' : className}>
@@ -68,6 +81,8 @@ function CartDetails({layout, cart}) {
 
 function CartLines({lines, layout}) {
   if (!lines) return null;
+  useEffect(() => {}, [lines]);
+
   return (
     <div className="main_cart_product">
       {lines.edges.map((line) => {

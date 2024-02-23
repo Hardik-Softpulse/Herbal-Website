@@ -86,7 +86,7 @@ export async function loader({request, context}) {
 }
 
 export default function Homepage() {
-  /** @type {LoaderReturnData} */
+  const [section, setSection] = useState(jsonData);
   const {
     collections,
     recommendedProduct,
@@ -96,12 +96,12 @@ export default function Homepage() {
     seoblog,
   } = useLoaderData();
 
-  const [section, setSection] = useState(jsonData);
   const {
     featured_collection,
     featured_collection_3ATADh,
     featured_blog_F9yDUi,
   } = jsonData.sections;
+  
   return (
     <main>
       {jsonData.order.map((section, index) => {
