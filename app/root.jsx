@@ -14,7 +14,7 @@ import {
   useLocation,
 } from '@remix-run/react';
 import favicon from '../public/favicon.png';
-import appStyles from './styles/app.css';
+import appStyles from '../app/styles/app.css';
 import {Layout} from '~/components/Layout';
 import swiperPag from 'swiper/css/pagination';
 import {useState, Suspense} from 'react';

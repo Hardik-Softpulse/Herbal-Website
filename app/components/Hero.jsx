@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import BannerResponsive from '../image/banner-responsive.avif';
 import {Navigation, Pagination} from 'swiper/modules';
 
 export function Hero({data}) {

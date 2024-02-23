@@ -26,7 +26,6 @@ export {ProductSwimlane} from './ProductSwimlane';
 export {FeaturedBlog} from './FeaturedBlog';
 export {NotFound} from './NotFound';
 export {FeaturedSection} from './FeaturedSection';
-export {HelthBanner} from './HelthBanner';
 export {ImgBanner} from './ImgBanner';
 export {ReviewSection} from './ReviewSection';
 export {Newsletter} from './Newsletter';
