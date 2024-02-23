@@ -67,7 +67,7 @@ export function Header({
   }, [location.hash]);
 
   return (
-    <header ref={headerRef} className={hideNav ? 'hide-nav' : ''}>
+    <header ref={headerRef} className={`${hideNav ? 'hide-nav' : ''}${location.hash== '#cart-aside' ?'header_active' :''}`}>
       <div className="top_header">
         <p>
           Get 10% off on minimum purchase of ₹100 use code <span>100 OFF</span>

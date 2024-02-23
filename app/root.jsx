@@ -11,12 +11,13 @@ import {
   useLoaderData,
   ScrollRestoration,
   isRouteErrorResponse,
+  useLocation,
 } from '@remix-run/react';
 import favicon from '../public/favicon.png';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import swiperPag from 'swiper/css/pagination';
-import {useState} from 'react';
+import {useState, Suspense} from 'react';
 import swiperNav from 'swiper/css/navigation';
 import swiper from 'swiper/css';
 import {seoPayload} from '~/lib/seo.server';
@@ -87,6 +88,7 @@ export async function loader({request, context}) {
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
+  const location = useLocation();
   const [headerMenu, setHeaderMenu] = useState(false);
   const [miniCart, setMiniCart] = useState(false);
   const [search, setSearch] = useState(false);
@@ -109,20 +111,26 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className={headerMenu || search ? 'active' : ''}>
-        <Layout
-          onClick={() => setHeaderMenu(false)}
-          {...data}
-          seo={data.seo}
-          headerMenu={headerMenu}
-          setHeaderMenu={setHeaderMenu}
-          miniCart={miniCart}
-          setMiniCart={setMiniCart}
-          search={search}
-          setSearch={setSearch}
-        >
-          <Outlet />
-        </Layout>
+      <body
+        className={`${headerMenu || search ? 'active' : ''}${
+          location.hash == '#cart-aside' ? 'body_cartactive' : ''
+        }`}
+      >
+        <Suspense fallback={<span className="loader"></span>}>
+          <Layout
+            onClick={() => setHeaderMenu(false)}
+            {...data}
+            seo={data.seo}
+            headerMenu={headerMenu}
+            setHeaderMenu={setHeaderMenu}
+            miniCart={miniCart}
+            setMiniCart={setMiniCart}
+            search={search}
+            setSearch={setSearch}
+          >
+            <Outlet />
+          </Layout>
+        </Suspense>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />
