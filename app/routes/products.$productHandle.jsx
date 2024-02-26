@@ -25,6 +25,7 @@ import {routeHeaders} from '~/data/cache';
 import invariant from 'tiny-invariant';
 import {seoPayload} from '~/lib/seo.server';
 import {AddToCartButton, NewArrival, ResentlyView} from '~/components';
+import ReviewSection from '../components/ReviewSection';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
@@ -170,6 +171,7 @@ export default function Product() {
         }
       })}
       <ResentlyView product={product} media={product.media}/>
+      <ReviewSection />
     </main>
   );
 }
