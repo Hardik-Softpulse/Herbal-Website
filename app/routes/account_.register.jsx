@@ -43,7 +43,7 @@ export async function action({request, context}) {
 
     const {customerCreate} = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
       variables: {
-        input: {email, password, firstName, lastName,phone},
+        input: {email, password, firstName, lastName, phone},
       },
     });
 
@@ -261,10 +261,11 @@ export default function Register() {
                       Sign Up
                     </button>
                   </div>
-                  <span>
-                    Already registered? <Link to="/account/login"> Login </Link>
-                    here
-                  </span>
+                  <Link to="/account/login">
+                    <span>
+                      Already registered? <span>Login </span> here.
+                    </span>
+                  </Link>
                 </Form>
               </div>
             </div>

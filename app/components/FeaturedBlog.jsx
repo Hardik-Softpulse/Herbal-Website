@@ -38,7 +38,7 @@ export function FeaturedBlog({articles, seo}) {
               }}
             >
               {articles.map((article) => (
-                <SwiperSlide>
+                <SwiperSlide key={article.id}>
                   <div className="blog_list" key={article.id}>
                     {article.image && (
                       <div className="blog_list_img">

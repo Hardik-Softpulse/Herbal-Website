@@ -79,10 +79,10 @@ export default function OrderRoute() {
             </tr>
           </thead>
           <tbody>
-            {lineItems.map((lineItem) => {
+            {lineItems.map((lineItem, id) => {
               lineItem.variant === null && <span>not available</span>;
               return (
-                <tr key={lineItem.variant?.id}>
+                <tr key={id}>
                   <td>{order.name}</td>
                   <td>{new Date(order.processedAt).toDateString()}</td>
                   <td>
@@ -91,13 +91,11 @@ export default function OrderRoute() {
                         to={`/products/${lineItem.variant?.product?.handle}`}
                       >
                         {lineItem?.variant?.image && (
-                          <div>
-                            <Image
-                              data={lineItem.variant.image}
-                              width={96}
-                              height={96}
-                            />
-                          </div>
+                          <Image
+                            data={lineItem.variant.image}
+                            width={96}
+                            height={96}
+                          />
                         )}
                       </Link>
                       <span>{lineItem.title}</span>
@@ -155,7 +153,12 @@ export default function OrderRoute() {
       </div>
       <br />
       <p>
-        <a target="_blank" className="btn" href={order.statusUrl} rel="noreferrer">
+        <a
+          target="_blank"
+          className="btn"
+          href={order.statusUrl}
+          rel="noreferrer"
+        >
           View Order Status →
         </a>
       </p>

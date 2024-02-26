@@ -13,11 +13,11 @@ export function Newsletter({data}) {
             </div>
             <div className="discount_content">
               <h4>{heading_3xJ7Q3.settings?.heading}</h4>
-              <p
+              <div
                 dangerouslySetInnerHTML={{
                   __html: paragraph_yV7tRm.settings?.text,
                 }}
-              ></p>
+              ></div>
               <input type="email" placeholder="Enter your email address" />
               <div className="discount_btn">
                 <a href="#" className="btn">

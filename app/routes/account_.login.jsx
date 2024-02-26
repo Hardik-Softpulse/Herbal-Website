@@ -111,7 +111,6 @@ export default function Login() {
                       </p>
                     )}
                   </div>
-
                   <div className="contact_email">
                     <label htmlFor="">Password </label>
                     <br />
@@ -172,10 +171,12 @@ export default function Login() {
                       LogIn
                     </button>
                   </div>
-                  <span>
-                    Not have an account?
-                    <Link to="/account/register">Signup </Link> here
-                  </span>
+                  <Link to="/account/register">
+                    <span>
+                      Not have an account? <span>Signup</span> here.
+                    </span>
+                  </Link>
+
                   <div className="forgot_pass">
                     <Link to="/account/recover">Forgot Password?</Link>
                   </div>

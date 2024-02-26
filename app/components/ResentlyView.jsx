@@ -41,7 +41,7 @@ export function ResentlyView({product}) {
           </div>
           <div id="new-product">
             {items.length === 0 || items.length === 1 ? (
-              <p className="sctn-title text-center">
+              <p className="text-center">
                 No recently viewed products.
               </p>
             ) : (
