@@ -20,6 +20,8 @@ import {
 import jsonData from '../json/db.json';
 import {seoPayload} from '~/lib/seo.server';
 import {MEDIA_FRAGMENT} from '~/data/fragments';
+import { SimpleForm } from '../components';
+import Waiting from '../components/Newsletter';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -177,7 +179,7 @@ export default function Homepage() {
               />
             );
           case 'newsletter_YrXTNj':
-            return <Newsletter key={index} data={jsonData.sections[section]} />;
+            return <Waiting key={index} data={jsonData.sections[section]} />;
           default:
             return null;
         }

@@ -29,6 +29,6 @@ export {NotFound} from './NotFound';
 export {FeaturedSection} from './FeaturedSection';
 export {ImgBanner} from './ImgBanner';
 export {ReviewSection} from './ReviewSection';
-export {Newsletter} from './Newsletter';
+export {SimpleForm} from './Newsletter';
 export {AboutUs} from './AboutUs';
 // export {QuickView} from './QuickView'
