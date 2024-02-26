@@ -13,6 +13,7 @@ export {CartLoading} from './CartLoading';
 // export {AccountAddressBook} from './AccountAddressBook';
 // export {Modal} from './Modal';
 
+export {ResentlyView} from './ResentlyView';
 export {GenericError} from './GenericError';
 export {Hero} from './Hero';
 export {SearchResults} from './Search';

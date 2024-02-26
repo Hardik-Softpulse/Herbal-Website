@@ -24,7 +24,7 @@ import Truck from '../image/truck.svg';
 import {routeHeaders} from '~/data/cache';
 import invariant from 'tiny-invariant';
 import {seoPayload} from '~/lib/seo.server';
-import {AddToCartButton, NewArrival} from '~/components';
+import {AddToCartButton, NewArrival, ResentlyView} from '~/components';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
@@ -169,7 +169,7 @@ export default function Product() {
             return null;
         }
       })}
-      {/* <Review product={product} /> */}
+      <ResentlyView product={product} media={product.media}/>
     </main>
   );
 }
