@@ -31,4 +31,4 @@ export {ImgBanner} from './ImgBanner';
 export {ReviewSection} from './ReviewSection';
 export {SimpleForm} from './Newsletter';
 export {AboutUs} from './AboutUs';
-// export {QuickView} from './QuickView'
+export {ContactForm} from './ContactForm';

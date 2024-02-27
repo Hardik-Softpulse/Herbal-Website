@@ -4251,6 +4251,7 @@ p.text-center {
   background: #1c6758;
   margin-left: 10px;
   border-radius: 10px;
+  border: none;
 }
 /* 1400, 1150, 991, 767, 550, 375 */
 @media screen and (max-width: 1600px) {

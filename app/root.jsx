@@ -98,17 +98,11 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta
-          http
-          httpEquiv="Content-Security-Policy"
-          content="connect-src 'self' https://api.yotpo.com https://monorail-edge.shopifysvc.com localhost:* ws://localhost:* ws://127.0.0.1:*;"
-        />
-        
+       
         <meta
           httpEquiv="Content-Security-Policy"
           content="style-src 'self' 'unsafe-inline' https://cdn.shopify.com https://fonts.googleapis.com localhost:*;"
         />
-
         <Meta />
         <Links />
       </head>

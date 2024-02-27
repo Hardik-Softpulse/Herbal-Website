@@ -3,7 +3,7 @@ import {useLoaderData} from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
-import {AboutUs} from '~/components';
+import {AboutUs, ContactForm} from '~/components';
 
 export const headers = routeHeaders;
 
@@ -28,6 +28,10 @@ export default function Page() {
   const {page, seo} = useLoaderData();
   if (page.id === 'gid://shopify/Page/29641985') {
     return <AboutUs title={seo.title} />;
+  }
+
+  if (page.id === 'gid://shopify/Page/30708353') {
+    return page.body && <ContactForm title={seo} />;
   }
 
   return (
